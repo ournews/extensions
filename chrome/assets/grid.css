@@ -1,0 +1,70 @@
+﻿#on-container .columns,
+#on-container .level {
+    display: flex;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 100% !important;
+}
+
+#on-container .column,
+#on-container .level-left,
+#on-container .level-right,
+#on-container .level-item {
+    flex: 1;
+}
+
+#on-container h1,
+#on-container h2,
+#on-container h3,
+#on-container h4,
+#on-container h5,
+#on-container h6 {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#on-container .level-right {
+    text-align: right !important;
+}
+
+#on-container .has-text-left {
+    text-align: left !important;
+}
+
+#on-container .has-text-centered {
+    text-align: center !important;
+}
+
+#on-container .has-text-right {
+    text-align: right !important;
+}
+
+#on-container table td {
+    text-align: left !important;
+}
+
+#on-container .input {
+    border: 1px solid #ddd !important;
+    padding: 4px !important;
+    display: block !important;
+    width: 100% !important;
+    border-radius: 3px !important;
+}
+
+#on-container .button {
+    border-radius: 4px !important;
+    color: white !important;
+    text-transform: none !important;
+    border: none !important;
+}
+
+    #on-container .button:hover {
+        text-transform: none;
+        color: white !important;
+    }
+
+#on-container a {
+    color: blue;
+}
