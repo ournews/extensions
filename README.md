@@ -11,4 +11,6 @@ Notes:
 
 - The viewExtension.php file goes into httpdocs/ directory on API server and handles WP authentication
 
+Legal:
 
+All code, software, and technology is provided AS-IS and AS-AVAILABLE with no warranties of merchantibility or fitness for a any purpose. By using this technology, you agree to the Our.News Terms of Service:  https://our.news/terms
