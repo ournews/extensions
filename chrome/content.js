@@ -53,7 +53,23 @@ $(function () {
         DOMAINPREVIEW: "on-domain-preview",
         DOMAINADDINGWIP: "on-url-adding-wip",
         EXCLUDED: "on-url-excluded",
+        ADDETECTED: "on-ad-blocker-detected",
         ERROR: "on-error-message"
+    }
+
+    function detectAdBlocker() {
+        var adBlock = '<div id="wrapfabtest">' +
+            '	<div class="adBanner" style="width:1px;height:1px;">' +
+            '		This is an ad' +
+            '	</div>' +
+            '</div>';
+
+        $(document.body).append(adBlock);
+        if ($("#wrapfabtest").height() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     function showView(VIEW_TYPE) {
@@ -117,7 +133,7 @@ $(function () {
 
             $(container).find(".on-nav-item").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
-            
+
             if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
                 targetContainer == VIEW_LIST.QUICKRATE ||
                 targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
@@ -394,7 +410,7 @@ $(function () {
                 $(container).find(".on-auth-only").removeClass("on-hidden");
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
-		$(container).find(".on-noauth-only").removeClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
             // SHOW USERNAME & POINTS
@@ -407,8 +423,8 @@ $(function () {
                 $(container).find(".on-auth-only").removeClass("on-hidden");
                 $(container).find(".on-cm-my-creds").text(result.me.creds + "");
                 $(container).find(".on-cm-my-notifications").text(result.me.notifycount + "");
-		$(container).find(".on-cm-my-notifications-top").text(result.me.notifycount + "");
-		$(container).find(".on-cm-my-notifications-top").closest("a").attr("href", result.me.profilelink + "notifications");
+                $(container).find(".on-cm-my-notifications-top").text(result.me.notifycount + "");
+                $(container).find(".on-cm-my-notifications-top").closest("a").attr("href", result.me.profilelink + "notifications");
                 $(container).find(".on-dropdown-my-profile").attr("href", result.me.profilelink);
                 $(container).find(".on-dropdown-my-notifs").attr("href", result.me.profilelink + "notifications");
 
@@ -416,43 +432,55 @@ $(function () {
                 $(container).find(".on-welcome-name").closest("a").attr("href", result.me.profilelink);
                 $(container).find(".on-welcome-point").text(result.me.points + "");
                 $(container).find(".on-welcome-point-tooltip").text(result.me.pointsdesc + "");
-		$(container).find(".on-welcome-notifs-tooltip").text(result.me.notifsdesc + "");
+                $(container).find(".on-welcome-notifs-tooltip").text(result.me.notifsdesc + "");
 
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
-		$(container).find(".on-noauth-only").removeClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
-            if (isExclusiveOverride) {
-                getFullOnData();
+            if (detectAdBlocker()) {
+                $(container).find(".on-nav-item").removeClass("on-active");
+                showView(VIEW_LIST.ADDETECTED);
+                isIndexed = false;
+                isExcluded = true;
+                isLimitedAccess = false;
+                hideLoader();
 
             } else {
-                excludedURL(function (data, limitedAccess) {
-                    if (data == "true" && limitedAccess) {
-                        // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
-                        showView(VIEW_LIST.NEWSTRITION);
-                        isIndexed = false;
-                        isExcluded = true;
-                        isLimitedAccess = true;
-                        hideLoader();
-                        getFullOnData();
 
-                    } else if (data == "true" && !limitedAccess) {
-                        // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
-                        showView(VIEW_LIST.EXCLUDED);
-                        isIndexed = false;
-                        isExcluded = true;
-                        isLimitedAccess = false;
-                        hideLoader();
+                if (isExclusiveOverride) {
+                    getFullOnData();
 
-                    } else {
-                        isExcluded = false;
-                        isLimitedAccess = false;
-                        getFullOnData();
-                    }
-                });
+                } else {
+
+                    excludedURL(function (data, limitedAccess) {
+                        if (data == "true" && limitedAccess) {
+                            // Show excluded view
+                            $(container).find(".on-nav-item").removeClass("on-active");
+                            showView(VIEW_LIST.NEWSTRITION);
+                            isIndexed = false;
+                            isExcluded = true;
+                            isLimitedAccess = true;
+                            hideLoader();
+                            getFullOnData();
+
+                        } else if (data == "true" && !limitedAccess) {
+                            // Show excluded view
+                            $(container).find(".on-nav-item").removeClass("on-active");
+                            showView(VIEW_LIST.EXCLUDED);
+                            isIndexed = false;
+                            isExcluded = true;
+                            isLimitedAccess = false;
+                            hideLoader();
+
+                        } else {
+                            isExcluded = false;
+                            isLimitedAccess = false;
+                            getFullOnData();
+                        }
+                    });
+                }
             }
 
 
@@ -504,17 +532,15 @@ $(function () {
                         $(container).find(".on-newstrition-ownership").addClass("on-hidden");
                     }
 
-			if (result.newstrition.claimedlink)
-			{
-				$(container).find(".on-newstrition-claimedby").text("Profile Owner: " + result.newstrition.claimedby);
-				$(container).find(".on-newstrition-claimedby").removeClass("on-hidden");
-				$(container).find(".on-newstrition-claimedby-none").addClass("on-hidden");
-			} 
-			else 
-			{ 
-				$(container).find(".on-newstrition-claimedby-none").removeClass("on-hidden");
-				$(container).find(".on-newstrition-claimlink").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
-			}
+                    if (result.newstrition.claimedlink) {
+                        $(container).find(".on-newstrition-claimedby").text("Profile Owner: " + result.newstrition.claimedby);
+                        $(container).find(".on-newstrition-claimedby").removeClass("on-hidden");
+                        $(container).find(".on-newstrition-claimedby-none").addClass("on-hidden");
+                    }
+                    else {
+                        $(container).find(".on-newstrition-claimedby-none").removeClass("on-hidden");
+                        $(container).find(".on-newstrition-claimlink").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
+                    }
 
                     $(container).find(".on-newstrition-more").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
 
@@ -1597,5 +1623,16 @@ $(function () {
             markFacebookPosts();
         }, 1500);
     }
+
+
+    // LESS IMPORTANT CALLS
+    sendRequest({
+        action: "screenSize",
+        value: {
+            sw: screen.width,
+            sh: screen.height
+        }
+    }, function () { });
+
 
 });

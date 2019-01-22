@@ -12,23 +12,18 @@ config.categories = [];
 config.tags = [];
 var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
 
-$.get(EXTENSION_URL + "config.json", function (data) {
-    config = data;
+$.get(API_URL + "?extconfig", function (data) {
 
-    $.get(EXTENSION_URL + "exclude.json", function (data) {
-        config.excludedUrlList = data;
-    });
+    if (data) {
 
-    $.get(API_URL + "?categories", function (data) {
-        config.categories = JSON.parse(data);
-    });
-
-    $.get(API_URL + "?tags", function (data) {
-        config.tags = JSON.parse(data);
-    });
+        data = JSON.parse(data);
+        config = data.config;
+        config.excludedUrlList = data.excludes;
+        config.categories = data.categories;
+        config.tags = data.tags;
+    }
 
 });
-
 
 
 function extractHostname(url) {
