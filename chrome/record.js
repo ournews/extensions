@@ -135,9 +135,10 @@ function onRecordRequestListener(callback) {
 onRecordRequestListener(function (request, sender, sendResponse) {
 
     if (request.action == "screenSize") {
-        ONNEWSEXTENSION.sw = request.sw;
-        ONNEWSEXTENSION.sh = request.sh;
-
+        ONNEWSEXTENSION.sw = request.value.sw;
+        ONNEWSEXTENSION.sh = request.value.sh;
     }
+
+
 
 });
