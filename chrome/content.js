@@ -368,7 +368,7 @@ $(function () {
             isIndexed = false;
             isExcluded = true;
 
-        }, 30000);
+        }, 10000);
 
         sendRequest({
             "action": "init",
@@ -401,7 +401,7 @@ $(function () {
                         // user should not be in login process
                         refreshPopup();
                     }
-                }, 30000);
+                }, 10000);
 
                 refreshCount++;
             }
