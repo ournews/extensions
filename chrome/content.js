@@ -640,7 +640,7 @@ $(function () {
                         if (result.sources[i].uid == 0 || (result.sources[i].uid == "" && result.sources[i].uid == null)) {
                             var sourceItem = $(container).find(".article-source-item-template").clone().removeClass("article-source-item-template").removeClass("on-hidden");
                             sourceItem.addClass("article-source-item");
-                            var displaysource = result.sources[i].displaysource.length > 35 ? result.sources[i].displaysource.substring(0, 35) + "..." : result.sources[i].displaysource;
+                            var displaysource = result.sources[i].displaysource.length > 33 ? result.sources[i].displaysource.substring(0, 33) + "..." : result.sources[i].displaysource;
 
                             $(sourceItem).data("URL", result.sources[i].url);
                             var link = $("<a>").attr("href", result.sources[i].url).attr("target", "_blank").text(displaysource);
