@@ -53,9 +53,25 @@ $(function () {
         DOMAINPREVIEW: "on-domain-preview",
         DOMAINADDINGWIP: "on-url-adding-wip",
         EXCLUDED: "on-url-excluded",
+        ADDETECTED: "on-ad-blocker-detected",
         ERROR: "on-error-message"
     }
 
+    function detectAdBlocker() {
+        var adBlock = '<div id="wrapfabtest">' +
+            '	<div class="adBanner" style="width:1px;height:1px;">' +
+            '		This is an ad' +
+            '	</div>' +
+            '</div>';
+
+         $(document.body).append(adBlock);
+        if ($("#wrapfabtest").height() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     function showView(VIEW_TYPE) {
         $(container).find('[data-target-container]').closest(".on-nav-item").removeClass("on-active");
         $(container).find('[data-target-container="' + VIEW_TYPE + '"]').closest(".on-nav-item").addClass("on-active");
@@ -416,7 +432,19 @@ $(function () {
                 $(container).find(".on-auth-only").addClass("on-hidden");
             }
 
-            if (isExclusiveOverride) {
+            
+             if (detectAdBlocker()) {
+                $(container).find(".on-nav-item").removeClass("on-active");
+                showView(VIEW_LIST.ADDETECTED);
+                isIndexed = false;
+                isExcluded = true;
+                isLimitedAccess = false;
+                hideLoader();
+             }
+            
+           } else {
+                    
+               if (isExclusiveOverride) {
                 getFullOnData();
 
             } else {
@@ -447,7 +475,8 @@ $(function () {
                     }
                 });
             }
-
+    }
+    
 
             function getFullOnData() {
 
