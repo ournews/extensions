@@ -401,7 +401,7 @@ $(function () {
                         // user should not be in login process
                         refreshPopup();
                     }
-                }, 10000);
+                }, 30000);
 
                 refreshCount++;
             }
@@ -1629,8 +1629,8 @@ $(function () {
     sendRequest({
         action: "screenSize",
         value: {
-            sw: screen.width,
-            sh: screen.height
+            sw: window.screen.width,
+            sh: window.screen.height
         }
     }, function () { });
 
