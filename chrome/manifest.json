@@ -3,7 +3,7 @@
 
   "name": "Our.News",
   "description": "Making it easier to fact-check and rate news.",
-  "version": "2019.01.22.1",
+  "version": "2019.01.25.1",
 
   "browser_action": {
     "default_icon": "images/logo-32.png"
