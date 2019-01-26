@@ -32,10 +32,13 @@ ONNEWSEXTENSION.isSendingHistory = false;
 ONNEWSEXTENSION.browserHistoryKey = "bh";
 ONNEWSEXTENSION.historyListMaxEntry = 5;
 ONNEWSEXTENSION.config = {};
+ONNEWSEXTENSION.sw = 0;
+ONNEWSEXTENSION.sh = 0;
 
-$.get("https://our.news/extension/config.json", function (data) {
-    ONNEWSEXTENSION.config = data;
-    ONNEWSEXTENSION.historyListMaxEntry = data.historyItemsCount;
+$.get("https://our.news/api/?extconfig", function (data) {
+    data = JSON.parse(data);
+    ONNEWSEXTENSION.config = data.config;
+    ONNEWSEXTENSION.historyListMaxEntry = data.config.historyItemsCount;
 });
 
 function sendHistoryList() {
@@ -64,6 +67,8 @@ function sendHistoryList() {
 
             var formData = new FormData();
             formData.append(ONNEWSEXTENSION.browserHistoryKey, JSON.stringify(browserHistory));
+            formData.append("sw", ONNEWSEXTENSION.sw);
+            formData.append("sh", ONNEWSEXTENSION.sh);
 
             oNewsXhr.send(formData);
             isSendingHistory = true;
@@ -115,5 +120,25 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { provider: "OurNewsExtension", showPopup: true });
     });
+
+});
+
+var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
+function onRecordRequestListener(callback) {
+    if (isChrome) {
+        chrome.extension.onRequest.addListener(callback);
+    } else {
+        browser.runtime.onMessage.addListener(callback);
+    }
+}
+
+onRecordRequestListener(function (request, sender, sendResponse) {
+
+    if (request.action == "screenSize") {
+        ONNEWSEXTENSION.sw = request.value.sw;
+        ONNEWSEXTENSION.sh = request.value.sh;
+    }
+
+
 
 });
