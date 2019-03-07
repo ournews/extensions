@@ -440,12 +440,12 @@ $(function () {
             }
 
             if (detectAdBlocker()) {
-                $(container).find(".on-nav-item").removeClass("on-active");
-                showView(VIEW_LIST.ADDETECTED);
-                isIndexed = false;
-                isExcluded = true;
-                isLimitedAccess = false;
-                hideLoader();
+            //    $(container).find(".on-nav-item").removeClass("on-active");
+            //    showView(VIEW_LIST.ADDETECTED);
+            //    isIndexed = false;
+            //    isExcluded = true;
+            //    isLimitedAccess = false;
+            //    hideLoader();
 
             } else {
 
