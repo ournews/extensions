@@ -447,7 +447,7 @@ $(function () {
             //    isLimitedAccess = false;
             //    hideLoader();
 
-            } else {
+            } 
 
                 if (isExclusiveOverride) {
                     getFullOnData();
@@ -481,7 +481,7 @@ $(function () {
                         }
                     });
                 }
-            }
+            
 
 
             function getFullOnData() {
