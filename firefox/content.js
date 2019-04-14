@@ -518,6 +518,8 @@ $(function () {
                     $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
                     $(container).find(".on-newstrition-desc").text(result.newstrition.description);
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
+			$(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
+                        $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
 
                     if (result.newstrition.ownedby) {
                         $(container).find(".on-newstrition-owned-by").text(result.newstrition.ownedby);
