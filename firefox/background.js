@@ -12,6 +12,8 @@ config.categories = [];
 config.tags = [];
 var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
 
+$.get(API_URL + "?extconfig", function (data) {
+
 if (data) {
         data = JSON.parse(data);
         config = data.config;
