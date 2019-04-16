@@ -440,7 +440,6 @@ $(function () {
                 isExcluded = true;
                 isLimitedAccess = false;
                 hideLoader();
-             }
             
            } else {
                     
