@@ -749,7 +749,10 @@ $(function () {
                             $(iitem).find(".on-top-indicators-name").text(y.name);
                             $(iitem).find(".on-top-indicators-score").attr("href", y.url);
                             $(iitem).find(".on-top-indicators-score span").text(y.value);
-
+				if (y.confidence>0) {
+                                          var roundc = Math.round(y.confidence*100);
+                                          $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
+                                }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
