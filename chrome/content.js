@@ -625,6 +625,9 @@ $(function () {
                     $(container).find(".onarm-author").text(result.meta.author);
                     $(container).find(".onarm-auth-link").attr("href", "https://our.news/a/?aid=" + result.meta.aid);
 
+		$(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);
+		$(container).find(".onarm-editor").text(result.meta.editor);
+
                     $(container).find(".onarm-trending-score").text(result.meta.trending);
                     $(container).find(".onarm-total-ratings").text(result.meta.totalratings);
 
