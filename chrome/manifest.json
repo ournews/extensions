@@ -2,8 +2,8 @@
   "manifest_version": 2,
 
   "name": "Our.News",
-  "description": "Making it easier to fact-check and rate news.",
-  "version": "2019.05.21.1",
+  "description": "Interactive nutrition labels for news.",
+  "version": "2019.07.08.1",
 
   "browser_action": {
     "default_icon": "images/logo-32.png"
