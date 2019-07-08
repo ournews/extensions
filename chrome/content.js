@@ -525,7 +525,27 @@ $(function () {
                     $(container).find(".on-newstrition-desc").text(result.newstrition.description);
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
 			$(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
-			$(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
+			$(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");;
+
+			if (result.newstrition.allsides == "Lean Right") {
+                        	$(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");;
+			}
+			else if (result.newstrition.allsides == "Right") {
+                                $(container).find(".on-newstrition-allsides-img-rr").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");;
+                        }
+			else if (result.newstrition.allsides == "Center") {
+                                $(container).find(".on-newstrition-allsides-img-c").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");;
+                        }
+			else if (result.newstrition.allsides == "Lean Left") {
+                                $(container).find(".on-newstrition-allsides-img-l").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                        }
+			else if (result.newstrition.allsides == "Left") {
+                                $(container).find(".on-newstrition-allsides-img-ll").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");;
+                        }
+			else {
+                                $(container).find(".on-newstrition-allsides-img-notrated").removeClass("on-hidden");
+                        }
+
 
                     if (result.newstrition.ownedby) {
                         $(container).find(".on-newstrition-owned-by").text(result.newstrition.ownedby);
