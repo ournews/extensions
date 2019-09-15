@@ -1014,7 +1014,7 @@ $(function () {
 
             });
 
-            $(document.body).delegate("#on-container .on-top-indicators-score,#on-container .on-newstrition-allsides-img a", "click", function (e) {
+            $(document.body).delegate("#on-container .on-top-indicators-score,#on-container .on-newstrition-allsides-img a, #on-container a.on-newstrition-allsides", "click", function (e) {
                 sendRequest({
                     action: "marker",
                     value: {
