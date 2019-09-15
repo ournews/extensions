@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Our.News",
-  "description": "Nutritional Labels for News",
+  "description": "Nutrition Labels for News",
   "version": "2019.09.15.2",
 
   "browser_action": {
