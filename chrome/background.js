@@ -98,7 +98,6 @@ function loadData(request, sendResponse) {
 
         $.when($.get(getOnUrl(currentURL).ME), $.get(getOnUrl(currentURL).PRIVATE), $.get(getOnUrl(currentURL).QUALITY),
             $.get(getOnUrl(currentURL, socialURL).NEWSTRITION_URL)).done(
-
             function (me, group, quality, newstrition) {
 
                 var result = {};
@@ -192,7 +191,7 @@ onRequestListener(function (request, sender, sendResponse) {
                 url: chrome.extension.getURL("content.html"),
                 dataType: "html",
                 success: function (data) {
-                    sendResponse({ htmlContent: data, config: config });
+                    sendResponse({htmlContent: data, config: config});
                 }
             });
         } else {
@@ -200,7 +199,7 @@ onRequestListener(function (request, sender, sendResponse) {
                 url: browser.runtime.getURL("content.html"),
                 dataType: "html",
                 success: function (data) {
-                    sendResponse({ htmlContent: data, config: config });
+                    sendResponse({htmlContent: data, config: config});
                 }
             });
         }
@@ -293,6 +292,12 @@ onRequestListener(function (request, sender, sendResponse) {
 
         $.get(API_URL + "?logintest=true").always(function (response) {
             sendResponse(response);
+        });
+
+    } else if (request.action == "marker") {
+
+        var value = request.value;
+        makeAjaxPost(value, function () {
         });
 
     } else if (request.action == "excludedURL") {

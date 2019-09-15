@@ -53,25 +53,9 @@ $(function () {
         DOMAINPREVIEW: "on-domain-preview",
         DOMAINADDINGWIP: "on-url-adding-wip",
         EXCLUDED: "on-url-excluded",
-        ADDETECTED: "on-ad-blocker-detected",
         ERROR: "on-error-message"
     }
 
-    function detectAdBlocker() {
-        var adBlock = '<div id="wrapfabtest">' +
-            '	<div class="adBanner" style="width:1px;height:1px;">' +
-            '		This is an ad' +
-            '	</div>' +
-            '</div>';
-
-         $(document.body).append(adBlock);
-        if ($("#wrapfabtest").height() > 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
     function showView(VIEW_TYPE) {
         $(container).find('[data-target-container]').closest(".on-nav-item").removeClass("on-active");
         $(container).find('[data-target-container="' + VIEW_TYPE + '"]').closest(".on-nav-item").addClass("on-active");
@@ -132,7 +116,7 @@ $(function () {
 
             $(container).find(".on-nav-item").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
-            
+
             if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
                 targetContainer == VIEW_LIST.QUICKRATE ||
                 targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
@@ -156,7 +140,8 @@ $(function () {
                     value: {
                         factcheckcard: urlDetails.location,
                     }
-                }, function () { });
+                }, function () {
+                });
             }
 
             return false;
@@ -188,7 +173,7 @@ $(function () {
         } else {
             function showLoginScreen() {
                 $(container).addClass("onhasframe");
-                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&redirect_to=https://our.news/extension/view.php' width='390' height='680' style='position:absolute;top:0;left:0;'></iframe>");
+                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='680' style='position:absolute;top:0;left:0;'></iframe>");
                 hideLoader();
                 isInLogin = true;
 
@@ -210,8 +195,40 @@ $(function () {
                 }, 2000);
             }
 
-            if (config.isUserLoggedIn == false) {
+            function beforeLoginPopup() {
+                var popupHTML = "<div id='beforeLoginPopup' style='position:absolute;left:0;top:0;background-color: rgba(0,0,0,0.6);padding: 20px;height: 100%;'>";
+                popupHTML += "<div style='margin: 15px;text-align: center;background-color: white;padding: 15px;'>";
+                popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
+                popupHTML += "<div style='margin:25px 0;'>";
+                popupHTML += "<input type='button' class='button btnBeforeLoginPopupClose' value='Close'/>";
+                popupHTML += "<input style='margin-left: 15px;' type='button' class='button btnBeforeLoginPopup' value='Login/Register'/>";
+                popupHTML += "</div>";
+                popupHTML += "</div>";
+                popupHTML += "</div>";
+
+                $(container).append(popupHTML);
+            }
+
+            $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
+            $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
+                $("#beforeLoginPopup").remove();
+            });
+
+            $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
+            $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
+                $("#beforeLoginPopup").remove();
                 showLoginScreen();
+            });
+
+            if (config.isUserLoggedIn == false) {
+                sendRequest({
+                    action: "marker",
+                    value: {
+                        "loginneeded": urlDetails.location
+                    }
+                }, function () {
+                });
+                beforeLoginPopup();
             } else {
                 sendRequest({
                     action: "auth"
@@ -221,7 +238,14 @@ $(function () {
                         callback();
                     } else {
                         config.isUserLoggedIn = false;
-                        showLoginScreen();
+                        sendRequest({
+                            action: "marker",
+                            value: {
+                                "loginneeded": urlDetails.location
+                            }
+                        }, function () {
+                        });
+                        beforeLoginPopup();
                     }
                 });
             }
@@ -290,7 +314,8 @@ $(function () {
                     value: {
                         popupopened: urlDetails.location,
                     }
-                }, function () { });
+                }, function () {
+                });
             }
         }, 1500);
     }
@@ -432,18 +457,8 @@ $(function () {
                 $(container).find(".on-auth-only").addClass("on-hidden");
             }
 
-            
-             if (detectAdBlocker()) {
-                $(container).find(".on-nav-item").removeClass("on-active");
-                showView(VIEW_LIST.ADDETECTED);
-                isIndexed = false;
-                isExcluded = true;
-                isLimitedAccess = false;
-                hideLoader();
-            
-           } else {
-                    
-               if (isExclusiveOverride) {
+
+            if (isExclusiveOverride) {
                 getFullOnData();
 
             } else {
@@ -474,8 +489,7 @@ $(function () {
                     }
                 });
             }
-    }
-    
+
 
             function getFullOnData() {
 
@@ -517,8 +531,8 @@ $(function () {
                     $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
                     $(container).find(".on-newstrition-desc").text(result.newstrition.description);
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
-			$(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
-                        $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
+                    $(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
+                    $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
 
                     if (result.newstrition.ownedby) {
                         $(container).find(".on-newstrition-owned-by").text(result.newstrition.ownedby);
@@ -608,8 +622,8 @@ $(function () {
                     $(container).find(".onarm-author").text(result.meta.author);
                     $(container).find(".onarm-auth-link").attr("href", "https://our.news/a/?aid=" + result.meta.aid);
 
-			$(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);
-			$(container).find(".onarm-editor").text(result.meta.editor);
+                    $(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);
+                    $(container).find(".onarm-editor").text(result.meta.editor);
 
                     $(container).find(".onarm-trending-score").text(result.meta.trending);
                     $(container).find(".onarm-total-ratings").text(result.meta.totalratings);
@@ -749,10 +763,10 @@ $(function () {
                             $(iitem).find(".on-top-indicators-name").text(y.name);
                             $(iitem).find(".on-top-indicators-score").attr("href", y.url);
                             $(iitem).find(".on-top-indicators-score span").text(y.value);
-				if (y.confidence>0) {
-                                          var roundc = Math.round(y.confidence*100);
-                                          $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
-                                }
+                            if (y.confidence > 0) {
+                                var roundc = Math.round(y.confidence * 100);
+                                $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
+                            }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
@@ -953,6 +967,17 @@ $(function () {
 
             });
 
+            // Send metrics on click
+            $(document.body).delegate("#on-container .on-top-indicators-score,#on-container .on-newstrition-allsides", "click", function (e) {
+                sendRequest({
+                    action: "marker",
+                    value: {
+                        "indicatorclick": urlDetails.location
+                    }
+                }, function () {
+                });
+            });
+
             $(document.body).delegate("#on-container .on-nav-item .dropdown", "click", function (e) {
 
                 if (!isExcluded && ($(e.target).is("img") || !$(e.target).hasClass("dropdown-item"))) {
@@ -993,7 +1018,8 @@ $(function () {
                         value: {
                             sourceclick: urlDetails.location,
                         }
-                    }, function () { });
+                    }, function () {
+                    });
                 }
             });
 
@@ -1261,7 +1287,7 @@ $(function () {
                 var that = this;
 
                 authenticated(function () {
-                    $(container).find("#on-add-source-modal").removeClass("on-hidden");
+                    showView(VIEW_LIST.ADDSOURCE);
                 });
 
                 return false;
@@ -1308,7 +1334,8 @@ $(function () {
                 fn.call()
             } else {
                 handle.value = requestAnimFrame(loop)
-            };
+            }
+            ;
         };
 
         handle.value = requestAnimFrame(loop);
@@ -1521,7 +1548,8 @@ $(function () {
             if ($(e).find("div[id^=feed_subtitle]").eq(0).find("[data-tooltip-content^='Shared with']").length) return;
 
             var injectClick = $("<span>").addClass("on-one-click-fb-btn");
-            if (hasParent) { }
+            if (hasParent) {
+            }
 
             injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
             //$(e).find('[rel="toggle"]').eq(0).css("display", "inline-block");
