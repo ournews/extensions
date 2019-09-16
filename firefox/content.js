@@ -968,7 +968,7 @@ $(function () {
             });
 
             // Send metrics on click
-            $(document.body).delegate("#on-container .on-top-indicators-score,#on-container .on-newstrition-allsides", "click", function (e) {
+            $(document.body).delegate("#on-container .on-top-indicators-score,#on-container .on-newstrition-allsides, #on-container a.on-newstrition-allsides", "click", function (e) {
                 sendRequest({
                     action: "marker",
                     value: {
