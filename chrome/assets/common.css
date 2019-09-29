@@ -274,6 +274,10 @@
     background-color: #4b0081 !important;
 }
 
+#on-hamburger img {
+    height: 32px !important;
+}
+
 #on-container #on-header #on-nav {
     margin: 0px 0 !important;
     background-color: #f2f2f2 !important;
@@ -647,11 +651,7 @@
 #on-container .on-article-preview {
     display: table;
     width: auto !important;
-    padding: 8px 0;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-right: none;
-    margin: 0 -15px 15px;
+    padding: 5px 0;
 }
 
 #on-container .on-article-preview-thumb {
