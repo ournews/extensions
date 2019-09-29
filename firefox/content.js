@@ -431,9 +431,11 @@ $(function () {
             }
 
             if (config.isUserLoggedIn) {
+                $(container).find(".on-noauth-only").addClass("on-hidden");
                 $(container).find(".on-auth-only").removeClass("on-hidden");
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
             // SHOW USERNAME & POINTS
@@ -443,6 +445,7 @@ $(function () {
             $(container).find(".on-dropdown-my-profile").attr("href", "");
 
             if (result.me) {
+                $(container).find(".on-noauth-only").addClass("on-hidden");
                 $(container).find(".on-auth-only").removeClass("on-hidden");
                 $(container).find(".on-cm-my-creds").text(result.me.creds + "");
                 $(container).find(".on-cm-my-notifications").text(result.me.notifycount + "");
@@ -455,6 +458,7 @@ $(function () {
                 $(container).find(".on-welcome-point-tooltip").text(result.me.pointsdesc + "");
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
 
