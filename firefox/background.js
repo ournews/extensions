@@ -124,6 +124,7 @@ function loadData(request, sendResponse) {
                     result.newstrition = JSON.parse(newstrition[0]);
                     result.sources = JSON.parse(group[0]).results.sources;
                     result.sourcetypes = JSON.parse(group[0]).results.sourcetypes;
+                    result.questions = JSON.parse(group[0]).results.questions;
                 }
 
                 console.log(result);
@@ -155,6 +156,7 @@ function loadData(request, sendResponse) {
                     result.newstrition = JSON.parse(newstrition[0]);
                     result.sources = JSON.parse(group[0]).results.sources;
                     result.sourcetypes = JSON.parse(group[0]).results.sourcetypes;
+                    result.questions = JSON.parse(group[0]).results.questions;
                 }
 
                 console.log(result);

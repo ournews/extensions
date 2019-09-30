@@ -82,6 +82,31 @@
             </div>
         </div>
 
+        <div id="on-qa" class="on-hidden">
+            <div class="on-qa-card-container">
+                <div class="on-qa-card">
+                    <div style="font-size: 12px;position: absolute;right: 5px;top:-5px;text-align: right;">
+                        <a href="#" class="on-qa-skip">Skip</a>
+                    </div>
+                    <div class="on-qa-question" style="width:90%;">
+                        Is this article accurately reported?
+                    </div>
+                    <div class="on-qa-option-container">
+                        <span class="on-qa-option" data-id=""></span>
+                    </div>
+                    <div style="color:#888;">
+                        <strong>Results: </strong>
+                        <span class="on-qa-result-summary"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="on-qa-thankyou on-hidden">
+                <div style="text-align: center !important;font-weight: bold;color: #fe6313">
+                    Thank you for your feedback!
+                </div>
+            </div>
+        </div>
+
         <div class="on-tab-container">
             <span class="on-tab" data-target-container="on-summary">
                 Summary
@@ -575,7 +600,7 @@
         </div>
 
         <!-- ADD SOURCE MODAL -->
-        <div id="on-add-source-modal" class="on-target-container on-hidden">
+        <div id="on-add-source-modal" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Add Source URL
             </div>
@@ -596,7 +621,7 @@
         </div>
 
         <!-- ADD Domain -->
-        <div id="on-add-article" class="on-target-container on-hidden">
+        <div id="on-add-article" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 URL not yet indexed.
             </div>
@@ -609,7 +634,7 @@
         </div>
 
         <!-- Domain Preview -->
-        <div id="on-domain-preview" class="on-target-container on-hidden">
+        <div id="on-domain-preview" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 URL not yet indexed.
             </div>
@@ -638,7 +663,7 @@
         </div>
 
         <!-- Domain adding wip... -->
-        <div id="on-url-adding-wip" class="on-target-container on-hidden">
+        <div id="on-url-adding-wip" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 class="has-text-centered">
                     Indexing… please wait 3-10 seconds.
@@ -654,7 +679,7 @@
         #ourlink a:hover {
             text-decoration: underline !important;
         } </style>
-        <div id="on-url-excluded" class="on-target-container on-hidden">
+        <div id="on-url-excluded" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 id="ourlink">
                     Oops, this URL is <a href="https://our.news/faq/help-url-not-eligible-indexed/?ffi=0">not
@@ -669,7 +694,7 @@
         </div>
 
         <!-- Error Message -->
-        <div id="on-error-message" class="on-target-container on-hidden">
+        <div id="on-error-message" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 class="has-text-centered">
                     Error: Either invalid URL or server timeout. Please close this popup and try again later.
