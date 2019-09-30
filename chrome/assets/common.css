@@ -278,53 +278,6 @@
     height: 32px !important;
 }
 
-#on-container #on-header #on-nav {
-    margin: 0px 0 !important;
-    background-color: #f2f2f2 !important;
-}
-
-#on-container #on-header #on-nav .on-nav-item {
-    padding: 6px !important;
-    text-align: center !important;
-}
-
-#on-container #on-header #on-nav .on-nav-item a {
-    color: black !important;
-    white-space: nowrap !important;
-}
-
-#on-container #on-header #on-nav .on-score {
-    font-size: 28px !important;
-    font-weight: 700 !important;
-    color: #4b0081 !important;
-}
-
-#on-container #on-header #on-nav .on-nav-item img {
-    margin: auto !important;
-    height: 32px !important;
-    width: auto !important;
-    padding-bottom: 5px !important;
-    filter: drop-shadow(1px -1px 0 #f1f1f1);
-}
-
-#on-container #on-header #on-nav .on-nav-item:hover,
-#on-container #on-header #on-nav .on-nav-item.on-active {
-    font-weight: bold !important;
-}
-
-#on-container #on-header #on-nav .on-nav-item:hover img,
-#on-container #on-header #on-nav .on-nav-item.on-active img {
-    filter: drop-shadow(1px -1px 0 #4b0081);
-}
-
-#on-container #on-header .on-nav-item.no-effects:hover img {
-    filter: none !important;
-}
-
-#on-container #on-header .on-nav-item.no-effects:hover a {
-    font-weight: 400 !important;
-}
-
 #on-container .dropdown-menu {
     text-align: left !important;
 }
@@ -663,3 +616,40 @@
     vertical-align: middle;
     text-align: left;
 }
+
+#on-container .on-tab-container {
+    border-top: 1px solid #666;
+    padding-top: 10px;
+    background-color: #dee1e6;
+}
+
+#on-container .on-tab-container .on-tab {
+    display: inline-block !important;
+    padding: 8px 12px !important;
+    border-radius: 6px 6px 0 0 !important;
+    cursor: pointer;
+    font-weight: 500 !important;
+}
+
+#on-container .on-tab-container .on-tab.on-active {
+    background-color: white !important;
+}
+
+#on-container #on-summary table td {
+    vertical-align: top !important;
+}
+
+/*
+#on-container .on-tab-container .on-tab:after {
+    content: "";
+    border: 1px solid #999;
+    height: 20px;
+    width: 0;
+    position: relative;
+    left: 15px;
+}
+
+#on-container .on-tab-container .on-tab.on-active:after,
+#on-container .on-tab-container .on-tab.last:after {
+    display: none;
+}*/

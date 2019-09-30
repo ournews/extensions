@@ -97,56 +97,187 @@
             </div>
         </div>
 
-        <div id="on-nav" class="columns">
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-newstrition">
-                    <img src="images/icons/newstrition.png"/>
-                    <div>
-                        <span>Newstrition</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-fact-check">
-                    <img src="images/icons/fact.check.icon.png"/>
-                    <div>
-                        <span>Fact-Check</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-quick-rate">
-                    <img src="images/icons/thumbs.up.png"/>
-                    <div>
-                        <span>Quick Rate</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered on-tooltip">
-                <span class="on-tooltiptext on-quality-score-description" style="text-align:left !important;">
-                </span>
-                <a href="#" data-target-container="on-advanced-ratings">
-                    <span class="on-score">
-                        NA
-                    </span>
-                    <div>
-                        <span>Ratings</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered no-effects"
-                 style="flex:0 !important;padding:0 !important;position:relative;right:10px;">
-
-            </div>
+        <div class="on-tab-container">
+            <span class="on-tab" data-target-container="on-summary">
+                Summary
+            </span>
+            <span class="on-tab" data-target-container="on-newstrition">
+                Newstrition
+            </span>
+            <span class="on-tab" data-target-container="on-fact-check">
+                Fact-Check
+            </span>
+            <span class="on-tab last" data-target-container="on-quick-rate">
+                Ratings
+            </span>
         </div>
     </div>
-
 
     <div id="on-content">
         <div id="on-loading-view" class="on-target-container">
             <div style="padding:20px;text-align:center;">
                 <img style="width:100px;" src="images/lg.dual-ring-loader.gif"/>
             </div>
+        </div>
+
+        <!-- Summary -->
+        <div id="on-summary" class="on-target-container on-hidden" style="padding-top: 10px;">
+            <div style="font-size: 32px;font-weight: bold;line-height: 1;">
+                Nutrition Facts
+            </div>
+            <div>
+                <strong>
+                    Date published: <span class="onarm-date"></span>
+                </strong>
+            </div>
+            <div style="border-bottom: 5px solid #444"></div>
+            <div>
+                <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                    <tr>
+                        <td rowspan="3" style="width:30%">
+                            <strong>Publisher</strong>
+                            <br>
+                            <a href="" target="_blank" class="on-newstrition-logo-link">
+                                <img style="width:80px;max-width: 100%;" class="on-newstrition-logo"
+                                     src="images/lg.dual-ring-loader.gif"/>
+                            </a>
+                        </td>
+                        <td>
+                            <div class="on-summary-newstrition-publisher on-hidden"></div>
+                            <div class="on-newstrition-hqlocation"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Newstrition Status:
+                        </td>
+                        <td style="text-align: right !important;">
+                            <span class="on-newstrition-verified"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            AllSides Bias Rating:
+                        </td>
+                        <td style="text-align: right !important;">
+                            <a class="on-newstrition-allsides"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="border-bottom: 1px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>Author</strong>
+                    </td>
+                    <td>
+                        <div class="onarm-author"></div>
+                        <div class="on-newstrition-hqlocation"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Newstrition Status:
+                        <span class="on-newstrition-verified" style="font-weight: bold;"></span>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 5px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>Fact-Checks</strong>
+                    </td>
+                    <td>
+                        <div class="on-top-indicators on-hidden" id="on-top-indicators">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 2px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0"
+                   class="on-summary-ac">
+                <tr>
+                    <td rowspan="6" style="width:30%">
+                        <strong>User Ratings</strong>
+                    </td>
+                    <td>
+                        Spin
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-spin"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Trust
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-trust"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Accuracy
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-accuracy"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Relevance
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-relevance"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Score:
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-total-score"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Ratings:
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-total-ratings"></span>
+                        </strong>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 1px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>AI Ratings:</strong>
+                    </td>
+                    <td>
+                        <div class="on-summary-ai-ratings-label">
+                        </div>
+                    </td>
+                    <td style="text-align: right !important;">
+                        <div class="on-summary-ai-ratings-value">
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- Newstrition -->
@@ -274,7 +405,7 @@
         </div>
 
         <!-- Fact Check Information -->
-        <div id="on-fact-check" class="on-target-container on-hidden">
+        <div id="on-fact-check" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Fact Check Information
             </div>
@@ -390,7 +521,7 @@
         </div>
 
         <!-- Quick Rate -->
-        <div id="on-quick-rate" class="on-target-container on-hidden">
+        <div id="on-quick-rate" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Quick Rate
             </div>
@@ -514,269 +645,6 @@
             </div>
         </div>
 
-
-        <!-- Advanced Ratings -->
-        <div id="on-advanced-ratings" class="on-target-container on-hidden">
-            <div class="on-title">
-                Ratings
-            </div>
-
-            <div class="on-your-total">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th class="on-heading">
-                            Yours
-                            <br/>
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th class="on-heading has-text-right">
-                            Totals
-                            <br/>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- SPIN -->
-                    <tr class="onar-spin">
-                        <td class="has-text-left">
-                            <h3>
-                                Spin
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-spin-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="SPIN" class="onar-spin-range" type="range" min="1" max="100" step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-spin-totals has-text-weight-bold" style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-                    <tr class="onar-political">
-                        <td class="has-text-left">
-                            Political
-                        </td>
-                        <td>
-                                <span class="onar-political-left">
-                                    None
-                                </span>
-                        </td>
-                        <td></td>
-                        <td class="has-text-right">
-                                <span class="onar-political-right">
-                                    None
-                                </span>
-                        </td>
-                    </tr>
-
-                    <tr style="line-height:6px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-
-                    <!-- Trust -->
-                    <tr class="onar-trust">
-                        <td class="has-text-left">
-                            <h3>
-                                Trust
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-trust-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="TRUST" class="onar-trust-range" type="range" min="1" max="100" step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-trust-totals has-text-weight-bold"
-                                      style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-
-                    <tr style="line-height:12px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-
-                    <!--<tr class="onar-author">
-                        <td>
-                            Author
-                        </td>
-                        <td>
-                            <span class="onar-author-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-author-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <!--<tr class="onar-publisher">
-                        <td>
-                            Publisher
-                            <br /><br /><br />
-                        </td>
-                        <td>
-                            <span class="onar-publisher-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-publisher-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-
-
-                    <tr class="onar-accuracy">
-                        <td class="has-text-left">
-                            <h3>
-                                Accuracy
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-accuracy-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="ACCURACY" class="onar-accuracy-range" type="range" min="1" max="100"
-                                   step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-accuracy-totals has-text-weight-bold"
-                                      style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-
-                    <!--<tr class="onar-reporting">
-                        <td>
-                            Reporting
-                        </td>
-                        <td>
-                            <span class="onar-reporting-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-reporting-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <!--<tr class="onar-claims">
-                        <td>
-                            Claims
-                        </td>
-                        <td>
-                            <span class="onar-claims-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-claims-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <tr style="line-height:14px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="on-ratings-tags">
-                    <div class="level is-marginless" style="align-items: flex-start !important;">
-                        <div class="level-left">
-                            <h3 style="display:inline-block!important;">
-                                Relevance
-                            </h3>
-                            <div class="on-ratings-relevance-tags" style="padding-bottom:5px;display:none;">
-                            </div>
-                            <select style="display:inline-block !important;margin-left:98px !important; vertical-align:top!important;
-                            border-color:#ccc!important;padding:6px !important;width:120px !important;border-radius:3px;"
-                                    id="selectOnTags"></select>
-                            <span style="display:inline-block !important; float:right!important; text-align:right!important;"
-                                  id="OurUnderLine">
- 				<a class="btnSelectOnTags" style="padding:4px 6px;width:24% !important;border-radius:3px;color:black !important;
-                             border:1px solid #ccc;background-color:#eee!important;margin-right:1px!important;margin-left:5px!important;">
-                             Rate
-                         </a></span>
-                        </div>
-                    </div>
-
-                    <!--
-                                        <div style="margin-top:5px !important;">
-                                            <select style="display:inline-block !important;
-                                                border-color:#ccc;
-                                                padding:6px !important;width:85% !important;border-radius:3px;"
-                                                    id="selectOnTags"></select>
-                                            <a class="btnSelectOnTags" style="padding:6px 10px;width:24% !important;border-radius:3px;color:black !important;
-                                                border:1px solid #ccc;background-color:#eee;">
-                                                Tag
-                                            </a>
-
-                                        </div>
-                    -->
-
-                </div>
-            </div>
-            <br/>
-            <div class="on-ratings-relevance">
-                <div class="level is-marginless">
-                    <div class="level-left">
-                        <h3 class="on-ratings-top-raters-label">Top Raters</h3>
-                        <div class="on-ratings-login-view on-hidden">
-                            <a href="#">Login to see Raters</a>
-                        </div>
-                    </div>
-                    <div class="level-right">
-                        <h3>
-                            Total Ratings:
-                            <span class="on-ratings-total">
-                                0
-                            </span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="on-ratings-top-raters" style="margin-top:5px!important;">
-                    <!-- Raters -->
-                </div>
-                <div class="on-you-rated on-hidden" style="text-align:left;padding-top:5px;">
-                    You previously rated this article on <span class="on-you-rated-date"></span>
-                </div>
-            </div>
-        </div>
 
         <!-- ADD Domain -->
         <div id="on-add-article" class="on-target-container on-hidden">

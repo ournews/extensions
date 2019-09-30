@@ -47,18 +47,18 @@ $(function () {
         NEWSTRITION: "on-newstrition",
         FACTCHECK: "on-fact-check",
         QUICKRATE: "on-quick-rate",
-        ADVANCEDRATINGS: "on-advanced-ratings",
         ADDSOURCE: "on-add-source-modal",
         ADDDOMAIN: "on-add-article",
         DOMAINPREVIEW: "on-domain-preview",
         DOMAINADDINGWIP: "on-url-adding-wip",
         EXCLUDED: "on-url-excluded",
-        ERROR: "on-error-message"
+        ERROR: "on-error-message",
+        SUMMARY: "on-summary"
     }
 
     function showView(VIEW_TYPE) {
-        $(container).find('[data-target-container]').closest(".on-nav-item").removeClass("on-active");
-        $(container).find('[data-target-container="' + VIEW_TYPE + '"]').closest(".on-nav-item").addClass("on-active");
+        $(container).find('[data-target-container]').removeClass("on-active");
+        $(container).find('[data-target-container="' + VIEW_TYPE + '"]').addClass("on-active");
         $(container).find(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
         $(container).find("#" + VIEW_TYPE).removeClass("on-hidden");
     }
@@ -114,21 +114,19 @@ $(function () {
         $(document.body).undelegate('#on-container [data-target-container]', "click");
         $(document.body).delegate('#on-container [data-target-container]', "click", function () {
 
-            $(container).find(".on-nav-item").removeClass("on-active");
+            $(container).find(".on-tab").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
 
             if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE ||
-                targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
+                targetContainer == VIEW_LIST.QUICKRATE)) {
                 showView(VIEW_LIST.EXCLUDED);
 
             } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE ||
-                targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
+                targetContainer == VIEW_LIST.QUICKRATE)) {
                 showView(VIEW_LIST.ADDDOMAIN);
 
             } else {
-                $(this).closest(".on-nav-item").addClass("on-active");
+                $(this).addClass("on-active");
                 $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
                 $("#" + targetContainer).removeClass("on-hidden");
             }
@@ -340,10 +338,6 @@ $(function () {
                 container = $("#on-container");
                 recordEventPopupShow();
 
-                // Fix width of nav icons
-                $(container).find("#on-nav .on-nav-item").not(".no-effects").each(function (i, e) {
-                    $(e).width($(e).width());
-                });
                 if (callback) callback();
             });
 
@@ -469,7 +463,7 @@ $(function () {
                 excludedURL(function (data, limitedAccess) {
                     if (data == "true" && limitedAccess) {
                         // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
+                        $(container).find(".on-tab").removeClass("on-active");
                         showView(VIEW_LIST.NEWSTRITION);
                         isIndexed = false;
                         isExcluded = true;
@@ -479,7 +473,7 @@ $(function () {
 
                     } else if (data == "true" && !limitedAccess) {
                         // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
+                        $(container).find(".on-tab").removeClass("on-active");
                         showView(VIEW_LIST.EXCLUDED);
                         isIndexed = false;
                         isExcluded = true;
@@ -508,7 +502,7 @@ $(function () {
                 // Mandatory show Newstrition
                 if ((!$(container).find("#on-loading-view").hasClass("on-hidden")) ||
                     (!$(container).find("#on-url-excluded").hasClass("on-hidden"))) {
-                    showView(VIEW_LIST.NEWSTRITION);
+                    showView(VIEW_LIST.SUMMARY);
                 }
 
                 // Newstrition
@@ -516,6 +510,7 @@ $(function () {
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
                 if (result.newstrition && result.newstrition.name) {
+                    $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
                     if (result.newstrition.image) {
                         $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
                         $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
@@ -768,6 +763,13 @@ $(function () {
                                 $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
                             }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
+
+                            // Remove hyperlink before append
+                            var topIndicator = $("<span>").addClass("on-top-indicators-score");
+                            topIndicator.html($(iitem).find(".on-top-indicators-score").html());
+                            $(iitem).find("strong").replaceWith(topIndicator);
+
+                            $(container).find("#on-top-indicators").append(iitem);
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
                     }
@@ -784,99 +786,56 @@ $(function () {
                     }
                 }
 
+                // AI Ratings
+                if (result.ratings.ai) {
+                    var aiKeys = Object.keys(result.ratings.ai);
+                    var aiValues = Object.values(result.ratings.ai);
+
+                    aiKeys = aiKeys.splice(0, 2);
+                    aiValues = aiValues.splice(0, 2);
+
+                    aiKeys[0] = aiKeys[0].charAt(0).toUpperCase() + aiKeys[0].slice(1);
+                    aiKeys[1] = aiKeys[1].charAt(0).toUpperCase() + aiKeys[1].slice(1);
+                    $(container).find(".on-summary-ai-ratings-label").html(aiKeys[0] + "<br>" + aiKeys[1]);
+
+                    aiValues[0] = aiValues[0] === "0.00" ? "<strong>Unlikely</strong> [0%]" : "<strong>Certain</strong> [100%]";
+                    aiValues[1] = aiValues[1] === "0.00" ? "<strong>Unlikely</strong> [0%]" : "<strong>Certain</strong> [100%]";
+                    $(container).find(".on-summary-ai-ratings-value").html(aiValues[0] + "<br>" + aiValues[1]);
+
+                } else {
+                    $(container).find(".on-summary-ai-ratings-label").text("");
+                    $(container).find(".on-summary-ai-ratings-value").text("");
+                }
+
 
                 // Advanced Ratings
-                var advancedRatings = $(container).find("#on-advanced-ratings");
-
-                advancedRatings.find(".onar-spin .onar-spin-range").val(50);
-                advancedRatings.find(".onar-spin .onar-spin-yours").text("NA");
-                advancedRatings.find(".onar-political .onar-political-left").text("None");
-
-                advancedRatings.find(".onar-trust .onar-trust-range").val(50);
-                advancedRatings.find(".onar-trust .onar-trust-yours").text("NA");
-
-                advancedRatings.find(".onar-accuracy .onar-accuracy-range").val(50);
-                advancedRatings.find(".onar-accuracy .onar-accuracy-yours").text("NA");
-
-                advancedRatings.find(".onar-relevance .onar-accuracy-range").val(50);
-                advancedRatings.find(".onar-relevance .onar-accuracy-yours").text("NA");
-
-                advancedRatings.find(".on-you-rated").addClass("on-hidden");
-                advancedRatings.find(".on-you-rated-date").text("");
-
-
-                if (result.mine && result.mine.ratings.length) {
-
-                    $.each(result.mine.ratings, function (i, e) {
-
-                        if (e.spin) {
-                            var spinInt = parseInt(parseFloat(e.spin) * 100);
-                            var spinLabel = "Left";
-                            var spinInPercent = 0;
-
-                            if (spinInt < 0) {
-                                spinLabel = "Left";
-                                spinInPercent = (100 - Math.abs(spinInt)) / 2;
-
-                            } else if (spinInt > 0) {
-                                spinLabel = "Right";
-                                spinInPercent = (100 + Math.abs(spinInt)) / 2;
-                            }
-
-                            advancedRatings.find(".onar-spin .onar-spin-range").val(Math.abs(spinInPercent));
-                            advancedRatings.find(".onar-spin .onar-spin-yours").text(Math.abs(spinInt) + "%");
-                            advancedRatings.find(".onar-political .onar-political-left").text(spinLabel);
-
-                        } else if (e.trust) {
-                            advancedRatings.find(".onar-trust .onar-trust-range").val(parseInt(e.trust));
-                            advancedRatings.find(".onar-trust .onar-trust-yours").text(e.trust + "%");
-
-                        } else if (e.accuracy) {
-                            advancedRatings.find(".onar-accuracy .onar-accuracy-range").val(parseInt(e.accuracy));
-                            advancedRatings.find(".onar-accuracy .onar-accuracy-yours").text(e.accuracy + "%");
-
-                        } else if (e.relevance) {
-                            $(container).find("#selectOnTags").val(e.relevance.toUpperCase());
-                            //advancedRatings.find(".onar-relevance .onar-accuracy-range").val(parseInt(e.relevance));
-                            //advancedRatings.find(".onar-relevance .onar-accuracy-yours").text(e.relevance + "%");
-
-                        } else if (e.date) {
-                            var ddd = new Date(e.date);
-                            var formatDate = ('0' + (ddd.getMonth() + 1)).slice(-2) + "/" + ('0' + ddd.getDate()).slice(-2) + "/" + ddd.getFullYear();
-                            advancedRatings.find(".on-you-rated-date").text(formatDate);
-                            advancedRatings.find(".on-you-rated").removeClass("on-hidden");
-                        }
-
-                    });
-
-                }
+                var summaryRatings = $(container).find(".on-summary-ac");
+                summaryRatings.find(".on-summary-spin").text("NA");
+                summaryRatings.find(".on-summary-trust").text("NA");
+                summaryRatings.find(".on-summary-accuracy").text("NA");
+                summaryRatings.find(".on-summary-relevance").text("NA");
 
                 if (result.ratings && result.ratings.ratings) {
                     $(".on-ratings-total").text(result.ratings.ratings.total);
+                    $(".on-summary-total-ratings").text(result.ratings.ratings.total);
 
                     // TOTAL SETTINGS
-                    if (result.ratings.ratings.spin == "None") {
-                        advancedRatings.find(".onar-political .onar-political-right").text("None");
-                    } else {
-                        advancedRatings.find(".onar-political .onar-political-right").text(result.ratings.ratings.spin);
-                    }
-
                     if (result.ratings.ratings.spinvalue == 0) {
-                        advancedRatings.find(".onar-spin .onar-spin-totals").text("NA");
+                        summaryRatings.find(".on-summary-spin").text("NA");
                     } else {
-                        advancedRatings.find(".onar-spin .onar-spin-totals").text(Math.round(result.ratings.ratings.spinvalue) + "%");
+                        summaryRatings.find(".on-summary-spin").text(Math.round(result.ratings.ratings.spinvalue) + "%");
                     }
 
                     if (result.ratings.ratings.trust == 0) {
-                        advancedRatings.find(".onar-trust .onar-trust-totals").text("NA");
+                        summaryRatings.find(".on-summary-trust").text("NA");
                     } else {
-                        advancedRatings.find(".onar-trust .onar-trust-totals").text(Math.round(result.ratings.ratings.trust) + "%");
+                        summaryRatings.find(".on-summary-trust").text(Math.round(result.ratings.ratings.trust) + "%");
                     }
 
                     if (result.ratings.ratings.accuracy == 0) {
-                        advancedRatings.find(".onar-accuracy .onar-accuracy-totals").text("NA");
+                        summaryRatings.find(".on-summary-accuracy").text("NA");
                     } else {
-                        advancedRatings.find(".onar-accuracy .onar-accuracy-totals").text(Math.round(result.ratings.ratings.accuracy) + "%");
+                        summaryRatings.find(".on-summary-accuracy").text(Math.round(result.ratings.ratings.accuracy) + "%");
                     }
                 }
 
@@ -886,11 +845,14 @@ $(function () {
 
                     if (qualityRate == 0) {
                         $(container).find(".on-score").text("NA");
+                        $(container).find(".on-summary-total-score").text("NA");
                     } else {
                         $(container).find(".on-score").text(qualityRate + "%");
+                        $(container).find(".on-summary-total-score").text(qualityRate + "%");
                     }
                 } else {
                     $(container).find(".on-score").text("NA");
+                    $(container).find(".on-summary-total-score").text("NA");
                 }
                 // RATINGS END
 
@@ -921,6 +883,8 @@ $(function () {
                         $(container).find(".on-ratings-relevance-tags").append("<span class='on-tag'>" +
                             result.ratings.ratings.relevance + "<span class='on-point'>" +
                             Math.round(result.ratings.ratings.relevancevalue) + "%</span></span>").show();
+
+                        summaryRatings.find(".on-summary-relevance").text(result.ratings.ratings.relevance + " [" + result.ratings.ratings.relevancevalue + "%]")
                     }
                 }
 
@@ -1166,97 +1130,6 @@ $(function () {
                 return false;
             });
 
-
-            $(container).find('[type="range"]').on("input", function (e) {
-
-                var that = this;
-                authenticated(function () {
-
-                    if ($(e.target).closest("tr").hasClass("onar-spin")) {
-
-                        var val = $(e.target).val();
-
-                        if (val < 50) {
-                            $(".onar-spin .onar-spin-yours").text(100 - (val * 2) + "%");
-                        } else if (val > 50) {
-                            $(".onar-spin .onar-spin-yours").text(((val * 2) - 100) + "%");
-                        } else {
-                            $(".onar-spin .onar-spin-yours").text("NA");
-                        }
-
-                        if ($(e.target).val() < 50) {
-                            $(e.target).closest("tr").next().find(".onar-political-left").text("Left");
-                        } else {
-                            $(e.target).closest("tr").next().find(".onar-political-left").text("Right");
-                        }
-                    } else {
-
-                        $(e.target).closest("tr").find(".onar-yours").text($(e.target).val() + "%");
-                    }
-                });
-
-                return false;
-
-            });
-
-            $(container).find('[type="range"]').on("change", function (e) {
-
-                var that = this;
-
-                authenticated(function () {
-                    // POST TO BACKEND
-                    var ratingType = $(that).data("value");
-                    var rating = $(that).val();
-                    var value = "";
-
-                    switch (ratingType) {
-                        case "SPIN":
-
-                            var finalValue = rating;
-
-                            if (finalValue < 50) {
-
-                                finalValue = (100 - (finalValue * 2));
-                                finalValue = -(finalValue / 100);
-
-                            } else if (finalValue > 50) {
-
-                                finalValue = ((finalValue * 2) - 100);
-                                finalValue = finalValue / 100;
-                            }
-
-                            value = {
-                                multibarurl: urlDetails.location,
-                                spin: finalValue
-                            }
-                            break;
-                        case "TRUST":
-                            value = {
-                                multibarurl: urlDetails.location,
-                                trust: rating
-                            }
-                            break;
-                        case "ACCURACY":
-                            value = {
-                                multibarurl: urlDetails.location,
-                                accuracy: rating
-                            }
-                            break;
-                    }
-
-                    showLoader();
-                    sendRequest({
-                        action: "post",
-                        key: "Ratings",
-                        value: value
-                    }, refreshPopup);
-
-                });
-
-                return false;
-
-            });
-
             // Tags
             $(container).find(".btnSelectOnTags").on("click", function () {
 
@@ -1390,16 +1263,6 @@ $(function () {
         });
 
         return false;
-
-    });
-
-    $(document.body).delegate(".on-ratings-login-view a", "click", function () {
-
-        authenticated(function () {
-            showView(VIEW_LIST.ADVANCEDRATINGS);
-
-            refreshPopup();
-        });
 
     });
 
