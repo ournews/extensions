@@ -511,12 +511,17 @@ $(function () {
 
                 // Summary page - Question & Answers
                 if (result.questions && result.questions.length) {
-                    if ($(container).find(".on-qa-card").length <= 1) {
+
+                    var currentResult = result.questions;
+                    var previousResult = $(container).find("#on-qa").data("result");
+                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
+                        $(container).find("#on-qa").data("result", result.questions);
                         $(container).find("#on-qa").removeClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         // Remove all questions
                         $(container).find("#on-qa .on-qa-card").remove();
+                        var nid = result.meta.nid;
 
                         $.each(result.questions, function (i, e) {
                             qCard.removeClass("on-active");
@@ -527,6 +532,7 @@ $(function () {
                             $.each(e.choices, function (inneri, innere) {
                                 choice.text(innere.choice);
                                 choice.data("id", innere.id);
+                                choice.data("nid", nid);
                                 qCard.find(".on-qa-option-container").append(choice);
                                 //reset
                                 choice = qCard.find(".on-qa-option").eq(0).clone();
@@ -575,6 +581,15 @@ $(function () {
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
                     $(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
                     $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+
+                    // Summary view
+                    if (result.newstrition.pid) {
+                        $(container).find(".on-summary-newstrition-verified-link").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
+                    } else {
+                        $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
+                    }
+                    $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
+
 
                     if (result.newstrition.allsides == "Lean Right") {
                         $(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
@@ -632,6 +647,11 @@ $(function () {
                     // no publisher data
                     $(container).find(".on-newstrition-hide-on-na").addClass("on-hidden");
                     $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
+
+                    // Summary view
+                    $(container).find(".on-summary-newstrition-publisher").text("-");
+                    $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
+                    $(container).find(".on-summary-newstrition-verified").text("-");
                 }
 
                 // Quick Rate
@@ -687,6 +707,21 @@ $(function () {
 
                     $(container).find(".onarm-author").text(result.meta.author);
                     $(container).find(".onarm-auth-link").attr("href", "https://our.news/a/?aid=" + result.meta.aid);
+
+                    if (result.meta.authors.length) {
+                        $(container).find(".on-summary-author-name").text(result.meta.authors[0].name);
+                        $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
+
+                        if (result.meta.author[0].verified) {
+                            $(container).find(".on-summary-author-verified").text("Verified");
+                        } else {
+                            $(container).find(".on-summary-author-verified").text("Unverified");
+                        }
+                    } else {
+                        $(container).find(".on-summary-author-name").text("");
+                        $(container).find(".on-summary-author-location").text("");
+                        $(container).find(".on-summary-author-verified").text("");
+                    }
 
                     $(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);
                     $(container).find(".onarm-editor").text(result.meta.editor);
@@ -934,24 +969,25 @@ $(function () {
             // Return if already registered
             if (isAppEventsRegistered) return;
 
-            // TODO
             $(document.body).delegate(".on-qa-option", "click", function (e) {
                 e.preventDefault();
-                var choiceID = $(this).data("id");
+                var that = this;
+                authenticated(function () {
+                    var choicetype = $(that).data("id");
+                    var nid = $(that).data("nid");
 
-                $(this).parent().children().removeClass("on-active");
-                $(this).addClass("on-active");
-
-                /*sendRequest({
-                    action: "questionanswer",
-                    value: {
-                        "indicatorclick": choiceID
-                    }
-                }, function () {
-                });*/
-
-                $(this).closest(".on-qa-card").find(".on-qa-skip").click();
-
+                    $(that).parent().children().removeClass("on-active");
+                    $(that).addClass("on-active");
+                    sendRequest({
+                        action: "questionanswer",
+                        value: {
+                            "choicetype": choicetype,
+                            "quicknid": nid,
+                        }
+                    }, function () {
+                    });
+                    $(that).closest(".on-qa-card").find(".on-qa-skip").click();
+                });
             });
 
             $(document.body).delegate(".on-qa-skip", "click", function (e) {

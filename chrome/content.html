@@ -107,7 +107,7 @@
                         Is this article accurately reported?
                     </div>
                     <div class="on-qa-option-container">
-                        <span class="on-qa-option" data-id=""></span>
+                        <span class="on-qa-option" data-id="" data-nid=""></span>
                     </div>
                     <div style="color:#888;">
                         <strong>Results: </strong>
@@ -159,16 +159,21 @@
             <div>
                 <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
                     <tr>
-                        <td rowspan="3" style="width:30%">
+                        <td style="width:30%">
                             <strong>Publisher</strong>
-                            <br>
+                        </td>
+                        <td>
+                            <div class="on-summary-newstrition-publisher"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" style="vertical-align: middle !important;">
                             <a href="" target="_blank" class="on-newstrition-logo-link">
                                 <img style="width:80px;max-width: 100%;" class="on-newstrition-logo"
                                      src="images/lg.dual-ring-loader.gif"/>
                             </a>
                         </td>
                         <td>
-                            <div class="on-summary-newstrition-publisher on-hidden"></div>
                             <div class="on-newstrition-hqlocation"></div>
                         </td>
                     </tr>
@@ -177,7 +182,9 @@
                             Newstrition Status:
                         </td>
                         <td style="text-align: right !important;">
-                            <span class="on-newstrition-verified"></span>
+                            <a class="on-summary-newstrition-verified-link" href="#" target="_blank">
+                                <span class="on-summary-newstrition-verified"></span>
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -197,14 +204,14 @@
                         <strong>Author</strong>
                     </td>
                     <td>
-                        <div class="onarm-author"></div>
-                        <div class="on-newstrition-hqlocation"></div>
+                        <div class="on-summary-author-name"></div>
+                        <div class="on-summary-author-location"></div>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Newstrition Status:
-                        <span class="on-newstrition-verified" style="font-weight: bold;"></span>
+                        <span class="on-summary-author-verified" style="font-weight: bold;"></span>
                     </td>
                 </tr>
             </table>
@@ -220,7 +227,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="border-bottom: 2px solid #444"></div>
+            <div style="border-bottom: 3px solid #444"></div>
             <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0"
                    class="on-summary-ac">
                 <tr>
@@ -759,7 +766,7 @@
     <!-- footer -->
     <div id="on-footer">
         <!-- logo -->
-        <img style="width:70px;" src="images/unnamed.png"/>
+        <img style="width:45px;" src="images/unnamed.png"/>
     </div>
 </div>
 

@@ -296,6 +296,12 @@ onRequestListener(function (request, sender, sendResponse) {
             sendResponse(response);
         });
 
+    } else if (request.action == "questionanswer") {
+
+        var value = request.value;
+        makeAjaxPost(value, function () {
+        });
+
     } else if (request.action == "marker") {
 
         var value = request.value;
