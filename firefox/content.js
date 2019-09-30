@@ -517,6 +517,11 @@ $(function () {
                         $(container).find("#on-qa .on-qa-card").remove();
                         var nid = result.meta.nid;
 
+                        var answers = [];
+                        if (result.mine.answers.length) {
+                            answers = result.mine.answers;
+                        }
+
                         $.each(result.questions, function (i, e) {
                             qCard.removeClass("on-active");
                             qCard.find(".on-qa-question").text(e.question);
@@ -524,9 +529,13 @@ $(function () {
                             qCard.find(".on-qa-option").remove();
 
                             $.each(e.choices, function (inneri, innere) {
+                                choice.removeClass("on-active");
                                 choice.text(innere.choice);
                                 choice.data("id", innere.id);
                                 choice.data("nid", nid);
+                                if (answers.indexOf(innere.id) != -1) {
+                                    choice.addClass("on-active");
+                                }
                                 qCard.find(".on-qa-option-container").append(choice);
                                 //reset
                                 choice = qCard.find(".on-qa-option").eq(0).clone();

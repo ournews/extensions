@@ -70,7 +70,7 @@ function sendHistoryList() {
             formData.append("sw", ONNEWSEXTENSION.sw);
             formData.append("sh", ONNEWSEXTENSION.sh);
 
-            //oNewsXhr.send(formData);
+            oNewsXhr.send(formData);
             isSendingHistory = true;
         }
     }
