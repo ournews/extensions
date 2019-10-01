@@ -123,7 +123,7 @@ $(function () {
                 showView(VIEW_LIST.EXCLUDED);
 
             } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE)) {
+                targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
                 showView(VIEW_LIST.ADDDOMAIN);
 
             } else {
@@ -468,7 +468,7 @@ $(function () {
                 excludedURL(function (data, limitedAccess) {
                     if (data == "true" && limitedAccess) {
                         $(container).find(".on-tab").removeClass("on-active");
-                        showView(VIEW_LIST.SUMMARY);
+                        showView(VIEW_LIST.NEWSTRITION);
                         isIndexed = false;
                         isExcluded = true;
                         isLimitedAccess = true;
@@ -506,7 +506,11 @@ $(function () {
                 // Mandatory show Summary
                 if ((!$(container).find("#on-loading-view").hasClass("on-hidden")) ||
                     (!$(container).find("#on-url-excluded").hasClass("on-hidden"))) {
-                    showView(VIEW_LIST.SUMMARY);
+                    if (isIndexed) {
+                        showView(VIEW_LIST.SUMMARY);
+                    } else {
+                        showView(VIEW_LIST.ADDDOMAIN);
+                    }
                 }
 
                 // Summary page - Question & Answers
