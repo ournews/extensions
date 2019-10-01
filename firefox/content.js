@@ -843,13 +843,6 @@ $(function () {
                                 $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
                             }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
-
-                            // Remove hyperlink before append
-                            iitem = $(iitem).clone();
-                            var topIndicator = $("<span>").addClass("on-top-indicators-score");
-                            topIndicator.html($(iitem).find(".on-top-indicators-score").html());
-                            $(iitem).find("strong").replaceWith(topIndicator);
-
                             $(container).find("#on-top-indicators").append(iitem);
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
