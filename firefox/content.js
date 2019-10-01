@@ -542,7 +542,7 @@ $(function () {
                             });
 
                             var answer = e.answers[0];
-                            var qsummary = answer.result + " - " + answer.label + " (" + answer.total + " Votes)";
+                            var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
                             qCard.find(".on-qa-result-summary").text(qsummary);
 
                             // Append this question
