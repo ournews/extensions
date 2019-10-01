@@ -852,19 +852,23 @@ $(function () {
 
                 // AI Ratings
                 if (result.ratings && result.ratings.ai) {
-                    var aiKeys = Object.keys(result.ratings.ai);
-                    var aiValues = Object.values(result.ratings.ai);
 
-                    aiKeys = aiKeys.splice(0, 2);
-                    aiValues = aiValues.splice(0, 2);
+                    var sortable = [];
+                    for (var ai in result.ratings.ai) {
+                        sortable.push([ai, result.ratings.ai[ai]]);
+                    }
+                    sortable.sort(function (a, b) {
+                        return parseFloat(a[1]) - parseFloat(b[1]);
+                    });
+                    sortable.reverse();
 
-                    aiKeys[0] = aiKeys[0].charAt(0).toUpperCase() + aiKeys[0].slice(1);
-                    aiKeys[1] = aiKeys[1].charAt(0).toUpperCase() + aiKeys[1].slice(1);
-                    $(container).find(".on-summary-ai-ratings-label").html(aiKeys[0] + "<br>" + aiKeys[1]);
+                    sortable[0][0] = sortable[0][0].charAt(0).toUpperCase() + sortable[0][0].slice(1);
+                    sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
+                    $(container).find(".on-summary-ai-ratings-label").html(sortable[0][0] + "<br>" + sortable[1][0]);
 
-                    aiValues[0] = aiValues[0] === "0.00" ? "<strong>Unlikely</strong> [0%]" : "<strong>Certain</strong> [100%]";
-                    aiValues[1] = aiValues[1] === "0.00" ? "<strong>Unlikely</strong> [0%]" : "<strong>Certain</strong> [100%]";
-                    $(container).find(".on-summary-ai-ratings-value").html(aiValues[0] + "<br>" + aiValues[1]);
+                    sortable[0][1] = "[" + (parseFloat(sortable[0][1]) * 100) + "%]";
+                    sortable[1][1] = "[" + (parseFloat(sortable[1][1]) * 100) + "%]";
+                    $(container).find(".on-summary-ai-ratings-value").html(sortable[0][1] + "<br>" + sortable[1][1]);
 
                 } else {
                     $(container).find(".on-summary-ai-ratings-label").text("-");
