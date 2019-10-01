@@ -891,7 +891,7 @@ $(function () {
                     if (result.ratings.ratings.spinvalue == 0) {
                         summaryRatings.find(".on-summary-spin").text("NA");
                     } else {
-                        summaryRatings.find(".on-summary-spin").text(Math.round(result.ratings.ratings.spinvalue) + "%");
+                        summaryRatings.find(".on-summary-spin").text(result.ratings.ratings.spin + " [" + Math.round(result.ratings.ratings.spinvalue) + "%]");
                     }
 
                     if (result.ratings.ratings.trust == 0) {
