@@ -893,9 +893,8 @@ $(function () {
                         sortable.push([ai, result.ratings.ai[ai]]);
                     }
                     sortable.sort(function (a, b) {
-                        return parseFloat(a[1]) - parseFloat(b[1]);
+                        return parseFloat(b[1]) - parseFloat(a[1]);
                     });
-                    sortable.reverse();
 
                     sortable[0][0] = sortable[0][0].charAt(0).toUpperCase() + sortable[0][0].slice(1);
                     sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
