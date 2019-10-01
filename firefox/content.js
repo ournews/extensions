@@ -504,7 +504,9 @@ $(function () {
                     if (isIndexed) {
                         showView(VIEW_LIST.SUMMARY);
                     } else {
-                        showView(VIEW_LIST.ADDDOMAIN);
+                        showView(VIEW_LIST.NEWSTRITION);
+                        $(container).find(".on-article-preview").addClass("on-hidden");
+                        $(container).find(".on-article-preview-add-article").removeClass("on-hidden");
                     }
                 }
 
@@ -823,12 +825,14 @@ $(function () {
 
                     // Article Preview
                     if (result.meta.thumb) {
+                        $(container).find(".on-article-preview-add-article").addClass("on-hidden");
+                        $(container).find(".on-article-preview").removeClass("on-hidden");
+
                         $(container).find(".on-article-preview-thumb").attr("src", result.meta.thumb);
                         var previewTitle = result.meta.title.length > 75 ? result.meta.title.substring(0, 75) + "..." : result.meta.title;
-                        $(container).find(".on-article-preview").removeClass("on-hidden");
                         $(container).find(".on-article-preview-heading").html(previewTitle);
                     } else {
-                        $(container).find(".on-article-preview").hide();
+                        $(container).find(".on-article-preview").addClass("on-hidden");
                     }
 
                     // Fact Check Top Indicators
