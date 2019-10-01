@@ -919,7 +919,8 @@ $(function () {
 
                 // Relevance Tags
                 if (result.ratings && result.ratings.ratings && result.ratings.ratings.relevancevalue) {
-                    summaryRatings.find(".on-summary-relevance").text(result.ratings.ratings.relevance + " [" + result.ratings.ratings.relevancevalue + "%]")
+                    var relevancevalue = parseInt(result.ratings.ratings.relevancevalue);
+                    summaryRatings.find(".on-summary-relevance").text(result.ratings.ratings.relevance + " [" + Math.round(relevancevalue) + "%]")
                 } else {
                     summaryRatings.find(".on-summary-relevance").text("NA");
                 }
