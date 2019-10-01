@@ -888,6 +888,7 @@ $(function () {
                 // AI Ratings
                 if (result.ratings && result.ratings.ai) {
 
+                    var ai_labels = result.ratings.ai_labels;
                     var sortable = [];
                     for (var ai in result.ratings.ai) {
                         sortable.push([ai, result.ratings.ai[ai]]);
@@ -896,13 +897,15 @@ $(function () {
                         return parseFloat(b[1]) - parseFloat(a[1]);
                     });
 
+                    var label1 = ai_labels[sortable[0][0]];
+                    var label2 = ai_labels[sortable[1][0]];
                     sortable[0][0] = sortable[0][0].charAt(0).toUpperCase() + sortable[0][0].slice(1);
                     sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
                     $(container).find(".on-summary-ai-ratings-label").html(sortable[0][0] + "<br>" + sortable[1][0]);
 
                     sortable[0][1] = "[" + (parseFloat(sortable[0][1]) * 100) + "%]";
                     sortable[1][1] = "[" + (parseFloat(sortable[1][1]) * 100) + "%]";
-                    $(container).find(".on-summary-ai-ratings-value").html(sortable[0][1] + "<br>" + sortable[1][1]);
+                    $(container).find(".on-summary-ai-ratings-value").html(label1 + " " + sortable[0][1] + "<br>" + label2 + " " + sortable[1][1]);
 
                 } else {
                     $(container).find(".on-summary-ai-ratings-label").text("-");
