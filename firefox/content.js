@@ -1348,7 +1348,7 @@ $(function () {
                 value: value
             }, function () {
                 hideLoader();
-                showView(VIEW_LIST.FACTCHECK);
+                showView(VIEW_LIST.SUMMARY);
                 refreshPopup();
 
             });
