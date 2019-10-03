@@ -125,6 +125,7 @@ function loadData(request, sendResponse) {
                     result.newstrition = JSON.parse(newstrition[0]);
                     result.sources = JSON.parse(group[0]).results.sources;
                     result.sourcetypes = JSON.parse(group[0]).results.sourcetypes;
+                    result.questions = JSON.parse(group[0]).results.questions;
                 }
 
                 console.log(result);
@@ -156,6 +157,7 @@ function loadData(request, sendResponse) {
                     result.newstrition = JSON.parse(newstrition[0]);
                     result.sources = JSON.parse(group[0]).results.sources;
                     result.sourcetypes = JSON.parse(group[0]).results.sourcetypes;
+                    result.questions = JSON.parse(group[0]).results.questions;
                 }
 
                 console.log(result);
@@ -292,6 +294,12 @@ onRequestListener(function (request, sender, sendResponse) {
 
         $.get(API_URL + "?logintest=true").always(function (response) {
             sendResponse(response);
+        });
+
+    } else if (request.action == "questionanswer") {
+
+        var value = request.value;
+        makeAjaxPost(value, function () {
         });
 
     } else if (request.action == "marker") {

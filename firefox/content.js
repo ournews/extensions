@@ -47,18 +47,18 @@ $(function () {
         NEWSTRITION: "on-newstrition",
         FACTCHECK: "on-fact-check",
         QUICKRATE: "on-quick-rate",
-        ADVANCEDRATINGS: "on-advanced-ratings",
         ADDSOURCE: "on-add-source-modal",
         ADDDOMAIN: "on-add-article",
         DOMAINPREVIEW: "on-domain-preview",
         DOMAINADDINGWIP: "on-url-adding-wip",
         EXCLUDED: "on-url-excluded",
-        ERROR: "on-error-message"
+        ERROR: "on-error-message",
+        SUMMARY: "on-summary"
     }
 
     function showView(VIEW_TYPE) {
-        $(container).find('[data-target-container]').closest(".on-nav-item").removeClass("on-active");
-        $(container).find('[data-target-container="' + VIEW_TYPE + '"]').closest(".on-nav-item").addClass("on-active");
+        $(container).find('[data-target-container]').removeClass("on-active");
+        $(container).find('[data-target-container="' + VIEW_TYPE + '"]').addClass("on-active");
         $(container).find(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
         $(container).find("#" + VIEW_TYPE).removeClass("on-hidden");
     }
@@ -102,7 +102,7 @@ $(function () {
             }
         });
 
-        $(document.body).delegate("#on-container .on-nav-item .dropdown", "click", function (e) {
+        $(document.body).delegate("#on-container #on-hamburger .dropdown", "click", function (e) {
             if (isExcluded) {
                 e.preventDefault();
                 return false;
@@ -114,21 +114,19 @@ $(function () {
         $(document.body).undelegate('#on-container [data-target-container]', "click");
         $(document.body).delegate('#on-container [data-target-container]', "click", function () {
 
-            $(container).find(".on-nav-item").removeClass("on-active");
+            $(container).find(".on-tab").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
 
             if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE ||
-                targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
+                targetContainer == VIEW_LIST.QUICKRATE)) {
                 showView(VIEW_LIST.EXCLUDED);
 
             } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE ||
-                targetContainer == VIEW_LIST.ADVANCEDRATINGS)) {
+                targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
                 showView(VIEW_LIST.ADDDOMAIN);
 
             } else {
-                $(this).closest(".on-nav-item").addClass("on-active");
+                $(this).addClass("on-active");
                 $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
                 $("#" + targetContainer).removeClass("on-hidden");
             }
@@ -340,10 +338,6 @@ $(function () {
                 container = $("#on-container");
                 recordEventPopupShow();
 
-                // Fix width of nav icons
-                $(container).find("#on-nav .on-nav-item").not(".no-effects").each(function (i, e) {
-                    $(e).width($(e).width());
-                });
                 if (callback) callback();
             });
 
@@ -431,9 +425,11 @@ $(function () {
             }
 
             if (config.isUserLoggedIn) {
+                $(container).find(".on-noauth-only").addClass("on-hidden");
                 $(container).find(".on-auth-only").removeClass("on-hidden");
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
             // SHOW USERNAME & POINTS
@@ -443,6 +439,7 @@ $(function () {
             $(container).find(".on-dropdown-my-profile").attr("href", "");
 
             if (result.me) {
+                $(container).find(".on-noauth-only").addClass("on-hidden");
                 $(container).find(".on-auth-only").removeClass("on-hidden");
                 $(container).find(".on-cm-my-creds").text(result.me.creds + "");
                 $(container).find(".on-cm-my-notifications").text(result.me.notifycount + "");
@@ -455,6 +452,7 @@ $(function () {
                 $(container).find(".on-welcome-point-tooltip").text(result.me.pointsdesc + "");
             } else {
                 $(container).find(".on-auth-only").addClass("on-hidden");
+                $(container).find(".on-noauth-only").removeClass("on-hidden");
             }
 
 
@@ -464,8 +462,7 @@ $(function () {
             } else {
                 excludedURL(function (data, limitedAccess) {
                     if (data == "true" && limitedAccess) {
-                        // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
+                        $(container).find(".on-tab").removeClass("on-active");
                         showView(VIEW_LIST.NEWSTRITION);
                         isIndexed = false;
                         isExcluded = true;
@@ -475,7 +472,7 @@ $(function () {
 
                     } else if (data == "true" && !limitedAccess) {
                         // Show excluded view
-                        $(container).find(".on-nav-item").removeClass("on-active");
+                        $(container).find(".on-tab").removeClass("on-active");
                         showView(VIEW_LIST.EXCLUDED);
                         isIndexed = false;
                         isExcluded = true;
@@ -501,10 +498,69 @@ $(function () {
                     isIndexed = true;
                 }
 
-                // Mandatory show Newstrition
+                // Mandatory show Summary
                 if ((!$(container).find("#on-loading-view").hasClass("on-hidden")) ||
                     (!$(container).find("#on-url-excluded").hasClass("on-hidden"))) {
-                    showView(VIEW_LIST.NEWSTRITION);
+                    if (isIndexed) {
+                        showView(VIEW_LIST.SUMMARY);
+                    } else {
+                        showView(VIEW_LIST.NEWSTRITION);
+                        $(container).find(".on-article-preview").addClass("on-hidden");
+                        $(container).find(".on-article-preview-add-article").removeClass("on-hidden");
+                    }
+                }
+
+                // Summary page - Question & Answers
+                if (result.questions && result.questions.length) {
+                    var currentResult = result.questions;
+                    var previousResult = $(container).find("#on-qa").data("result");
+                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
+                        $(container).find("#on-qa").data("result", result.questions);
+                        $(container).find("#on-qa").removeClass("on-hidden");
+
+                        var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
+                        // Remove all questions
+                        $(container).find("#on-qa .on-qa-card").remove();
+                        var nid = result.meta.nid;
+
+                        var answers = [];
+                        if (result.mine.answers.length) {
+                            answers = result.mine.answers;
+                        }
+
+                        $.each(result.questions, function (i, e) {
+                            qCard.removeClass("on-active");
+                            qCard.find(".on-qa-question").text(e.question);
+                            var choice = qCard.find(".on-qa-option").eq(0).clone();
+                            qCard.find(".on-qa-option").remove();
+
+                            $.each(e.choices, function (inneri, innere) {
+                                choice.removeClass("on-active");
+                                choice.text(innere.choice);
+                                choice.data("id", innere.id);
+                                choice.data("nid", nid);
+                                if (answers.indexOf(innere.id) != -1) {
+                                    choice.addClass("on-active");
+                                }
+                                qCard.find(".on-qa-option-container").append(choice);
+                                //reset
+                                choice = qCard.find(".on-qa-option").eq(0).clone();
+                            });
+
+                            var answer = e.answers[0];
+                            var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
+                            qCard.find(".on-qa-result-summary").text(qsummary);
+
+                            // Append this question
+                            if (i == 0) {
+                                qCard.addClass("on-active");
+                            }
+                            $(container).find("#on-qa .on-qa-card-container").append(qCard);
+                            qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
+                        });
+                    }
+                } else {
+                    $(container).find("#on-qa").addClass("on-hidden");
                 }
 
                 // Newstrition
@@ -512,6 +568,7 @@ $(function () {
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
                 if (result.newstrition && result.newstrition.name) {
+                    $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
                     if (result.newstrition.image) {
                         $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
                         $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
@@ -525,6 +582,14 @@ $(function () {
                     } else {
                         $(container).find(".on-newstrition-est").addClass("on-hidden");
                     }
+
+                    // Summary view
+                    if (result.newstrition.pid) {
+                        $(container).find(".on-summary-newstrition-verified-link").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
+                    } else {
+                        $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
+                    }
+                    $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
 
                     // TODO
                     $(container).find(".on-newstrition-verified").text(result.newstrition.verified);
@@ -566,6 +631,11 @@ $(function () {
                     // no publisher data
                     $(container).find(".on-newstrition-hide-on-na").addClass("on-hidden");
                     $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
+
+                    // Summary view
+                    $(container).find(".on-summary-newstrition-publisher").text("-");
+                    $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
+                    $(container).find(".on-summary-newstrition-verified").text("-");
                 }
 
                 // Quick Rate
@@ -621,6 +691,21 @@ $(function () {
 
                     $(container).find(".onarm-author").text(result.meta.author);
                     $(container).find(".onarm-auth-link").attr("href", "https://our.news/a/?aid=" + result.meta.aid);
+
+                    if (result.meta.authors.length) {
+                        $(container).find(".on-summary-author-name").text(result.meta.authors[0].name);
+                        $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
+
+                        if (result.meta.author[0].verified) {
+                            $(container).find(".on-summary-author-verified").text("Verified");
+                        } else {
+                            $(container).find(".on-summary-author-verified").text("Unverified");
+                        }
+                    } else {
+                        $(container).find(".on-summary-author-name").text("");
+                        $(container).find(".on-summary-author-location").text("");
+                        $(container).find(".on-summary-author-verified").text("");
+                    }
 
                     $(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);
                     $(container).find(".onarm-editor").text(result.meta.editor);
@@ -740,16 +825,14 @@ $(function () {
 
                     // Article Preview
                     if (result.meta.thumb) {
-                        var articlePreview = $(container).find(".on-article-preview").eq(0).clone().removeClass("on-hidden");
-                        $(container).find(".on-article-preview").remove();
-                        $(container).find("#on-quick-rate, #on-fact-check,#on-advanced-ratings").prepend(articlePreview);
+                        $(container).find(".on-article-preview-add-article").addClass("on-hidden");
+                        $(container).find(".on-article-preview").removeClass("on-hidden");
 
-                        $(container).find(".on-article-preview").show();
                         $(container).find(".on-article-preview-thumb").attr("src", result.meta.thumb);
                         var previewTitle = result.meta.title.length > 75 ? result.meta.title.substring(0, 75) + "..." : result.meta.title;
                         $(container).find(".on-article-preview-heading").html(previewTitle);
                     } else {
-                        $(container).find(".on-article-preview").hide();
+                        $(container).find(".on-article-preview").addClass("on-hidden");
                     }
 
                     // Fact Check Top Indicators
@@ -768,115 +851,69 @@ $(function () {
                                 $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
                             }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
+                            $(container).find("#on-top-indicators").append(iitem);
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
                     }
                 }
 
 
-                // Populate Tags
-                if (config.tags) {
-                    if (!$(container).find("#selectOnTags option").length) {
+                // AI Ratings
+                if (result.ratings && result.ratings.ai) {
 
-                        $.each(config.tags, function (i, e) {
-                            $(container).find("#selectOnTags").append("<option value='" + e.type + "'>" + e.displaytext + "</option>");
-                        });
+                    var ai_labels = result.ratings.ai_labels;
+                    var sortable = [];
+                    for (var ai in result.ratings.ai) {
+                        sortable.push([ai, result.ratings.ai[ai]]);
                     }
+                    sortable.sort(function (a, b) {
+                        return parseFloat(b[1]) - parseFloat(a[1]);
+                    });
+
+                    var label1 = ai_labels[sortable[0][0]];
+                    var label2 = ai_labels[sortable[1][0]];
+                    sortable[0][0] = sortable[0][0].charAt(0).toUpperCase() + sortable[0][0].slice(1);
+                    sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
+                    $(container).find(".on-summary-ai-ratings-label").html(sortable[0][0] + "<br>" + sortable[1][0]);
+
+                    sortable[0][1] = "[" + (parseFloat(sortable[0][1]) * 100) + "%]";
+                    sortable[1][1] = "[" + (parseFloat(sortable[1][1]) * 100) + "%]";
+                    $(container).find(".on-summary-ai-ratings-value").html(label1 + " " + sortable[0][1] + "<br>" + label2 + " " + sortable[1][1]);
+
+                } else {
+                    $(container).find(".on-summary-ai-ratings-label").text("-");
+                    $(container).find(".on-summary-ai-ratings-value").text("-");
                 }
 
 
                 // Advanced Ratings
-                var advancedRatings = $(container).find("#on-advanced-ratings");
-
-                advancedRatings.find(".onar-spin .onar-spin-range").val(50);
-                advancedRatings.find(".onar-spin .onar-spin-yours").text("NA");
-                advancedRatings.find(".onar-political .onar-political-left").text("None");
-
-                advancedRatings.find(".onar-trust .onar-trust-range").val(50);
-                advancedRatings.find(".onar-trust .onar-trust-yours").text("NA");
-
-                advancedRatings.find(".onar-accuracy .onar-accuracy-range").val(50);
-                advancedRatings.find(".onar-accuracy .onar-accuracy-yours").text("NA");
-
-                advancedRatings.find(".onar-relevance .onar-accuracy-range").val(50);
-                advancedRatings.find(".onar-relevance .onar-accuracy-yours").text("NA");
-
-                advancedRatings.find(".on-you-rated").addClass("on-hidden");
-                advancedRatings.find(".on-you-rated-date").text("");
-
-
-                if (result.mine && result.mine.ratings.length) {
-
-                    $.each(result.mine.ratings, function (i, e) {
-
-                        if (e.spin) {
-                            var spinInt = parseInt(parseFloat(e.spin) * 100);
-                            var spinLabel = "Left";
-                            var spinInPercent = 0;
-
-                            if (spinInt < 0) {
-                                spinLabel = "Left";
-                                spinInPercent = (100 - Math.abs(spinInt)) / 2;
-
-                            } else if (spinInt > 0) {
-                                spinLabel = "Right";
-                                spinInPercent = (100 + Math.abs(spinInt)) / 2;
-                            }
-
-                            advancedRatings.find(".onar-spin .onar-spin-range").val(Math.abs(spinInPercent));
-                            advancedRatings.find(".onar-spin .onar-spin-yours").text(Math.abs(spinInt) + "%");
-                            advancedRatings.find(".onar-political .onar-political-left").text(spinLabel);
-
-                        } else if (e.trust) {
-                            advancedRatings.find(".onar-trust .onar-trust-range").val(parseInt(e.trust));
-                            advancedRatings.find(".onar-trust .onar-trust-yours").text(e.trust + "%");
-
-                        } else if (e.accuracy) {
-                            advancedRatings.find(".onar-accuracy .onar-accuracy-range").val(parseInt(e.accuracy));
-                            advancedRatings.find(".onar-accuracy .onar-accuracy-yours").text(e.accuracy + "%");
-
-                        } else if (e.relevance) {
-                            $(container).find("#selectOnTags").val(e.relevance.toUpperCase());
-                            //advancedRatings.find(".onar-relevance .onar-accuracy-range").val(parseInt(e.relevance));
-                            //advancedRatings.find(".onar-relevance .onar-accuracy-yours").text(e.relevance + "%");
-
-                        } else if (e.date) {
-                            var ddd = new Date(e.date);
-                            var formatDate = ('0' + (ddd.getMonth() + 1)).slice(-2) + "/" + ('0' + ddd.getDate()).slice(-2) + "/" + ddd.getFullYear();
-                            advancedRatings.find(".on-you-rated-date").text(formatDate);
-                            advancedRatings.find(".on-you-rated").removeClass("on-hidden");
-                        }
-
-                    });
-
-                }
+                var summaryRatings = $(container).find(".on-summary-ac");
+                summaryRatings.find(".on-summary-spin").text("NA");
+                summaryRatings.find(".on-summary-trust").text("NA");
+                summaryRatings.find(".on-summary-accuracy").text("NA");
+                summaryRatings.find(".on-summary-relevance").text("NA");
 
                 if (result.ratings && result.ratings.ratings) {
                     $(".on-ratings-total").text(result.ratings.ratings.total);
+                    $(".on-summary-total-ratings").text(result.ratings.ratings.total);
 
                     // TOTAL SETTINGS
-                    if (result.ratings.ratings.spin == "None") {
-                        advancedRatings.find(".onar-political .onar-political-right").text("None");
-                    } else {
-                        advancedRatings.find(".onar-political .onar-political-right").text(result.ratings.ratings.spin);
-                    }
-
                     if (result.ratings.ratings.spinvalue == 0) {
-                        advancedRatings.find(".onar-spin .onar-spin-totals").text("NA");
+                        summaryRatings.find(".on-summary-spin").text("NA");
                     } else {
-                        advancedRatings.find(".onar-spin .onar-spin-totals").text(Math.round(result.ratings.ratings.spinvalue) + "%");
+                        summaryRatings.find(".on-summary-spin").text(result.ratings.ratings.spin + " [" + Math.round(result.ratings.ratings.spinvalue) + "%]");
                     }
 
                     if (result.ratings.ratings.trust == 0) {
-                        advancedRatings.find(".onar-trust .onar-trust-totals").text("NA");
+                        summaryRatings.find(".on-summary-trust").text("NA");
                     } else {
-                        advancedRatings.find(".onar-trust .onar-trust-totals").text(Math.round(result.ratings.ratings.trust) + "%");
+                        summaryRatings.find(".on-summary-trust").text(Math.round(result.ratings.ratings.trust) + "%");
                     }
 
                     if (result.ratings.ratings.accuracy == 0) {
-                        advancedRatings.find(".onar-accuracy .onar-accuracy-totals").text("NA");
+                        summaryRatings.find(".on-summary-accuracy").text("NA");
                     } else {
-                        advancedRatings.find(".onar-accuracy .onar-accuracy-totals").text(Math.round(result.ratings.ratings.accuracy) + "%");
+                        summaryRatings.find(".on-summary-accuracy").text(Math.round(result.ratings.ratings.accuracy) + "%");
                     }
                 }
 
@@ -885,43 +922,21 @@ $(function () {
                     var qualityRate = Math.round(result.ratings.ratings.quality);
 
                     if (qualityRate == 0) {
-                        $(container).find(".on-score").text("NA");
+                        $(container).find(".on-summary-total-score").text("NA");
                     } else {
-                        $(container).find(".on-score").text(qualityRate + "%");
+                        $(container).find(".on-summary-total-score").text(qualityRate + "%");
                     }
                 } else {
-                    $(container).find(".on-score").text("NA");
+                    $(container).find(".on-summary-total-score").text("NA");
                 }
                 // RATINGS END
 
-
-                // Raters
-                $(container).find(".on-ratings-top-raters").empty();
-                $(container).find(".on-ratings-top-raters-label").removeClass("on-hidden");
-                $(container).find(".on-ratings-login-view").addClass("on-hidden");
-
-
-                if (result.raters && result.raters.length) {
-                    $.each(result.raters, function (i, e) {
-                        $(".on-ratings-top-raters").append("<a target='_blank' href='" + e.userlink + "' class='on-tag'>" + e.nicename + " <span class='on-point'>" + e.totalpoints + "</span>" + "</a>");
-                    });
-                } else {
-
-                    // If not authorized, show login hyperlink
-                    if (!config.isUserLoggedIn) {
-                        $(container).find(".on-ratings-login-view").removeClass("on-hidden");
-                        $(container).find(".on-ratings-top-raters-label").addClass("on-hidden");
-                    }
-                }
-
                 // Relevance Tags
-                if (result.ratings && result.ratings.rating) {
-                    $(container).find(".on-ratings-relevance-tags").empty();
-                    if (result.ratings.ratings.relevance && result.ratings.ratings.relevancevalue) {
-                        $(container).find(".on-ratings-relevance-tags").append("<span class='on-tag'>" +
-                            result.ratings.ratings.relevance + "<span class='on-point'>" +
-                            Math.round(result.ratings.ratings.relevancevalue) + "%</span></span>").show();
-                    }
+                if (result.ratings && result.ratings.ratings && result.ratings.ratings.relevancevalue) {
+                    var relevancevalue = parseInt(result.ratings.ratings.relevancevalue);
+                    summaryRatings.find(".on-summary-relevance").text(result.ratings.ratings.relevance + " [" + Math.round(relevancevalue) + "%]")
+                } else {
+                    summaryRatings.find(".on-summary-relevance").text("NA");
                 }
 
                 if (result.quality) {
@@ -939,6 +954,41 @@ $(function () {
 
             // Return if already registered
             if (isAppEventsRegistered) return;
+
+            $(document.body).delegate(".on-qa-option", "click", function (e) {
+                e.preventDefault();
+                var that = this;
+                authenticated(function () {
+                    var choicetype = $(that).data("id");
+                    var nid = $(that).data("nid");
+
+                    $(that).parent().children().removeClass("on-active");
+                    $(that).addClass("on-active");
+                    sendRequest({
+                        action: "questionanswer",
+                        value: {
+                            "choicetype": choicetype,
+                            "quicknid": nid,
+                        }
+                    }, function () {
+                    });
+                    $(that).closest(".on-qa-card").find(".on-qa-skip").click();
+                });
+            });
+
+            $(document.body).delegate(".on-qa-skip", "click", function (e) {
+                e.preventDefault();
+                var qaCard = $(this).closest(".on-qa-card");
+                qaCard.removeClass("on-active");
+                var currentIndex = qaCard.index();
+                var totalCards = $(this).closest(".on-qa-card-container").find(".on-qa-card").length;
+                if (currentIndex == totalCards - 1) {
+                    $(this).closest("#on-qa").find(".on-qa-thankyou").removeClass("on-hidden");
+                } else {
+                    $(this).closest(".on-qa-card-container").find(".on-qa-card").eq(currentIndex + 1).addClass("on-active");
+                }
+
+            });
 
             $(document.body).delegate(".on-dropdown-facebook,.on-dropdown-twitter", "click", function (e) {
                 var t = e.target;
@@ -960,7 +1010,7 @@ $(function () {
 
             $(document.body).delegate("#on-container .on-dropdown-share", "click", function (e) {
 
-                $(container).find(".on-nav-item .dropdown").removeClass("is-active");
+                $(container).find("#on-hamburger .dropdown").removeClass("is-active");
                 $(container).find("#on-popup-share-link").show();
                 e.stopPropagation();
                 e.preventDefault();
@@ -978,14 +1028,14 @@ $(function () {
                 });
             });
 
-            $(document.body).delegate("#on-container .on-nav-item .dropdown", "click", function (e) {
+            $(document.body).delegate("#on-container #on-hamburger .dropdown", "click", function (e) {
 
                 if (!isExcluded && ($(e.target).is("img") || !$(e.target).hasClass("dropdown-item"))) {
 
-                    if ($(".on-nav-item .dropdown").hasClass("is-active")) {
-                        $(".on-nav-item .dropdown").removeClass("is-active");
+                    if ($("#on-hamburger .dropdown").hasClass("is-active")) {
+                        $("#on-hamburger .dropdown").removeClass("is-active");
                     } else {
-                        $(".on-nav-item .dropdown").addClass("is-active");
+                        $("#on-hamburger .dropdown").addClass("is-active");
                     }
 
                     e.stopPropagation();
@@ -995,7 +1045,7 @@ $(function () {
             });
 
             $(document.body).click(function (e) {
-                $(".on-nav-item .dropdown").removeClass("is-active");
+                $("#on-hamburger .dropdown").removeClass("is-active");
                 if ($(e.target).attr("id") != "on-popup-share-link") {
                     $(container).find("#on-popup-share-link").hide();
                 }
@@ -1166,121 +1216,6 @@ $(function () {
                 return false;
             });
 
-
-            $(container).find('[type="range"]').on("input", function (e) {
-
-                var that = this;
-                authenticated(function () {
-
-                    if ($(e.target).closest("tr").hasClass("onar-spin")) {
-
-                        var val = $(e.target).val();
-
-                        if (val < 50) {
-                            $(".onar-spin .onar-spin-yours").text(100 - (val * 2) + "%");
-                        } else if (val > 50) {
-                            $(".onar-spin .onar-spin-yours").text(((val * 2) - 100) + "%");
-                        } else {
-                            $(".onar-spin .onar-spin-yours").text("NA");
-                        }
-
-                        if ($(e.target).val() < 50) {
-                            $(e.target).closest("tr").next().find(".onar-political-left").text("Left");
-                        } else {
-                            $(e.target).closest("tr").next().find(".onar-political-left").text("Right");
-                        }
-                    } else {
-
-                        $(e.target).closest("tr").find(".onar-yours").text($(e.target).val() + "%");
-                    }
-                });
-
-                return false;
-
-            });
-
-            $(container).find('[type="range"]').on("change", function (e) {
-
-                var that = this;
-
-                authenticated(function () {
-                    // POST TO BACKEND
-                    var ratingType = $(that).data("value");
-                    var rating = $(that).val();
-                    var value = "";
-
-                    switch (ratingType) {
-                        case "SPIN":
-
-                            var finalValue = rating;
-
-                            if (finalValue < 50) {
-
-                                finalValue = (100 - (finalValue * 2));
-                                finalValue = -(finalValue / 100);
-
-                            } else if (finalValue > 50) {
-
-                                finalValue = ((finalValue * 2) - 100);
-                                finalValue = finalValue / 100;
-                            }
-
-                            value = {
-                                multibarurl: urlDetails.location,
-                                spin: finalValue
-                            }
-                            break;
-                        case "TRUST":
-                            value = {
-                                multibarurl: urlDetails.location,
-                                trust: rating
-                            }
-                            break;
-                        case "ACCURACY":
-                            value = {
-                                multibarurl: urlDetails.location,
-                                accuracy: rating
-                            }
-                            break;
-                    }
-
-                    showLoader();
-                    sendRequest({
-                        action: "post",
-                        key: "Ratings",
-                        value: value
-                    }, refreshPopup);
-
-                });
-
-                return false;
-
-            });
-
-            // Tags
-            $(container).find(".btnSelectOnTags").on("click", function () {
-
-                var that = this;
-
-                authenticated(function () {
-                    var selectedVal = $(container).find("#selectOnTags").val()
-                    var value = {
-                        multibarurl: urlDetails.location,
-                        relevance: selectedVal
-                    };
-
-                    showLoader();
-                    sendRequest({
-                        action: "post",
-                        key: "Ratings",
-                        value: value
-                    }, refreshPopup);
-                });
-
-                return false;
-            });
-
-
             // Add article source
             $(document.body).delegate("#btnOnAddSource", "click", function () {
 
@@ -1393,16 +1328,6 @@ $(function () {
 
     });
 
-    $(document.body).delegate(".on-ratings-login-view a", "click", function () {
-
-        authenticated(function () {
-            showView(VIEW_LIST.ADVANCEDRATINGS);
-
-            refreshPopup();
-        });
-
-    });
-
 
     // ADD URL TO DB
     $(document.body).delegate("#btnOnAddURLIndexing", "click", function () {
@@ -1427,7 +1352,7 @@ $(function () {
                 value: value
             }, function () {
                 hideLoader();
-                showView(VIEW_LIST.FACTCHECK);
+                showView(VIEW_LIST.SUMMARY);
                 refreshPopup();
 
             });

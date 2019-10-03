@@ -12,6 +12,9 @@
                         </div>
                     </div>
                     <div class="column has-text-centered">
+                        <div class="on-welcome on-noauth-only on-hidden">
+                            Please Login or Register to access all features.
+                        </div>
                         <div class="on-welcome on-auth-only on-hidden" style="position:relative;white-space:nowrap;">
                             Hi,
                             <a href="" target="_blank">
@@ -29,62 +32,39 @@
 				</span>
                             <span class="on-welcome-notifs-tooltip on-tooltiptext-notifs"
                                   style="text-align:right !important;top:30px !important;left 5px!important;white-space:pre-wrap!important;"></span>
-
                         </div>
-                    </div>
-                    <div class="column" style="text-align:right;position: relative;bottom: -5px;">
-                        <!-- logo -->
-                        <img style="width:100px;" src="images/unnamed.png"/>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="on-nav" class="columns">
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-newstrition">
-                    <img src="images/icons/newstrition.png"/>
-                    <div>
-                        <span>Newstrition</span>
-                    </div>
-                </a>
+
+        <div id="on-top-preview-with-menu" style="position: relative;min-height: 54px;">
+            <div class="on-article-preview-add-article on-hidden"
+                 style="padding:10px 0 10px 15px !important;width:93% !important;">
+                <div style="font-weight: bold;">
+                    This article has not yet been indexed in our database. Would you like to add it?
+                    <a href="#" id="btnOnAddURLPreview"
+                       style="padding:2px !important;"
+                       class="is-link">Add
+                        Article</a>
+                </div>
             </div>
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-fact-check">
-                    <img src="images/icons/fact.check.icon.png"/>
-                    <div>
-                        <span>Fact-Check</span>
-                    </div>
-                </a>
+
+            <div class="on-article-preview on-hidden" style="width:93% !important;">
+                <div style="width:25%;text-align:center;">
+                    <img width="65px" class="on-article-preview-thumb" src=""/>
+                </div>
+                <div class="on-article-preview-heading" style="padding:5px!important;font-weight: bold;">
+                </div>
             </div>
-            <div class="on-nav-item column has-text-centered">
-                <a href="#" data-target-container="on-quick-rate">
-                    <img src="images/icons/thumbs.up.png"/>
-                    <div>
-                        <span>Quick Rate</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered on-tooltip">
-                <span class="on-tooltiptext on-quality-score-description" style="text-align:left !important;">
-                </span>
-                <a href="#" data-target-container="on-advanced-ratings">
-                    <span class="on-score">
-                        NA
-                    </span>
-                    <div>
-                        <span>Ratings</span>
-                    </div>
-                </a>
-            </div>
-            <div class="on-nav-item column has-text-centered no-effects"
-                 style="flex:0 !important;padding:0 !important;position:relative;right:10px;">
+            <div id="on-hamburger" style="position: absolute;right: 0;top: 8px;padding:5px;">
                 <div class="dropdown is-right">
                     <div class="dropdown-trigger">
                         <a href="#" style="display:inline-block;padding:2px;padding-right:8px;">
                             <img src="images/icons/triple.dot.icon.png"/>
                         </a>
                     </div>
-                    <div class="dropdown-menu" id="dropdown-menu4">
+                    <div class="dropdown-menu" id="dropdown-menu4" style="left: -160px;">
                         <div class="dropdown-content">
                             <a href="https://our.news/login/" target="_blank"
                                class="dropdown-item on-dropdown-login on-noauth-only on-hidden">
@@ -127,14 +107,223 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <div id="on-qa" class="on-hidden">
+            <div class="on-qa-card-container">
+                <div class="on-qa-card">
+                    <div style="font-size: 12px;position: absolute;right: 5px;top:-5px;text-align: right;">
+                        <a href="#" class="on-qa-skip">Skip</a>
+                    </div>
+                    <div class="on-qa-question" style="width:90%;">
+                        Is this article accurately reported?
+                    </div>
+                    <div class="on-qa-option-container">
+                        <span class="on-qa-option" data-id="" data-nid=""></span>
+                    </div>
+                    <div style="color:#888;">
+                        <strong>Results: </strong>
+                        <span class="on-qa-result-summary"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="on-qa-thankyou on-hidden">
+                <div style="text-align: center !important;font-weight: bold;color: #fe6313">
+                    Thank you for your feedback!
+                </div>
+            </div>
+        </div>
+
+        <div class="on-tab-container">
+            <span class="on-tab first" data-target-container="on-summary">
+                Summary
+            </span>
+            <span class="on-tab" data-target-container="on-newstrition">
+                Newstrition
+            </span>
+            <span class="on-tab" data-target-container="on-fact-check">
+                Fact-Check
+            </span>
+            <span class="on-tab last" data-target-container="on-quick-rate">
+                Ratings
+            </span>
+        </div>
+    </div>
 
     <div id="on-content">
         <div id="on-loading-view" class="on-target-container">
             <div style="padding:20px;text-align:center;">
                 <img style="width:100px;" src="images/lg.dual-ring-loader.gif"/>
             </div>
+        </div>
+
+        <!-- Summary -->
+        <div id="on-summary" class="on-target-container on-hidden" style="padding-top: 10px;">
+            <div style="font-size: 32px;font-weight: bold;line-height: 1;">
+                Nutrition Facts
+            </div>
+            <div>
+                <strong>
+                    Date published: <span class="onarm-date"></span>
+                </strong>
+            </div>
+            <div style="border-bottom: 5px solid #444"></div>
+            <div>
+                <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                    <tr>
+                        <td style="width:30%">
+                            <strong>Publisher</strong>
+                        </td>
+                        <td>
+                            <div class="on-summary-newstrition-publisher"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" style="vertical-align: middle !important;">
+                            <a href="" target="_blank" class="on-newstrition-logo-link">
+                                <img style="width:80px;max-width: 100%;" class="on-newstrition-logo"
+                                     src="images/lg.dual-ring-loader.gif"/>
+                            </a>
+                        </td>
+                        <td>
+                            <div class="on-newstrition-hqlocation"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Newstrition Status:
+                        </td>
+                        <td style="text-align: right !important;">
+                            <a class="on-summary-newstrition-verified-link" href="#" target="_blank">
+                                <span class="on-summary-newstrition-verified"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            AllSides Bias Rating:
+                        </td>
+                        <td style="text-align: right !important;">
+                            <a class="on-newstrition-allsides"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="border-bottom: 1px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>Author</strong>
+                    </td>
+                    <td>
+                        <div class="on-summary-author-name"></div>
+                        <div class="on-summary-author-location"></div>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        Newstrition Status:
+                    </td>
+                    <td style="text-align: right !important;">
+                        <span class="on-summary-author-verified" style="font-weight: bold;"></span>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 5px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>Fact-Checks</strong>
+                    </td>
+                    <td>
+                        <div class="on-top-indicators on-hidden" id="on-top-indicators">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 3px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0"
+                   class="on-summary-ac">
+                <tr>
+                    <td rowspan="6" style="width:30%">
+                        <strong>User Ratings</strong>
+                    </td>
+                    <td>
+                        Spin
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-spin"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Trust
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-trust"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Accuracy
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-accuracy"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Relevance
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-relevance"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Score:
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-total-score"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Ratings:
+                    </td>
+                    <td style="text-align: right !important;">
+                        <strong>
+                            <span class="on-summary-total-ratings"></span>
+                        </strong>
+                    </td>
+                </tr>
+            </table>
+            <div style="border-bottom: 1px solid #444"></div>
+            <table style="border-collapse: collapse;width:100%;margin: 5px 0 !important;" border="0">
+                <tr>
+                    <td rowspan="2" style="width:30%">
+                        <strong>AI Ratings:</strong>
+                    </td>
+                    <td>
+                        <div class="on-summary-ai-ratings-label">
+                        </div>
+                    </td>
+                    <td style="text-align: right !important;">
+                        <div class="on-summary-ai-ratings-value">
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- Newstrition -->
@@ -247,22 +436,10 @@
                     NewseumED: What makes a source trustworthy?
                 </a>
             </div>
-            <div style="padding:10px;background-color:white !important;">
-                <div class="level">
-                    <div class="level-left">
-                        Powered by&nbsp;<a target="_blank" href="https://our.news">Our.News&reg;</a>
-                    </div>
-                    <div class="level-right">
-                        <a href="https://our.news/browsers/" target="_blank">
-                            <img style="width:40px;" src="images/our.news_.logo_.square.margin.png"/>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Fact Check Information -->
-        <div id="on-fact-check" class="on-target-container on-hidden">
+        <div id="on-fact-check" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Fact Check Information
             </div>
@@ -321,15 +498,19 @@
                 <h3>
                     Top Indicators
                 </h3>
-                <div class="on-top-indicators-item-template on-hidden">
-                    <span class="on-top-indicators-name">
-                    </span>
-                    <strong>
-                        <a target="_blank" href="" class="on-top-indicators-score">
-                            <span></span>
-                        </a>
-                    </strong>
-                    <span class="on-top-indicators-confidence"></span>
+                <div class="on-top-indicators-item-template on-hidden" style="clear: both;">
+                    <div style="display: inline-block;width:40%;text-align: left;float: left">
+                        <span class="on-top-indicators-name">
+                        </span>
+                    </div>
+                    <div style="display: inline-block;width:60%;text-align: right;float: right">
+                        <strong>
+                            <a target="_blank" href="" class="on-top-indicators-score">
+                                <span></span>
+                            </a>
+                        </strong>
+                        <span class="on-top-indicators-confidence"></span>
+                    </div>
                 </div>
             </div>
             <br/>
@@ -378,7 +559,7 @@
         </div>
 
         <!-- Quick Rate -->
-        <div id="on-quick-rate" class="on-target-container on-hidden">
+        <div id="on-quick-rate" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Quick Rate
             </div>
@@ -482,7 +663,7 @@
 
 
         <!-- ADD SOURCE MODAL -->
-        <div id="on-add-source-modal" class="on-target-container on-hidden">
+        <div id="on-add-source-modal" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 Add Source URL
             </div>
@@ -503,271 +684,8 @@
         </div>
 
 
-        <!-- Advanced Ratings -->
-        <div id="on-advanced-ratings" class="on-target-container on-hidden">
-            <div class="on-title">
-                Ratings
-            </div>
-
-            <div class="on-your-total">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th class="on-heading">
-                            Yours
-                            <br/>
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                        <th class="on-heading has-text-right">
-                            Totals
-                            <br/>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- SPIN -->
-                    <tr class="onar-spin">
-                        <td class="has-text-left">
-                            <h3>
-                                Spin
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-spin-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="SPIN" class="onar-spin-range" type="range" min="1" max="100" step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-spin-totals has-text-weight-bold" style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-                    <tr class="onar-political">
-                        <td class="has-text-left">
-                            Political
-                        </td>
-                        <td>
-                                <span class="onar-political-left">
-                                    None
-                                </span>
-                        </td>
-                        <td></td>
-                        <td class="has-text-right">
-                                <span class="onar-political-right">
-                                    None
-                                </span>
-                        </td>
-                    </tr>
-
-                    <tr style="line-height:6px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-
-                    <!-- Trust -->
-                    <tr class="onar-trust">
-                        <td class="has-text-left">
-                            <h3>
-                                Trust
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-trust-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="TRUST" class="onar-trust-range" type="range" min="1" max="100" step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-trust-totals has-text-weight-bold"
-                                      style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-
-                    <tr style="line-height:12px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-
-                    <!--<tr class="onar-author">
-                        <td>
-                            Author
-                        </td>
-                        <td>
-                            <span class="onar-author-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-author-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <!--<tr class="onar-publisher">
-                        <td>
-                            Publisher
-                            <br /><br /><br />
-                        </td>
-                        <td>
-                            <span class="onar-publisher-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-publisher-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-
-
-                    <tr class="onar-accuracy">
-                        <td class="has-text-left">
-                            <h3>
-                                Accuracy
-                            </h3>
-                        </td>
-                        <td>
-                                <span class="onar-yours onar-accuracy-yours has-text-weight-bold">
-                                    NA
-                                </span>
-                        </td>
-                        <td>
-                            <input data-value="ACCURACY" class="onar-accuracy-range" type="range" min="1" max="100"
-                                   step="1"/>
-                        </td>
-                        <td class="has-text-right">
-                                <span class="onar-accuracy-totals has-text-weight-bold"
-                                      style="font-weight:bold!important;">
-                                    NA
-                                </span>
-                        </td>
-                    </tr>
-
-                    <!--<tr class="onar-reporting">
-                        <td>
-                            Reporting
-                        </td>
-                        <td>
-                            <span class="onar-reporting-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-reporting-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <!--<tr class="onar-claims">
-                        <td>
-                            Claims
-                        </td>
-                        <td>
-                            <span class="onar-claims-yours">
-                                0%
-                            </span>
-                        </td>
-                        <td>
-                            <input type="range" min="0" max="100" />
-                        </td>
-                        <td>
-                            <span class="onar-claims-totals">
-                                0%
-                            </span>
-                        </td>
-                    </tr>-->
-                    <tr style="line-height:14px!important">
-                        <td>&nbsp;</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="on-ratings-tags">
-                    <div class="level is-marginless" style="align-items: flex-start !important;">
-                        <div class="level-left">
-                            <h3 style="display:inline-block!important;">
-                                Relevance
-                            </h3>
-                            <div class="on-ratings-relevance-tags" style="padding-bottom:5px;display:none;">
-                            </div>
-                            <select style="display:inline-block !important;margin-left:98px !important; vertical-align:top!important;
-                            border-color:#ccc!important;padding:6px !important;width:120px !important;border-radius:3px;"
-                                    id="selectOnTags"></select>
-                            <span style="display:inline-block !important; float:right!important; text-align:right!important;"
-                                  id="OurUnderLine">
- 				<a class="btnSelectOnTags" style="padding:4px 6px;width:24% !important;border-radius:3px;color:black !important;
-                             border:1px solid #ccc;background-color:#eee!important;margin-right:1px!important;margin-left:5px!important;">
-                             Rate
-                         </a></span>
-                        </div>
-                    </div>
-
-                    <!--
-                                        <div style="margin-top:5px !important;">
-                                            <select style="display:inline-block !important;
-                                                border-color:#ccc;
-                                                padding:6px !important;width:85% !important;border-radius:3px;"
-                                                    id="selectOnTags"></select>
-                                            <a class="btnSelectOnTags" style="padding:6px 10px;width:24% !important;border-radius:3px;color:black !important;
-                                                border:1px solid #ccc;background-color:#eee;">
-                                                Tag
-                                            </a>
-
-                                        </div>
-                    -->
-
-                </div>
-            </div>
-            <br/>
-            <div class="on-ratings-relevance">
-                <div class="level is-marginless">
-                    <div class="level-left">
-                        <h3 class="on-ratings-top-raters-label">Top Raters</h3>
-                        <div class="on-ratings-login-view on-hidden">
-                            <a href="#">Login to see Raters</a>
-                        </div>
-                    </div>
-                    <div class="level-right">
-                        <h3>
-                            Total Ratings:
-                            <span class="on-ratings-total">
-                                0
-                            </span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="on-ratings-top-raters" style="margin-top:5px!important;">
-                    <!-- Raters -->
-                </div>
-                <div class="on-you-rated on-hidden" style="text-align:left;padding-top:5px;">
-                    You previously rated this article on <span class="on-you-rated-date"></span>
-                </div>
-            </div>
-        </div>
-
         <!-- ADD Domain -->
-        <div id="on-add-article" class="on-target-container on-hidden">
+        <div id="on-add-article" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 URL not yet indexed.
             </div>
@@ -780,7 +698,7 @@
         </div>
 
         <!-- Domain Preview -->
-        <div id="on-domain-preview" class="on-target-container on-hidden">
+        <div id="on-domain-preview" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div class="on-title">
                 URL not yet indexed.
             </div>
@@ -809,7 +727,7 @@
         </div>
 
         <!-- Domain adding wip... -->
-        <div id="on-url-adding-wip" class="on-target-container on-hidden">
+        <div id="on-url-adding-wip" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 class="has-text-centered">
                     Indexing… please wait 3-10 seconds.
@@ -825,7 +743,7 @@
         #ourlink a:hover {
             text-decoration: underline !important;
         } </style>
-        <div id="on-url-excluded" class="on-target-container on-hidden">
+        <div id="on-url-excluded" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 id="ourlink">
                     Oops, this URL is <a href="https://our.news/faq/help-url-not-eligible-indexed/?ffi=0">not
@@ -840,7 +758,7 @@
         </div>
 
         <!-- Error Message -->
-        <div id="on-error-message" class="on-target-container on-hidden">
+        <div id="on-error-message" class="on-target-container on-hidden" style="padding-top: 10px;">
             <div style="padding:10px 0;">
                 <h3 class="has-text-centered">
                     Error: Either invalid URL or server timeout. Please close this popup and try again later.
@@ -851,12 +769,10 @@
 
     <div id="on-popup-share-link"></div>
 
-    <div class="on-article-preview on-hidden">
-        <div style="width:25%;text-align:center;">
-            <img width="65px" class="on-article-preview-thumb" src=""/>
-        </div>
-        <div class="on-article-preview-heading" style="padding:5px!important;">
-        </div>
+    <!-- footer -->
+    <div id="on-footer">
+        <!-- logo -->
+        <img style="width:45px;" src="images/unnamed.png"/>
     </div>
 </div>
 
