@@ -530,7 +530,7 @@ $(function () {
                         var nid = result.meta.nid;
 
                         var answers = [];
-                        if (result.mine.answers.length) {
+                        if (result.mine && result.mine.answers.length) {
                             answers = result.mine.answers;
                         }
 
@@ -545,7 +545,7 @@ $(function () {
                                 choice.text(innere.choice);
                                 choice.data("id", innere.id);
                                 choice.data("nid", nid);
-                                if (answers.indexOf(innere.id) != -1) {
+                                if (answers.length && answers.indexOf(innere.id) != -1) {
                                     choice.addClass("on-active");
                                 }
                                 qCard.find(".on-qa-option-container").append(choice);
