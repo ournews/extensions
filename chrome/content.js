@@ -172,7 +172,7 @@ $(function () {
         } else {
             function showLoginScreen() {
                 $(container).addClass("onhasframe");
-                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='680' style='position:absolute;top:0;left:0;'></iframe>");
+                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='830' style='position:absolute;top:0;left:0;'></iframe>");
                 hideLoader();
                 isInLogin = true;
 
@@ -1004,6 +1004,12 @@ $(function () {
                     }, function () {
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
+                });
+            });
+
+            $(document.body).delegate(".on-welcome.on-noauth-only","click",function (e) {
+                authenticated(function () {
+                    refreshPopup();
                 });
             });
 

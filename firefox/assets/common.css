@@ -646,3 +646,7 @@
 #on-container .on-qa-card.on-active {
     display: block;
 }
+
+.on-welcome.on-noauth-only {
+    cursor: pointer;
+}

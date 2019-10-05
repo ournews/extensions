@@ -690,4 +690,6 @@
     display: block;
 }
 
-
+.on-welcome.on-noauth-only {
+    cursor: pointer;
+}
