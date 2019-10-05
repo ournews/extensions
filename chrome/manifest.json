@@ -3,7 +3,7 @@
 
   "name": "Our.News",
   "description": "Nutrition Labels for News.",
-  "version": "2019.09.30.1",
+  "version": "2019.10.01.1",
 
   "browser_action": {
     "default_icon": "images/logo-32.png"
