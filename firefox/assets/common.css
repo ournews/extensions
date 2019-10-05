@@ -146,11 +146,6 @@
     background: #e4e4e4;
 }
 
-
-.onhasframe {
-    height: 680px !important;
-}
-
 #on-container .button,
 #on-container .button.is-link {
     background-color: #4b0081 !important;
@@ -645,4 +640,8 @@
 
 #on-container .on-qa-card.on-active {
     display: block;
+}
+
+.on-welcome.on-noauth-only {
+    cursor: pointer;
 }

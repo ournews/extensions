@@ -171,7 +171,8 @@ $(function () {
         } else {
             function showLoginScreen() {
                 $(container).addClass("onhasframe");
-                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='680' style='position:absolute;top:0;left:0;'></iframe>");
+                var popupHeight = $(container).height();
+                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
                 hideLoader();
                 isInLogin = true;
 
@@ -194,7 +195,7 @@ $(function () {
             }
 
             function beforeLoginPopup() {
-                var popupHTML = "<div id='beforeLoginPopup' style='position:absolute;left:0;top:0;background-color: rgba(0,0,0,0.6);padding: 20px;height: 100%;'>";
+                var popupHTML = "<div id='beforeLoginPopup' style='position:absolute;left:0;top:0;background-color: rgba(0,0,0,0.6);height: 100%;'>";
                 popupHTML += "<div style='margin: 15px;text-align: center;background-color: white;padding: 15px;'>";
                 popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
                 popupHTML += "<div style='margin:25px 0;'>";
@@ -337,6 +338,11 @@ $(function () {
                 $(document.body).append($html.html());
                 container = $("#on-container");
                 recordEventPopupShow();
+
+                var winHeight = $(window).height();
+                if (winHeight < 800) {
+                    $(container).find("#on-content").css("height", "40vh");
+                }
 
                 if (callback) callback();
             });
@@ -524,7 +530,7 @@ $(function () {
                         var nid = result.meta.nid;
 
                         var answers = [];
-                        if (result.mine.answers.length) {
+                        if (result.mine && result.mine.answers.length) {
                             answers = result.mine.answers;
                         }
 
@@ -539,7 +545,7 @@ $(function () {
                                 choice.text(innere.choice);
                                 choice.data("id", innere.id);
                                 choice.data("nid", nid);
-                                if (answers.indexOf(innere.id) != -1) {
+                                if (answers.length && answers.indexOf(innere.id) != -1) {
                                     choice.addClass("on-active");
                                 }
                                 qCard.find(".on-qa-option-container").append(choice);
@@ -973,6 +979,12 @@ $(function () {
                     }, function () {
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
+                });
+            });
+
+            $(document.body).delegate(".on-welcome.on-noauth-only", "click", function (e) {
+                authenticated(function () {
+                    refreshPopup();
                 });
             });
 
