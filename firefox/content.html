@@ -506,104 +506,73 @@
 
         <!-- Quick Rate -->
         <div id="on-quick-rate" class="on-target-container on-hidden" style="padding-top: 10px;">
-            <div class="on-title">
-                Quick Rate
+            <div class="on-qa-box-title">
+                RATE THIS ARTICLE
             </div>
-            <div class=" on-rate-actions">
-                <div class="columns on-quick-rate-col">
-                    <div class="column">
-                        <a href="#" data-group="group1" data-value="accept" class="onqr-action onqr-accept onqr-active">
-                            <img src="images/icons/accept.button.png"/>
-                            <div>
-                                <span>Accept</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group1" data-value="reject" class="onqr-action onqr-reject">
-                            <img src="images/icons/x.button.png"/>
-                            <div>
-                                <span>Reject</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group2" data-value="biasleft" class="onqr-action onqr-left-bias">
-                            <img src="images/icons/bias.left.button.png"/>
-                            <div>
-                                <span>Left Bias</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group1" data-value="nobias" class="onqr-action onqr-nobias">
-                            <img src="images/icons/no.bias.button.2.png"/>
-                            <div>
-                                <span>No Bias</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group2" data-value="biasright" class="onqr-action onqr-right-bias">
-                            <img src="images/icons/bias.right.button.png"/>
-                            <div>
-                                <span>Right Bias</span>
-                            </div>
-                        </a>
-                    </div>
+            <div class="on-qa-box">
+                <div class="on-qa-box-title">
+                    Spin
                 </div>
-
-
-                <!-- SECOND ROW -->
-                <div class="columns on-quick-rate-col" style="margin-top:15px;">
-                    <div class="column">
-                        <a href="#" data-group="group3" data-value="real" class="onqr-action onqr-real">
-                            <img src="images/icons/real.icon.png"/>
-                            <div>
-                                <span>Real</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group3" data-value="bait" class="onqr-action onqr-clickbait">
-                            <img src="images/icons/bait.icon.png"/>
-                            <div>
-                                <span>Clickbait</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group3" data-value="opinion" class="onqr-action onqr-opinion">
-                            <img src="images/icons/opinion.icon.png"/>
-                            <div>
-                                <span>Opinion</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group3" data-value="satire" class="onqr-action onqr-satire">
-                            <img src="images/icons/satire.icon.png"/>
-                            <div>
-                                <span>Satire</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column">
-                        <a href="#" data-group="group3" data-value="notnews" class="onqr-action onqr-not-news">
-                            <img src="images/icons/not.icon.png"/>
-                            <div>
-                                <span>Not News</span>
-                            </div>
-                        </a>
-                    </div>
+                <div class="on-qa-option-container">
+                    <span class="on-qa-option" data-quicktype="biasleft" data-nid="">Left Bias</span>
+                    <span class="on-qa-option" data-quicktype="biasleanleft" data-nid="">Left Lean Bias</span>
+                    <span class="on-qa-option" data-quicktype="nobias" data-nid="">No Bias</span>
+                    <span class="on-qa-option" data-quicktype="biasleanright" data-nid="">Right Lean Bias</span>
+                    <span class="on-qa-option" data-quicktype="biasright" data-nid="">Right Bias</span>
                 </div>
             </div>
-            <div class="has-text-centered" style="background-color:#eee;padding:3px 0;
-                font-size:13px;border-top:1px solid #111;margin:-15px;margin-top:15px;">
-                <a class="on-bold-hover" href="https://newseumed.org/stack/separating-facts-and-opinions-mlbp/"
-                   target="_blank">
-                    NewseumED: How to tell News -vs- Opinion?
-                </a>
+
+            <div class="on-qa-box">
+                <div class="on-qa-box-title">
+                    Trust
+                </div>
+                <div class="on-qa-option-container">
+                    <span class="on-qa-option on-rounded" data-quicktype="mistrust" data-nid="">0</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="trust2" data-nid="">1</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="trust3" data-nid="">2</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="trust4" data-nid="">3</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="trust" data-nid="">4</span>
+                </div>
+            </div>
+
+            <div class="on-qa-box">
+                <div class="on-qa-box-title">
+                    Accuracy
+                </div>
+                <div class="on-qa-option-container">
+                    <span class="on-qa-option on-rounded" data-quicktype="reject" data-nid="">0</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="accuracy2" data-nid="">1</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="accuracy3" data-nid="">2</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="accuracy4" data-nid="">3</span>
+                    <span class="on-qa-option on-rounded" data-quicktype="accept" data-nid="">4</span>
+                </div>
+            </div>
+
+            <div class="on-qa-box">
+                <div class="on-qa-box-title">
+                    Relevance
+                </div>
+                <div class="on-qa-option-container">
+                    <span class="on-qa-option" data-quicktype="real" data-nid="">#News</span>
+                    <span class="on-qa-option" data-quicktype="opinion" data-nid="">#Opinion</span>
+                    <span class="on-qa-option" data-quicktype="bait" data-nid="">#Clickbait</span>
+                    <span class="on-qa-option" data-quicktype="satire" data-nid="">#Satire</span>
+                    <span class="on-qa-option" data-quicktype="misleading" data-nid="">#Misleading</span>
+                </div>
+            </div>
+
+            <div class="on-qa-box on-auth-only on-hidden" id="on-top-raters">
+                <div class="on-qa-box-title">
+                    Top Raters
+                </div>
+                <div class="on-top-raters-profile">
+                    <div class="on-top-raters-item" data-url="">
+                        <img width="28px" height="28px" style="border-radius: 500px;"
+                             src="" class="on-top-raters-img"/>
+                        <div class="on-top-raters-name"></div>
+                        <div class="on-top-raters-point"></div>
+                    </div>
+                </div>
             </div>
         </div>
 

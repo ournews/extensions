@@ -172,6 +172,7 @@ $(function () {
             function showLoginScreen() {
                 $(container).addClass("onhasframe");
                 var popupHeight = $(container).height();
+                if (popupHeight <= 550) popupHeight = 550;
                 $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
                 hideLoader();
                 isInLogin = true;
@@ -340,7 +341,7 @@ $(function () {
                 recordEventPopupShow();
 
                 var winHeight = $(window).height();
-                if (winHeight < 800) {
+                if (winHeight < 1200) {
                     $(container).find("#on-content").css("height", "40vh");
                 }
 
@@ -645,29 +646,51 @@ $(function () {
                 }
 
                 // Quick Rate
-                $('[data-group="group1"]').removeClass("on-active");
-                $('[data-group="group2"]').removeClass("on-active");
-                $('[data-group="group3"]').removeClass("on-active");
+                if (result.meta.nid) {
+                    $("#on-quick-rate .on-qa-option").data("nid", result.meta.nid);
+                }
 
+                $("#on-quick-rate").find("[data-quicktype]").removeClass("on-active");
                 if (result.mine && result.mine.quicks.length) {
-
                     $.each(result.mine.quicks, function (i, e) {
-
-                        if (e == "accept" || e == "reject") {
-
-                            $('[data-value="' + e + '"]').addClass("on-active");
-
-                        } else if (e == "biasleft" || e == "biasright" || e == "nobias") {
-
-                            $('[data-value="' + e + '"]').addClass("on-active");
-
-                        } else if (e == "real" || e == "bait" || e == "opinion" || e == "satire" || e == "notnews") {
-
-                            $('[data-value="' + e + '"]').addClass("on-active");
-
-                        }
+                        var qaSelected = $("#on-quick-rate").find("[data-quicktype ='" + e + "']");
+                        qaSelected.parent().children().removeClass("on-active");
+                        qaSelected.addClass("on-active");
                     });
                 }
+
+                // Raters
+                if (result.raters && result.raters.length) {
+                    var currentResult = result.raters;
+                    var previousResult = $(container).find("#on-top-raters").data("result");
+
+                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
+
+                        $(container).find("#on-top-raters").data("result", currentResult);
+                        $(container).find("#on-top-raters").removeClass("on-hidden");
+                        var raters = result.raters;
+                        var item = $(container).find("#on-top-raters .on-top-raters-item").eq(0).clone();
+                        $(container).find("#on-top-raters .on-top-raters-item").remove();
+
+                        $.each(raters, function (i, e) {
+                            var nicename = e.nicename;
+                            var profileimage = e.profileimage;
+                            var totalpoints = e.totalpoints;
+                            var userlink = e.userlink;
+
+                            item.find(".on-top-raters-name").text(nicename);
+                            item.find(".on-top-raters-point").text(totalpoints);
+                            item.find(".on-top-raters-img").attr("src", profileimage);
+                            item.data("url", userlink);
+                            $(container).find("#on-top-raters .on-top-raters-profile").append(item);
+                            item = $(container).find("#on-top-raters .on-top-raters-item").eq(0).clone();
+                        });
+                    }
+
+                } else {
+                    $(container).find("#on-top-raters").addClass("on-hidden");
+                }
+
 
                 // Tripple dot menus
                 if (result.meta && result.meta.oururl) {
@@ -961,7 +984,7 @@ $(function () {
             // Return if already registered
             if (isAppEventsRegistered) return;
 
-            $(document.body).delegate(".on-qa-option", "click", function (e) {
+            $(document.body).delegate("#on-qa .on-qa-option", "click", function (e) {
                 e.preventDefault();
                 var that = this;
                 authenticated(function () {
@@ -980,6 +1003,11 @@ $(function () {
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
                 });
+            });
+
+            $(document.body).delegate("#on-top-raters .on-top-raters-item", "click", function () {
+                var url = $(this).data("url");
+                window.open(url, "_blank");
             });
 
             $(document.body).delegate(".on-welcome.on-noauth-only", "click", function (e) {
@@ -1086,26 +1114,24 @@ $(function () {
             });
 
             // Quick ratings
-            $(container).find(".onqr-action").on("click", function (e) {
-
+            $(document.body).delegate("#on-quick-rate .on-qa-option", "click", function (e) {
+                e.preventDefault();
                 var that = this;
-
                 authenticated(function () {
-                    var value = $(that).attr("data-value").toLowerCase();
-                    showLoader();
+                    var choicetype = $(that).data("quicktype");
+                    var nid = $(that).data("nid");
+
+                    $(that).parent().children().removeClass("on-active");
+                    $(that).addClass("on-active");
                     sendRequest({
-                        action: "post",
-                        key: "Quicks",
+                        action: "qrquestionanswer",
                         value: {
-                            quickurl: urlDetails.location,
-                            quicktype: value
+                            "quicktype": choicetype,
+                            "quicknid": nid,
                         }
-                    }, refreshPopup);
-
+                    }, function () {
+                    });
                 });
-
-                return false;
-
             });
 
             // Add Source
