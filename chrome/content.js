@@ -677,7 +677,7 @@ $(function () {
                 }
 
                 // Quick Rate
-                if (result.meta.nid) {
+                if (result.meta && result.meta.nid) {
                     $("#on-quick-rate .on-qa-option").data("nid", result.meta.nid);
                 }
 
@@ -688,6 +688,29 @@ $(function () {
                         qaSelected.parent().children().removeClass("on-active");
                         qaSelected.addClass("on-active");
                     });
+                }
+
+                // Quick rate results
+                if (result.ratings && result.ratings.ratings) {
+                    var spinvalue = result.ratings.ratings.spinvalue;
+                    var spinlabel = result.ratings.ratings.spin;
+                    var trustvalue = result.ratings.ratings.trust;
+                    var trustlabel = result.ratings.ratings.trustlabel;
+                    var accuracyvalue = result.ratings.ratings.accuracy;
+                    var accuracylabel = result.ratings.ratings.accuracylabel;
+                    var relevancevalue = result.ratings.ratings.relevancevalue;
+                    var relevancelabel = result.ratings.ratings.relevancelabel;
+                    var totalcount = result.ratings.ratings.total;
+
+                    $(container).find("#on-quick-rate .on-qa-spin-result").text(spinlabel + " - " + " [" + totalcount + " Ratings ]");
+                    $(container).find("#on-quick-rate .on-qa-trust-result").text(trustvalue + "% - " + trustlabel + " [" + totalcount + " Ratings ]");
+                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text(accuracyvalue + "% - " + accuracylabel + " [" + totalcount + " Ratings ]");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text(relevancevalue + "% - " + relevancelabel + " [" + totalcount + " Ratings ]");
+                } else {
+                    $(container).find("#on-quick-rate .on-qa-spin-result").text("");
+                    $(container).find("#on-quick-rate .on-qa-trust-result").text("");
+                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text("");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("");
                 }
 
                 // Raters
