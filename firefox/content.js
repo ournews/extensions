@@ -1034,6 +1034,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
                 });
@@ -1164,6 +1165,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                 });
             });

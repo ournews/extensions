@@ -298,14 +298,12 @@ onRequestListener(function (request, sender, sendResponse) {
     } else if (request.action == "questionanswer") {
 
         var value = request.value;
-        makeAjaxPost(value, function () {
-        });
+        makeAjaxPost(value, sendResponse);
 
     } else if (request.action == "qrquestionanswer") {
 
         var value = request.value;
-        makeAjaxPost(value, function () {
-        });
+        makeAjaxPost(value, sendResponse);
 
     } else if (request.action == "marker") {
 
