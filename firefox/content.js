@@ -519,10 +519,15 @@ $(function () {
 
                 // Summary page - Question & Answers
                 if (result.questions && result.questions.length) {
-                    var currentResult = result.questions;
+
+                    var allQuestionsOnly = [];
+                    $.each(result.questions, function (i, e) {
+                        allQuestionsOnly.push(e.question);
+                    });
+
                     var previousResult = $(container).find("#on-qa").data("result");
-                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
-                        $(container).find("#on-qa").data("result", result.questions);
+                    if (JSON.stringify(allQuestionsOnly) != JSON.stringify(previousResult)) {
+                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(allQuestionsOnly)));
                         $(container).find("#on-qa").removeClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
