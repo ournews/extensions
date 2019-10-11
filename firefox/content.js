@@ -522,7 +522,7 @@ $(function () {
                     var currentResult = result.questions;
                     var previousResult = $(container).find("#on-qa").data("result");
                     if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
-                        $(container).find("#on-qa").data("result", result.questions);
+                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(result.questions)));
                         $(container).find("#on-qa").removeClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
@@ -1034,7 +1034,6 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
-                        refreshPopup();
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
                 });
