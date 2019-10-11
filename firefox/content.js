@@ -668,13 +668,16 @@ $(function () {
                     var accuracyvalue = result.ratings.ratings.accuracy;
                     var accuracylabel = result.ratings.ratings.accuracylabel;
                     var relevancevalue = result.ratings.ratings.relevancevalue;
+                    if (relevancevalue) {
+                        relevancevalue = Math.round(parseFloat(relevancevalue));
+                    }
                     var relevancelabel = result.ratings.ratings.relevancelabel;
                     var totalcount = result.ratings.ratings.total;
 
-                    $(container).find("#on-quick-rate .on-qa-spin-result").text(spinlabel + " - " + " [" + totalcount + " Ratings ]");
-                    $(container).find("#on-quick-rate .on-qa-trust-result").text(trustvalue + "% - " + trustlabel + " [" + totalcount + " Ratings ]");
-                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text(accuracyvalue + "% - " + accuracylabel + " [" + totalcount + " Ratings ]");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text(relevancevalue + "% - " + relevancelabel + " [" + totalcount + " Ratings ]");
+                    $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("[" + relevancevalue + "% - " + relevancelabel + "]");
                 } else {
                     $(container).find("#on-quick-rate .on-qa-spin-result").text("");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("");

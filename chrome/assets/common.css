@@ -633,6 +633,17 @@
     text-align: center !important;
 }
 
+#on-container .on-qa-option-container.on-qa-relevance {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#on-container .on-qa-option-container.on-qa-spin {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
 #on-container .on-qa-option-container .on-qa-option:hover,
 #on-container .on-qa-option-container .on-qa-option.on-active {
     border: 1px solid #444 !important;
