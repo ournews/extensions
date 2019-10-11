@@ -1174,7 +1174,7 @@ $(function () {
             });
 
             // Record events
-            $(document.body).delegate("#on-container .article-source-url a", "click", function () {
+            $(document.body).delegate("#on-container .article-source-url a, #on-container .contributed-source-url a", "click", function () {
                 if (config.isUserLoggedIn) {
                     sendRequest({
                         action: "post",
