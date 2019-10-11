@@ -301,6 +301,12 @@ onRequestListener(function (request, sender, sendResponse) {
         makeAjaxPost(value, function () {
         });
 
+    } else if (request.action == "qrquestionanswer") {
+
+        var value = request.value;
+        makeAjaxPost(value, function () {
+        });
+
     } else if (request.action == "marker") {
 
         var value = request.value;
