@@ -685,7 +685,7 @@ $(function () {
                     $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancevalue + "% - " + relevancelabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancelabel + "]");
                 } else {
                     $(container).find("#on-quick-rate .on-qa-spin-result").text("");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("");
