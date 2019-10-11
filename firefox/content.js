@@ -914,7 +914,7 @@ $(function () {
                                 $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
                             }
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
-                            $(container).find("#on-top-indicators").append(iitem);
+                            $(container).find("#on-top-indicators").append($(iitem).clone());
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
                     }
