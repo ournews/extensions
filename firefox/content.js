@@ -555,6 +555,7 @@ $(function () {
                             });
 
                             var answer = e.answers[0];
+                            answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
                             qCard.find(".on-qa-result-summary").text(qsummary);
 
@@ -664,20 +665,27 @@ $(function () {
                     var spinvalue = result.ratings.ratings.spinvalue;
                     var spinlabel = result.ratings.ratings.spin;
                     var trustvalue = result.ratings.ratings.trust;
+                    if (trustvalue) {
+                        trustvalue = parseInt(trustvalue)
+                    }
                     var trustlabel = result.ratings.ratings.trustlabel;
                     var accuracyvalue = result.ratings.ratings.accuracy;
+                    if (accuracyvalue) {
+                        accuracyvalue = parseInt(accuracyvalue)
+                    }
                     var accuracylabel = result.ratings.ratings.accuracylabel;
                     var relevancevalue = result.ratings.ratings.relevancevalue;
                     if (relevancevalue) {
                         relevancevalue = Math.round(parseFloat(relevancevalue));
                     }
                     var relevancelabel = result.ratings.ratings.relevancelabel;
+                    var relevancepre = result.ratings.ratings.relevance;
                     var totalcount = result.ratings.ratings.total;
 
                     $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("[" + relevancevalue + "% - " + relevancelabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancevalue + "% - " + relevancelabel + "]");
                 } else {
                     $(container).find("#on-quick-rate .on-qa-spin-result").text("");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("");
