@@ -299,7 +299,15 @@ $(function () {
 
         } else if (location.host == "twitter.com") {
             urlDetails.location = location.href;
-            markTwitterPosts();
+            setTimeout(function () {
+                markTwitterPosts();
+            }, 2000);
+            isSocial = true;
+        } else if (location.host == "mobile.twitter.com") {
+            urlDetails.location = location.href;
+            setTimeout(function () {
+                markMobileTwitterPosts();
+            }, 2000);
             isSocial = true;
         }
 
@@ -519,6 +527,8 @@ $(function () {
 
                 // Summary page - Question & Answers
                 if (result.questions && result.questions.length) {
+
+                    $(container).find("#on-qa").removeClass("on-hidden");
                     var currentResult = result.questions;
                     var previousResult = $(container).find("#on-qa").data("result");
 
@@ -529,7 +539,6 @@ $(function () {
 
                     if (JSON.stringify(questionOnly) != JSON.stringify(previousResult)) {
                         $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
-                        $(container).find("#on-qa").removeClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         // Remove all questions
@@ -605,8 +614,12 @@ $(function () {
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
-                if (result.newstrition && result.newstrition.name) {
-                    $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
+                if (result.newstrition) {
+                    if (result.newstrition.name) {
+                        $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
+                    } else {
+                        $(container).find(".on-summary-newstrition-publisher").text("-");
+                    }
                     if (result.newstrition.image) {
                         $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
                         $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
@@ -627,7 +640,12 @@ $(function () {
                     } else {
                         $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
                     }
-                    $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
+
+                    if (result.newstrition.verified) {
+                        $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
+                    } else {
+                        $(container).find(".on-summary-newstrition-verified").text("-");
+                    }
 
                     // TODO
                     $(container).find(".on-newstrition-verified").text(result.newstrition.verified);
@@ -1471,7 +1489,82 @@ $(function () {
     //           SOCIAL POST HANDLING
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    function markMobileTwitterPosts() {
+
+        setTimeout(function () {
+            markMobileTwitterPosts();
+        }, 2500);
+
+        $('[data-testid="tweet"]').each(function (i, e) {
+
+            var finalURL = "";
+            var firstExternalLink = $(e).closest("article").find('a[target="_blank"]');
+            if (firstExternalLink.length) {
+                finalURL = firstExternalLink.eq(0).attr("href");
+            }
+
+            if (!finalURL) {
+                $(e).find(".on-one-click-btn").remove();
+            }
+
+            if (finalURL) {
+                var injectClick = $("<span>").addClass("on-one-click-btn");
+                injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
+                $(e).css("position", "relative").append(injectClick);
+
+                $(injectClick).click(function (ele) {
+
+                    ele.preventDefault();
+                    ele.stopPropagation();
+
+                    if ($(ele.currentTarget).data("activated") == "active") {
+                        hidePopup();
+                        $(ele.currentTarget).data("activated", "");
+                        return;
+                    }
+
+                    urlDetails.pubURL = "";
+                    if ($('[aria-label="Profile"]').length) {
+                        urlDetails.pubURL = $('[aria-label="Profile"]').eq(0).attr("href").replace("/", "");
+                    }
+
+                    showPopup(function () {
+                        showView(VIEW_LIST.LOADING);
+                        $(".on-one-click-btn").data("activated", "");
+                        $(ele.currentTarget).data("activated", "active");
+                    });
+
+                    urlDetails.location = finalURL;
+                    authenticated(function () {
+                        sendRequest({
+                            "action": "finalURL",
+                            "urlDetails": urlDetails
+                        }, function (data) {
+                            if (data.link) {
+                                urlDetails.location = data.link;
+                            }
+                            refreshPopup();
+                        });
+
+                    });
+                });
+            }
+
+        });
+
+    }
+
     function markTwitterPosts() {
+
+        if ($('[data-testid="tweet"]').length) {
+            markMobileTwitterPosts();
+            return;
+        }
+
+        setTimeout(function () {
+            markTwitterPosts();
+        }, 2500);
+
         $(".js-stream-item").each(function (i, e) {
 
             // Twitter threads
@@ -1542,9 +1635,6 @@ $(function () {
             $(e).addClass("on-marked");
         });
 
-        setTimeout(function () {
-            markTwitterPosts();
-        }, 2500);
     }
 
 
