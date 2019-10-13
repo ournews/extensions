@@ -1204,7 +1204,6 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
-                        refreshPopup();
                     });
                 });
             });
