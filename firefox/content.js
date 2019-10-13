@@ -1050,11 +1050,6 @@ $(function () {
                     summaryRatings.find(".on-summary-relevance").text("NA");
                 }
 
-                if (result.quality) {
-                    // Quality text
-                    $(container).find(".on-quality-score-description").text(result.quality.quality);
-                }
-
                 registerNavEvents();
                 hideLoader();
             }
