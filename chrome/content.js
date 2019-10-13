@@ -1552,10 +1552,7 @@ $(function () {
                         return;
                     }
 
-                    urlDetails.pubURL = "";
-                    if ($('[aria-label="Profile"]').length) {
-                        urlDetails.pubURL = $('[aria-label="Profile"]').eq(0).attr("href").replace("/", "");
-                    }
+                    urlDetails.pubURL = $(e).text().match(/@([a-z0-9_]+)/i)[0];
 
                     showPopup(function () {
                         showView(VIEW_LIST.LOADING);
