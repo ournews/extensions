@@ -527,8 +527,14 @@ $(function () {
 
                     var currentResult = result.questions;
                     var previousResult = $(container).find("#on-qa").data("result");
-                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
-                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(result.questions)));
+
+                    var questionOnly = [];
+                    $.each(result.questions, function (i, e) {
+                        questionOnly.push(e.question);
+                    });
+
+                    if (JSON.stringify(questionOnly) != JSON.stringify(previousResult)) {
+                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
                         $(container).find("#on-qa").removeClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
@@ -572,6 +578,30 @@ $(function () {
                             $(container).find("#on-qa .on-qa-card-container").append(qCard);
                             qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         });
+
+                    } else {
+                        // Update just answers
+                        var qaItems = $(container).find(".on-qa-card-container .on-qa-card");
+                        if (qaItems.length) {
+                            var answers = [];
+                            if (result.mine && result.mine.answers.length) {
+                                answers = result.mine.answers;
+                            }
+
+                            $.each(result.questions, function (i, e) {
+                                $.each(e.choices, function (inneri, innere) {
+                                    if (answers.length && answers.indexOf(innere.id) != -1) {
+                                        //choice.addClass("on-active");
+                                        qaItems.find(".on-qa-option").each(function (index, element) {
+                                            if ($(element).data("id") == innere.id) {
+                                                $(element).closest(".on-qa-option-container").find(".on-qa-option").removeClass("on-active");
+                                                $(element).addClass("on-active");
+                                            }
+                                        })
+                                    }
+                                });
+                            });
+                        }
                     }
                 } else {
                     $(container).find("#on-qa").addClass("on-hidden");
@@ -1065,6 +1095,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
                 });
@@ -1204,6 +1235,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                 });
             });
@@ -1228,11 +1260,8 @@ $(function () {
                                 sourcetypeid: sourcetypeid
                             }
                         }, function () {
-
                             showView(VIEW_LIST.FACTCHECK);
-
                             refreshPopup();
-
                         });
                     }
 
