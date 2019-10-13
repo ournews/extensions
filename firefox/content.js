@@ -1486,11 +1486,9 @@ $(function () {
 
     function markMobileTwitterPosts() {
 
-        setTimeout(function () {
-            markMobileTwitterPosts();
-        }, 2500);
-
         $('[data-testid="tweet"]').each(function (i, e) {
+
+            if ($(e).hasClass("on-marked")) return;
 
             var finalURL = "";
             var firstExternalLink = $(e).closest("article").find('a[target="_blank"]');
@@ -1517,16 +1515,13 @@ $(function () {
                         $(ele.currentTarget).data("activated", "");
                         return;
                     }
-
-                    urlDetails.pubURL = $(e).text().match(/@([a-z0-9_]+)/i)[0];
-
                     showPopup(function () {
                         showView(VIEW_LIST.LOADING);
                         $(".on-one-click-btn").data("activated", "");
                         $(ele.currentTarget).data("activated", "active");
                     });
 
-                    urlDetails.location = finalURL;
+                    urlDetails.pubURL = urlDetails.location = finalURL;
                     authenticated(function () {
                         sendRequest({
                             "action": "finalURL",
@@ -1537,13 +1532,15 @@ $(function () {
                             }
                             refreshPopup();
                         });
-
                     });
                 });
             }
-
+            $(e).addClass("on-marked");
         });
 
+        setTimeout(function () {
+            markMobileTwitterPosts();
+        }, 2500);
     }
 
     function markTwitterPosts() {
@@ -1553,23 +1550,15 @@ $(function () {
             return;
         }
 
-        setTimeout(function () {
-            markTwitterPosts();
-        }, 2500);
-
         $(".js-stream-item").each(function (i, e) {
 
             // Twitter threads
             if ($(e).closest(".ThreadedDescendants").length) return;
-
-            //if ($(e).closest(".js-stream-item").length) return;
-
             if ($(e).hasClass("on-marked")) return;
             if ($(e).hasClass("js-activity")) return;
 
             var injectClick = $("<span>").addClass("on-one-click-btn");
             injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
-            //$(e).find(".ProfileTweet-action").append(injectClick);
 
             $(e).find(".content").eq(0).css("position", "relative").append(injectClick);
 
@@ -1586,7 +1575,7 @@ $(function () {
 
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
-                    $(".on-one-click-fb-btn").data("activated", "");
+                    $(".on-one-click-btn").data("activated", "");
                     $(ele.currentTarget).data("activated", "active");
                 });
 
@@ -1603,13 +1592,11 @@ $(function () {
                     }
                 }
 
-                urlDetails.pubURL = $(e).find(".username").eq(0).text();
                 if (!finalURL) {
-                    //urlDetails.pubURL = $(".DashboardProfileCard-content .username").text();
                     finalURL = location.origin + $(e).find('.tweet').eq(0).attr("data-permalink-path");
                 }
 
-                urlDetails.location = finalURL;
+                urlDetails.pubURL = urlDetails.location = finalURL;
                 authenticated(function () {
                     sendRequest({
                         "action": "finalURL",
@@ -1627,6 +1614,9 @@ $(function () {
             $(e).addClass("on-marked");
         });
 
+        setTimeout(function () {
+            markTwitterPosts();
+        }, 2500);
     }
 
 
@@ -1639,11 +1629,6 @@ $(function () {
             if ($(e).find(".userContentWrapper").length) return;
 
             var datatooltip = $(e).find('[data-tooltip-content]').eq(0);
-
-            //if (datatooltip.attr("data-tooltip-content").startsWith("Shared with") && datatooltip.is(":visible")) {
-            //    return;
-            //}
-
             if ($(e).find(".fbStreamPrivacy").length == 0 || $(e).find(".fbStreamPrivacy").attr("data-tooltip-content") != "Public") {
                 return;
             }
@@ -1663,7 +1648,6 @@ $(function () {
             }
 
             injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
-            //$(e).find('[rel="toggle"]').eq(0).css("display", "inline-block");
             $(e).find('[rel="toggle"]').eq(0).parent().append(injectClick);
 
             $(injectClick).click(function (ele) {
@@ -1702,11 +1686,7 @@ $(function () {
                 }
 
                 var profileLink = $(e).find("a[href^='https://www.facebook.com']").eq(0).attr("href");
-                profileLink = profileLink.replace("https://www.facebook.com/", "");
-                var username = profileLink.split("/")[0];
-
-                urlDetails.pubURL = "facebook.com/" + username;
-
+                urlDetails.pubURL = profileLink.substring(0, profileLink.indexOf('?'));
                 if (!finalURL) {
                     finalURL = "https://www.facebook.com" + $(e).find(".timestampContent").closest("a").attr("href");
                 }
@@ -1728,15 +1708,10 @@ $(function () {
                             urlDetails.location = data.link;
                         }
                         refreshPopup();
-
                     });
-
                 })
-
             });
-
             $(e).addClass("on-marked");
-
         });
 
         setTimeout(function () {

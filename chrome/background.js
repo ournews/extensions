@@ -53,9 +53,10 @@ function extractRootDomain(url) {
 
 function getOnUrl(currentURL, socialURL) {
 
-    var pureURL = currentURL;
+    /*var pureURL = currentURL;
     currentURL = encodeURIComponent(currentURL);
-    var hostname = extractHostname(pureURL).startsWith("www") ? extractRootDomain(pureURL) : extractHostname(pureURL);
+    var hostname = extractHostname(pureURL).startsWith("www") ? extractRootDomain(pureURL) : extractHostname(pureURL);*/
+    var hostname = currentURL;
 
     if (socialURL) {
         hostname = socialURL;
@@ -70,7 +71,7 @@ function getOnUrl(currentURL, socialURL) {
         RATINGS: API_URL + "?ratings=" + currentURL,
         SOURCES: API_URL + "?sources=" + currentURL,
         TAGS: API_URL + "?tags",
-        NEWSTRITION_URL: API_URL + "?pub=" + hostname,
+        NEWSTRITION_URL: API_URL + "?publink=" + hostname,
         PUBLIC: API_URL + "?exturlpublic=" + currentURL,
         PRIVATE: API_URL + "?exturlprivate=" + currentURL
         //LINK_FOLLOWER: API_URL + "?linkfollower=" + (linkFollower ? linkFollower : currentURL)
