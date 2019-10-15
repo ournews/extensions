@@ -577,7 +577,11 @@ $(function () {
                             var answer = e.answers[0];
                             answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            qCard.find(".on-qa-result-summary").text(qsummary);
+                            if(answer.label) {
+                                qCard.find(".on-qa-result-summary").text(qsummary);
+                            } else {
+                                qCard.find(".on-qa-result-summary").text("Needs more ratings.");
+                            }
 
                             // Append this question
                             if (i == 0) {
