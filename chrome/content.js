@@ -199,7 +199,13 @@ $(function () {
             function beforeLoginPopup() {
                 var popupHTML = "<div id='beforeLoginPopup' style='position:absolute;left:0;top:0;background-color: rgba(0,0,0,0.6);height: 100%;'>";
                 popupHTML += "<div style='margin: 15px;text-align: center;background-color: white;padding: 15px;'>";
-                popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
+                if (isSocial) {
+                    popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>" +
+                        "Welcome! To use our extension with Twitter or Facebook, please login or create a free account." +
+                        "</div>";
+                } else {
+                    popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
+                }
                 popupHTML += "<div style='margin:25px 0;'>";
                 popupHTML += "<input type='button' class='button btnBeforeLoginPopupClose' value='Close'/>";
                 popupHTML += "<input style='margin-left: 15px;' type='button' class='button btnBeforeLoginPopup' value='Login/Register'/>";
@@ -213,6 +219,9 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
                 $("#beforeLoginPopup").remove();
+                if (isSocial) {
+                    hidePopup();
+                }
             });
 
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
