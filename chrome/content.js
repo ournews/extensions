@@ -577,7 +577,7 @@ $(function () {
                             var answer = e.answers[0];
                             answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            if(answer.label) {
+                            if (answer.label) {
                                 qCard.find(".on-qa-result-summary").text(qsummary);
                             } else {
                                 qCard.find(".on-qa-result-summary").text("Needs more ratings.");
@@ -623,7 +623,7 @@ $(function () {
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
-                if (result.newstrition) {
+                if (result.newstrition && result.newstrition.name) {
                     if (result.newstrition.name) {
                         $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
                     } else {
@@ -648,6 +648,7 @@ $(function () {
                     $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
                     $(container).find(".on-newstrition-desc").text(result.newstrition.description);
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
+                    $(container).find(".on-summary-newstrition-hqlocation").text(result.newstrition.hqlocation);
                     $(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
                     $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
 
@@ -724,6 +725,8 @@ $(function () {
                     $(container).find(".on-summary-newstrition-publisher").text("-");
                     $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
                     $(container).find(".on-summary-newstrition-verified").text("-");
+                    $(container).find(".on-summary-newstrition-hqlocation").text("-");
+                    $(container).find(".on-newstrition-allsides").text("").attr("href", "#");
                 }
 
                 // Quick Rate
