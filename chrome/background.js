@@ -53,9 +53,10 @@ function extractRootDomain(url) {
 
 function getOnUrl(currentURL, socialURL) {
 
-    var pureURL = currentURL;
+    /*var pureURL = currentURL;
     currentURL = encodeURIComponent(currentURL);
-    var hostname = extractHostname(pureURL).startsWith("www") ? extractRootDomain(pureURL) : extractHostname(pureURL);
+    var hostname = extractHostname(pureURL).startsWith("www") ? extractRootDomain(pureURL) : extractHostname(pureURL);*/
+    var hostname = currentURL;
 
     if (socialURL) {
         hostname = socialURL;
@@ -65,12 +66,12 @@ function getOnUrl(currentURL, socialURL) {
         META: API_URL + "?meta=" + currentURL,
         MINE: API_URL + "?mine=" + currentURL,
         ME: API_URL + "?me=" + currentURL,
-        QUALITY: API_URL + "?quality=" + currentURL,
+        // QUALITY: API_URL + "?quality=" + currentURL,
         RATERS: API_URL + "?raters=" + currentURL,
         RATINGS: API_URL + "?ratings=" + currentURL,
         SOURCES: API_URL + "?sources=" + currentURL,
         TAGS: API_URL + "?tags",
-        NEWSTRITION_URL: API_URL + "?pub=" + hostname,
+        NEWSTRITION_URL: API_URL + "?publink=" + hostname,
         PUBLIC: API_URL + "?exturlpublic=" + currentURL,
         PRIVATE: API_URL + "?exturlprivate=" + currentURL
         //LINK_FOLLOWER: API_URL + "?linkfollower=" + (linkFollower ? linkFollower : currentURL)
@@ -96,9 +97,9 @@ function loadData(request, sendResponse) {
 
     if (config.isUserLoggedIn) {
 
-        $.when($.get(getOnUrl(currentURL).ME), $.get(getOnUrl(currentURL).PRIVATE), $.get(getOnUrl(currentURL).QUALITY),
+        $.when($.get(getOnUrl(currentURL).ME), $.get(getOnUrl(currentURL).PRIVATE),
             $.get(getOnUrl(currentURL, socialURL).NEWSTRITION_URL)).done(
-            function (me, group, quality, newstrition) {
+            function (me, group, newstrition) {
 
                 var result = {};
                 result.error = "";
@@ -114,7 +115,7 @@ function loadData(request, sendResponse) {
                 } else {
                     result.meta = JSON.parse(group[0]).results.meta;
                     result.mine = JSON.parse(group[0]).results.mine;
-                    result.quality = JSON.parse(quality[0]);
+                    // result.quality = JSON.parse(quality[0]);
                     result.raters = JSON.parse(group[0]).results.raters;
 
                     //if (result.raters.length) {
@@ -136,9 +137,9 @@ function loadData(request, sendResponse) {
 
     } else {
 
-        $.when($.get(getOnUrl(currentURL).PUBLIC), $.get(getOnUrl(currentURL).QUALITY),
+        $.when($.get(getOnUrl(currentURL).PUBLIC),
             $.get(getOnUrl(currentURL, socialURL).NEWSTRITION_URL)).done(
-            function (group, quality, newstrition) {
+            function (group, newstrition) {
 
                 var result = {};
                 result.error = "";
@@ -152,7 +153,7 @@ function loadData(request, sendResponse) {
                 } else {
 
                     result.meta = JSON.parse(group[0]).results.meta;
-                    result.quality = JSON.parse(quality[0]);
+                    // result.quality = JSON.parse(quality[0]);
                     result.ratings = JSON.parse(group[0]).results.ratings;
                     result.newstrition = JSON.parse(newstrition[0]);
                     result.sources = JSON.parse(group[0]).results.sources;
@@ -299,14 +300,12 @@ onRequestListener(function (request, sender, sendResponse) {
     } else if (request.action == "questionanswer") {
 
         var value = request.value;
-        makeAjaxPost(value, function () {
-        });
+        makeAjaxPost(value, sendResponse);
 
     } else if (request.action == "qrquestionanswer") {
 
         var value = request.value;
-        makeAjaxPost(value, function () {
-        });
+        makeAjaxPost(value, sendResponse);
 
     } else if (request.action == "marker") {
 

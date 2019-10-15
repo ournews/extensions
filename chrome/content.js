@@ -300,7 +300,15 @@ $(function () {
 
         } else if (location.host == "twitter.com") {
             urlDetails.location = location.href;
-            markTwitterPosts();
+            setTimeout(function () {
+                markTwitterPosts();
+            }, 2000);
+            isSocial = true;
+        } else if (location.host == "mobile.twitter.com") {
+            urlDetails.location = location.href;
+            setTimeout(function () {
+                markMobileTwitterPosts();
+            }, 2000);
             isSocial = true;
         }
 
@@ -525,11 +533,17 @@ $(function () {
                 // Summary page - Question & Answers
                 if (result.questions && result.questions.length) {
 
+                    $(container).find("#on-qa").removeClass("on-hidden");
                     var currentResult = result.questions;
                     var previousResult = $(container).find("#on-qa").data("result");
-                    if (JSON.stringify(currentResult) != JSON.stringify(previousResult)) {
-                        $(container).find("#on-qa").data("result", result.questions);
-                        $(container).find("#on-qa").removeClass("on-hidden");
+
+                    var questionOnly = [];
+                    $.each(result.questions, function (i, e) {
+                        questionOnly.push(e.question);
+                    });
+
+                    if (JSON.stringify(questionOnly) != JSON.stringify(previousResult)) {
+                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         // Remove all questions
@@ -561,8 +575,13 @@ $(function () {
                             });
 
                             var answer = e.answers[0];
+                            answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            qCard.find(".on-qa-result-summary").text(qsummary);
+                            if(answer.label) {
+                                qCard.find(".on-qa-result-summary").text(qsummary);
+                            } else {
+                                qCard.find(".on-qa-result-summary").text("Needs more ratings.");
+                            }
 
                             // Append this question
                             if (i == 0) {
@@ -571,6 +590,30 @@ $(function () {
                             $(container).find("#on-qa .on-qa-card-container").append(qCard);
                             qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         });
+
+                    } else {
+                        // Update just answers
+                        var qaItems = $(container).find(".on-qa-card-container .on-qa-card");
+                        if (qaItems.length) {
+                            var answers = [];
+                            if (result.mine && result.mine.answers.length) {
+                                answers = result.mine.answers;
+                            }
+
+                            $.each(result.questions, function (i, e) {
+                                $.each(e.choices, function (inneri, innere) {
+                                    if (answers.length && answers.indexOf(innere.id) != -1) {
+                                        //choice.addClass("on-active");
+                                        qaItems.find(".on-qa-option").each(function (index, element) {
+                                            if ($(element).data("id") == innere.id) {
+                                                $(element).closest(".on-qa-option-container").find(".on-qa-option").removeClass("on-active");
+                                                $(element).addClass("on-active");
+                                            }
+                                        })
+                                    }
+                                });
+                            });
+                        }
                     }
                 } else {
                     $(container).find("#on-qa").addClass("on-hidden");
@@ -580,8 +623,12 @@ $(function () {
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
-                if (result.newstrition && result.newstrition.name) {
-                    $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
+                if (result.newstrition) {
+                    if (result.newstrition.name) {
+                        $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
+                    } else {
+                        $(container).find(".on-summary-newstrition-publisher").text("-");
+                    }
                     if (result.newstrition.image) {
                         $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
                         $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
@@ -610,8 +657,12 @@ $(function () {
                     } else {
                         $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
                     }
-                    $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
 
+                    if (result.newstrition.verified) {
+                        $(container).find(".on-summary-newstrition-verified").text(result.newstrition.verified);
+                    } else {
+                        $(container).find(".on-summary-newstrition-verified").text("-");
+                    }
 
                     if (result.newstrition.allsides == "Lean Right") {
                         $(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
@@ -626,7 +677,6 @@ $(function () {
                     } else {
                         $(container).find(".on-newstrition-allsides-img-notrated").removeClass("on-hidden");
                     }
-
 
                     if (result.newstrition.ownedby) {
                         $(container).find(".on-newstrition-owned-by").text(result.newstrition.ownedby);
@@ -695,20 +745,27 @@ $(function () {
                     var spinvalue = result.ratings.ratings.spinvalue;
                     var spinlabel = result.ratings.ratings.spin;
                     var trustvalue = result.ratings.ratings.trust;
+                    if (trustvalue) {
+                        trustvalue = parseInt(trustvalue)
+                    }
                     var trustlabel = result.ratings.ratings.trustlabel;
                     var accuracyvalue = result.ratings.ratings.accuracy;
                     var accuracylabel = result.ratings.ratings.accuracylabel;
+                    if (accuracyvalue) {
+                        accuracyvalue = parseInt(accuracyvalue)
+                    }
                     var relevancevalue = result.ratings.ratings.relevancevalue;
                     if (relevancevalue) {
                         relevancevalue = Math.round(parseFloat(relevancevalue));
                     }
                     var relevancelabel = result.ratings.ratings.relevancelabel;
+                    var relevancepre = result.ratings.ratings.relevance;
                     var totalcount = result.ratings.ratings.total;
 
                     $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
                     $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("[" + relevancevalue + "% - " + relevancelabel + "]");
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancelabel + "]");
                 } else {
                     $(container).find("#on-quick-rate .on-qa-spin-result").text("");
                     $(container).find("#on-quick-rate .on-qa-trust-result").text("");
@@ -938,7 +995,7 @@ $(function () {
                             }
 
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
-                            $(container).find("#on-top-indicators").append(iitem);
+                            $(container).find("#on-top-indicators").append($(iitem).clone());
                         });
                         $(container).find(".on-top-indicators").removeClass("on-hidden");
                     }
@@ -1025,11 +1082,6 @@ $(function () {
                     summaryRatings.find(".on-summary-relevance").text("NA");
                 }
 
-                if (result.quality) {
-                    // Quality text
-                    $(container).find(".on-quality-score-description").text(result.quality.quality);
-                }
-
                 registerNavEvents();
                 hideLoader();
             }
@@ -1057,6 +1109,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                     $(that).closest(".on-qa-card").find(".on-qa-skip").click();
                 });
@@ -1166,7 +1219,7 @@ $(function () {
             });
 
             // Record events
-            $(document.body).delegate("#on-container .article-source-url a", "click", function () {
+            $(document.body).delegate("#on-container .article-source-url a, #on-container .contributed-source-url a", "click", function () {
                 if (config.isUserLoggedIn) {
                     sendRequest({
                         action: "post",
@@ -1196,6 +1249,7 @@ $(function () {
                             "quicknid": nid,
                         }
                     }, function () {
+                        refreshPopup();
                     });
                 });
             });
@@ -1220,11 +1274,8 @@ $(function () {
                                 sourcetypeid: sourcetypeid
                             }
                         }, function () {
-
                             showView(VIEW_LIST.FACTCHECK);
-
                             refreshPopup();
-
                         });
                     }
 
@@ -1471,20 +1522,82 @@ $(function () {
     //           SOCIAL POST HANDLING
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    function markMobileTwitterPosts() {
+
+        $('[data-testid="tweet"]').each(function (i, e) {
+
+            if ($(e).hasClass("on-marked")) return;
+
+            var finalURL = "";
+            var firstExternalLink = $(e).closest("article").find('a[target="_blank"]');
+            if (firstExternalLink.length) {
+                finalURL = firstExternalLink.eq(0).attr("href");
+            }
+
+            if (!finalURL) {
+                $(e).find(".on-one-click-btn").remove();
+            }
+
+            if (finalURL) {
+                var injectClick = $("<span>").addClass("on-one-click-btn");
+                injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
+                $(e).css("position", "relative").append(injectClick);
+
+                $(injectClick).click(function (ele) {
+
+                    ele.preventDefault();
+                    ele.stopPropagation();
+
+                    if ($(ele.currentTarget).data("activated") == "active") {
+                        hidePopup();
+                        $(ele.currentTarget).data("activated", "");
+                        return;
+                    }
+                    showPopup(function () {
+                        showView(VIEW_LIST.LOADING);
+                        $(".on-one-click-btn").data("activated", "");
+                        $(ele.currentTarget).data("activated", "active");
+                    });
+
+                    urlDetails.pubURL = urlDetails.location = finalURL;
+                    authenticated(function () {
+                        sendRequest({
+                            "action": "finalURL",
+                            "urlDetails": urlDetails
+                        }, function (data) {
+                            if (data.link) {
+                                urlDetails.location = data.link;
+                            }
+                            refreshPopup();
+                        });
+                    });
+                });
+            }
+
+            $(e).addClass("on-marked");
+        });
+
+        setTimeout(function () {
+            markMobileTwitterPosts();
+        }, 2500);
+    }
+
     function markTwitterPosts() {
+
+        if ($('[data-testid="tweet"]').length) {
+            markMobileTwitterPosts();
+            return;
+        }
+
         $(".js-stream-item").each(function (i, e) {
 
             // Twitter threads
             if ($(e).closest(".ThreadedDescendants").length) return;
-
-            //if ($(e).closest(".js-stream-item").length) return;
-
             if ($(e).hasClass("on-marked")) return;
             if ($(e).hasClass("js-activity")) return;
 
             var injectClick = $("<span>").addClass("on-one-click-btn");
             injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
-            //$(e).find(".ProfileTweet-action").append(injectClick);
 
             $(e).find(".content").eq(0).css("position", "relative").append(injectClick);
 
@@ -1501,7 +1614,7 @@ $(function () {
 
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
-                    $(".on-one-click-fb-btn").data("activated", "");
+                    $(".on-one-click-btn").data("activated", "");
                     $(ele.currentTarget).data("activated", "active");
                 });
 
@@ -1518,13 +1631,11 @@ $(function () {
                     }
                 }
 
-                urlDetails.pubURL = $(e).find(".username").eq(0).text();
                 if (!finalURL) {
-                    //urlDetails.pubURL = $(".DashboardProfileCard-content .username").text();
                     finalURL = location.origin + $(e).find('.tweet').eq(0).attr("data-permalink-path");
                 }
 
-                urlDetails.location = finalURL;
+                urlDetails.pubURL = urlDetails.location = finalURL;
                 authenticated(function () {
                     sendRequest({
                         "action": "finalURL",
@@ -1555,12 +1666,7 @@ $(function () {
             $(e).find(".on-one-click-fb-btn").remove();
 
             if ($(e).find(".userContentWrapper").length) return;
-
             var datatooltip = $(e).find('[data-tooltip-content]').eq(0);
-
-            //if (datatooltip.attr("data-tooltip-content").startsWith("Shared with") && datatooltip.is(":visible")) {
-            //    return;
-            //}
 
             if ($(e).find(".fbStreamPrivacy").length == 0 || $(e).find(".fbStreamPrivacy").attr("data-tooltip-content") != "Public") {
                 return;
@@ -1620,11 +1726,7 @@ $(function () {
                 }
 
                 var profileLink = $(e).find("a[href^='https://www.facebook.com']").eq(0).attr("href");
-                profileLink = profileLink.replace("https://www.facebook.com/", "");
-                var username = profileLink.split("/")[0];
-
-                urlDetails.pubURL = "facebook.com/" + username;
-
+                urlDetails.pubURL = profileLink.substring(0, profileLink.indexOf('?'));
                 if (!finalURL) {
                     finalURL = "https://www.facebook.com" + $(e).find(".timestampContent").closest("a").attr("href");
                 }
