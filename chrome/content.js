@@ -201,7 +201,7 @@ $(function () {
                 popupHTML += "<div style='margin: 15px;text-align: center;background-color: white;padding: 15px;'>";
                 if (isSocial) {
                     popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>" +
-                        "Welcome! To use our extension with Twitter or Facebook, please login or create a free account." +
+                        "Welcome! To use with Twitter or Facebook, please first login or create a free account." +
                         "</div>";
                 } else {
                     popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
