@@ -67,18 +67,18 @@
 }
 
 #on-container .on-welcome-notifs {
-    border-radius: 50% !important;
-    display: inline-block !important;
+    display: inline-block;
     padding: 3px !important;
     border: 1px solid black !important;
     background-color: red !important;
     font-size: 80% !important;
-    margin-left: 3px;
-!important;
-    width: 20px !important;
-    height: 20px !important;
-    text-align: center ! importnat;
+    margin-left: 3px !important;
+    text-align: center !important;
     color: white !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    line-height: 18px !important;
 }
 
 #on-container .on-welcome-notifs a {

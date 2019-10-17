@@ -198,7 +198,13 @@ $(function () {
             function beforeLoginPopup() {
                 var popupHTML = "<div id='beforeLoginPopup' style='position:absolute;left:0;top:0;background-color: rgba(0,0,0,0.6);height: 100%;'>";
                 popupHTML += "<div style='margin: 15px;text-align: center;background-color: white;padding: 15px;'>";
-                popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
+                if (isSocial) {
+                    popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>" +
+                        "Welcome! To use our extension with Twitter or Facebook, please login or create a free account." +
+                        "</div>";
+                } else {
+                    popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
+                }
                 popupHTML += "<div style='margin:25px 0;'>";
                 popupHTML += "<input type='button' class='button btnBeforeLoginPopupClose' value='Close'/>";
                 popupHTML += "<input style='margin-left: 15px;' type='button' class='button btnBeforeLoginPopup' value='Login/Register'/>";
@@ -212,6 +218,9 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
                 $("#beforeLoginPopup").remove();
+                if (isSocial) {
+                    hidePopup();
+                }
             });
 
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
@@ -618,7 +627,7 @@ $(function () {
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
                 $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
 
-                if (result.newstrition) {
+                if (result.newstrition && result.newstrition.name) {
                     if (result.newstrition.name) {
                         $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
                     } else {
@@ -656,6 +665,7 @@ $(function () {
                     $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
                     $(container).find(".on-newstrition-desc").text(result.newstrition.description);
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
+                    $(container).find(".on-summary-newstrition-hqlocation").text(result.newstrition.hqlocation);
                     $(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
                     $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
 
@@ -696,6 +706,8 @@ $(function () {
                     $(container).find(".on-summary-newstrition-publisher").text("-");
                     $(container).find(".on-summary-newstrition-verified-link").attr("href", "#");
                     $(container).find(".on-summary-newstrition-verified").text("-");
+                    $(container).find(".on-summary-newstrition-hqlocation").text("-");
+                    $(container).find(".on-newstrition-allsides").text("").attr("href", "#");
                 }
 
                 // Quick Rate
