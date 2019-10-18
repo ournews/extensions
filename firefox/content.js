@@ -226,7 +226,12 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
                 $("#beforeLoginPopup").remove();
-                showLoginScreen();
+                if (!isSocial) {
+                    showLoginScreen();
+                } else {
+                    window.open("https://our.news/wp-login.php?extension=1", "_blank");
+                    hidePopup();
+                }
             });
 
             if (config.isUserLoggedIn == false) {
@@ -581,7 +586,7 @@ $(function () {
                             var answer = e.answers[0];
                             answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            if(answer.label) {
+                            if (answer.label) {
                                 qCard.find(".on-qa-result-summary").text(qsummary);
                             } else {
                                 qCard.find(".on-qa-result-summary").text("Needs more ratings.");

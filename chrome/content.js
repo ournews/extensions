@@ -227,7 +227,13 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
                 $("#beforeLoginPopup").remove();
-                showLoginScreen();
+                if (!isSocial) {
+                    showLoginScreen();
+                } else {
+                    window.open("https://our.news/wp-login.php?extension=1", "_blank");
+                    hidePopup();
+                }
+
             });
 
             if (config.isUserLoggedIn == false) {
