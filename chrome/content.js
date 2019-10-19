@@ -652,9 +652,8 @@ $(function () {
 
                     // Newstrition
                     $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
-                    // $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
-                    $(container).find(".on-newstrition-no-publisher-data-twitter").removeClass("on-hidden");
+                    $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
 
@@ -763,7 +762,7 @@ $(function () {
                             }
                         } else {
                             $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
-                            $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
+                            $(container).find(".on-newstrition-no-publisher-data-facebook").addClass("on-hidden");
                             $(container).find(".on-newstrition-no-publisher-data-default").removeClass("on-hidden");
                         }
 
