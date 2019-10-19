@@ -32,6 +32,7 @@ $(function () {
     var isLimitedAccess = false;
     var refreshCount = 0;
     var isIconClick = false;
+    var isTwitter = false;
 
     var urlDetails = {
         location: "",
@@ -227,7 +228,7 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
                 $("#beforeLoginPopup").remove();
-                if (!isSocial) {
+                if (!isSocial && !isTwitter) {
                     showLoginScreen();
                 } else {
                     window.open("https://our.news/wp-login.php?extension=1", "_blank");
@@ -314,12 +315,14 @@ $(function () {
             isSocial = true;
 
         } else if (location.host == "twitter.com") {
+            isTwitter = true;
             urlDetails.location = location.href;
             setTimeout(function () {
                 markTwitterPosts();
             }, 2000);
             isSocial = true;
         } else if (location.host == "mobile.twitter.com") {
+            isTwitter = true;
             urlDetails.location = location.href;
             setTimeout(function () {
                 markMobileTwitterPosts();
