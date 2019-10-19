@@ -232,7 +232,18 @@ $(function () {
                     showLoginScreen();
                 } else {
                     window.open("https://our.news/wp-login.php?extension=1", "_blank");
-                    hidePopup();
+                    var authInterval = setInterval(function () {
+                        sendRequest({
+                            action: "auth"
+                        }, function (result) {
+                            if (!result.status) {
+                                clearInterval(authInterval);
+                                isInLogin = false;
+                                callback();
+                            }
+                        });
+
+                    }, 2000);
                 }
             });
 
