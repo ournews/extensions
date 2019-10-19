@@ -366,7 +366,7 @@ $(function () {
 
                 var winHeight = $(window).height();
                 if (winHeight < 1200) {
-                    $(container).find("#on-content").css("height", "40vh");
+                    $(container).find("#on-content").css("max-height", "40vh");
                 }
 
                 if (callback) callback();
