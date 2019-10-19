@@ -31,6 +31,7 @@ $(function () {
     var isSocial = false;
     var isLimitedAccess = false;
     var refreshCount = 0;
+    var isIconClick = false;
 
     var urlDetails = {
         location: "",
@@ -274,6 +275,7 @@ $(function () {
             return;
         }
 
+        isIconClick = true;
         if (isShowPopup) {
             if (container && $(container).is(":visible")) {
                 hidePopup();
@@ -630,7 +632,10 @@ $(function () {
 
                 // Newstrition
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
-                $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
+                // $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-twitter").removeClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
                 if (result.newstrition && result.newstrition.name) {
                     if (result.newstrition.name) {
@@ -704,8 +709,21 @@ $(function () {
                 } else {
 
                     // no publisher data
+                    if (isIconClick && isSocial) {
+                        if (location.host == "twitter.com" || location.host == "mobile.twitter.com") {
+                            $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                            $(container).find(".on-newstrition-no-publisher-data-twitter").removeClass("on-hidden");
+                        } else if (location.host == "www.facebook.com") {
+                            $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                            $(container).find(".on-newstrition-no-publisher-data-facebook").removeClass("on-hidden");
+                        }
+                    } else {
+                        $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
+                        $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
+                        $(container).find(".on-newstrition-no-publisher-data-default").removeClass("on-hidden");
+                    }
                     $(container).find(".on-newstrition-hide-on-na").addClass("on-hidden");
-                    $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
+                    // $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
 
                     // Summary view
                     $(container).find(".on-summary-newstrition-publisher").text("-");
@@ -1536,6 +1554,7 @@ $(function () {
                         $(ele.currentTarget).data("activated", "");
                         return;
                     }
+                    isIconClick = false;
                     showPopup(function () {
                         showView(VIEW_LIST.LOADING);
                         $(".on-one-click-btn").data("activated", "");
@@ -1594,6 +1613,7 @@ $(function () {
                     return;
                 }
 
+                isIconClick = false;
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
                     $(".on-one-click-btn").data("activated", "");
@@ -1679,6 +1699,7 @@ $(function () {
                     return;
                 }
 
+                isIconClick = false;
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
                     $(".on-one-click-fb-btn").data("activated", "");
