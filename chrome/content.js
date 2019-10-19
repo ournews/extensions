@@ -665,7 +665,7 @@ $(function () {
                             $(container).find(".on-summary-newstrition-publisher").text("-");
                         }
                         if (result.newstrition.image) {
-                            $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
+                            $(container).find(".on-newstrition-publisher").addClass("on-hidden");
                             $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
                             $(container).find(".on-newstrition-logo-link").attr("href", "//" + result.newstrition.url);
                         } else {
