@@ -524,6 +524,16 @@ $(function () {
                         } else if (data == "true" && !limitedAccess) {
                             // Show excluded view
                             $(container).find(".on-tab").removeClass("on-active");
+
+                            if (isIconClick && location.hostname == "www.facebook.com") {
+                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Facebook:");
+                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to\n" +
+                                    "                            individual facebook posts themselves-- usually these are only available for facebook posts\n" +
+                                    "                            that include\n" +
+                                    "                            links to news articles. Click to open the Nutrition Label for that particular facebook\n" +
+                                    "                            posts.")
+                            }
+
                             showView(VIEW_LIST.EXCLUDED);
                             isIndexed = false;
                             isExcluded = true;
