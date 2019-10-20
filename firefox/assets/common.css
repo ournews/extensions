@@ -328,6 +328,10 @@
     text-align: center !important;
 }
 
+#on-container .on-welcome.on-noauth-only a,
+#on-container .on-welcome.on-noauth-only a:hover {
+    color: white !important;
+}
 
 #on-container h3 {
     font-size: 16px !important;

@@ -166,7 +166,7 @@ $(function () {
         }
     }
 
-    function authenticated(callback) {
+    function authenticated(callback, bypassPopup) {
 
         // Check if already authenticated
         if (config.isUserLoggedIn) {
@@ -218,17 +218,7 @@ $(function () {
                 $(container).append(popupHTML);
             }
 
-            $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
-            $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
-                $("#beforeLoginPopup").remove();
-                if (isSocial) {
-                    hidePopup();
-                }
-            });
-
-            $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
-            $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
-                $("#beforeLoginPopup").remove();
+            function navigateToLogin() {
                 if (!isSocial && !isTwitter) {
                     showLoginScreen();
                 } else {
@@ -246,7 +236,20 @@ $(function () {
 
                     }, 2000);
                 }
+            }
 
+            $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
+            $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
+                $("#beforeLoginPopup").remove();
+                if (isSocial) {
+                    hidePopup();
+                }
+            });
+
+            $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
+            $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
+                $("#beforeLoginPopup").remove();
+                navigateToLogin();
             });
 
             if (config.isUserLoggedIn == false) {
@@ -257,7 +260,12 @@ $(function () {
                     }
                 }, function () {
                 });
-                beforeLoginPopup();
+
+                if (bypassPopup) {
+                    navigateToLogin();
+                } else {
+                    beforeLoginPopup();
+                }
             } else {
                 sendRequest({
                     action: "auth"
@@ -274,7 +282,12 @@ $(function () {
                             }
                         }, function () {
                         });
-                        beforeLoginPopup();
+
+                        if (bypassPopup) {
+                            navigateToLogin();
+                        } else {
+                            beforeLoginPopup();
+                        }
                     }
                 });
             }
@@ -1184,7 +1197,7 @@ $(function () {
                 $(document.body).delegate(".on-welcome.on-noauth-only", "click", function (e) {
                     authenticated(function () {
                         refreshPopup();
-                    });
+                    }, true);
                 });
 
                 $(document.body).delegate(".on-qa-skip", "click", function (e) {
