@@ -554,9 +554,25 @@ $(function () {
                             hideLoader();
 
                         } else {
-                            isExcluded = false;
-                            isLimitedAccess = false;
-                            getFullOnData();
+                            if (isIconClick && (location.hostname == "twitter.com" || location.hostname == "mobile.twitter.com")) {
+
+                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Twitter:");
+                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to\n" +
+                                    "                            individual tweets themselves-- usually these are only available for tweets\n" +
+                                    "                            that include\n" +
+                                    "                            links to news articles. Click to open the Nutrition Label for that particular tweet\n" +
+                                    "                            ");
+
+                                showView(VIEW_LIST.EXCLUDED);
+                                isIndexed = false;
+                                isExcluded = true;
+                                isLimitedAccess = false;
+                                hideLoader();
+                            } else {
+                                isExcluded = false;
+                                isLimitedAccess = false;
+                                getFullOnData();
+                            }
                         }
                     });
                 }
