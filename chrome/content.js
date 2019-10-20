@@ -446,7 +446,7 @@ $(function () {
             isIndexed = false;
             isExcluded = true;
 
-        }, 10000);
+        }, 30000);
 
         sendRequest({
                 "action": "init",
