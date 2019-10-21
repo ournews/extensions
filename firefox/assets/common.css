@@ -17,6 +17,10 @@
     box-sizing: border-box !important;
 }
 
+#on-container * {
+    box-sizing: border-box !important;
+}
+
 #on-container #OurUnderLine a:hover,
 #on-container #OurUnderline span a:hover {
     text-decoration: underline !important;
@@ -141,6 +145,8 @@
     background: #e4e4e4;
 }
 
+#on-container #btnOnAddURLIndexing,
+#on-container #on-add-article .button.on-btn,
 #on-container .button,
 #on-container .button.is-link {
     background-color: #4b0081 !important;
@@ -262,12 +268,13 @@
 
 #on-container .on-title {
     background-color: #4b0081 !important;
-    padding: 2px 10px !important;
     color: white !important;
     font-size: 20px !important;
     font-weight: 700 !important;
-    border-radius: 3px !important;
+    border-radius: 0 !important;
+    margin: -10px -15px !important;
     margin-bottom: 10px !important;
+    padding: 17px 10px !important;
 }
 
 #on-container #on-content #on-advanced-ratings table {
@@ -328,6 +335,10 @@
     text-align: center !important;
 }
 
+#on-container .on-welcome.on-noauth-only a,
+#on-container .on-welcome.on-noauth-only a:hover {
+    color: white !important;
+}
 
 #on-container h3 {
     font-size: 16px !important;

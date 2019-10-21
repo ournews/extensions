@@ -31,6 +31,8 @@ $(function () {
     var isSocial = false;
     var isLimitedAccess = false;
     var refreshCount = 0;
+    var isIconClick = false;
+    var isTwitter = false;
 
     var urlDetails = {
         location: "",
@@ -163,7 +165,7 @@ $(function () {
         }
     }
 
-    function authenticated(callback) {
+    function authenticated(callback, bypassPopup) {
 
         // Check if already authenticated
         if (config.isUserLoggedIn) {
@@ -215,6 +217,26 @@ $(function () {
                 $(container).append(popupHTML);
             }
 
+            function navigateToLogin() {
+                if (!isSocial && !isTwitter) {
+                    showLoginScreen();
+                } else {
+                    window.open("https://our.news/wp-login.php?extension=1", "_blank");
+                    var authInterval = setInterval(function () {
+                        sendRequest({
+                            action: "auth"
+                        }, function (result) {
+                            if (!result.status) {
+                                clearInterval(authInterval);
+                                isInLogin = false;
+                                callback();
+                            }
+                        });
+
+                    }, 2000);
+                }
+            }
+
             $(document.body).undelegate("#on-container .btnBeforeLoginPopupClose", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopupClose", "click", function (e) {
                 $("#beforeLoginPopup").remove();
@@ -226,7 +248,7 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
                 $("#beforeLoginPopup").remove();
-                showLoginScreen();
+                navigateToLogin();
             });
 
             if (config.isUserLoggedIn == false) {
@@ -237,7 +259,13 @@ $(function () {
                     }
                 }, function () {
                 });
-                beforeLoginPopup();
+
+                if (bypassPopup) {
+                    navigateToLogin();
+                } else {
+                    beforeLoginPopup();
+                }
+
             } else {
                 sendRequest({
                     action: "auth"
@@ -254,7 +282,12 @@ $(function () {
                             }
                         }, function () {
                         });
-                        beforeLoginPopup();
+
+                        if (bypassPopup) {
+                            navigateToLogin();
+                        } else {
+                            beforeLoginPopup();
+                        }
                     }
                 });
             }
@@ -269,6 +302,7 @@ $(function () {
             return;
         }
 
+        isIconClick = true;
         if (isShowPopup) {
             if (container && $(container).is(":visible")) {
                 hidePopup();
@@ -307,12 +341,14 @@ $(function () {
             isSocial = true;
 
         } else if (location.host == "twitter.com") {
+            isTwitter = true;
             urlDetails.location = location.href;
             setTimeout(function () {
                 markTwitterPosts();
             }, 2000);
             isSocial = true;
         } else if (location.host == "mobile.twitter.com") {
+            isTwitter = true;
             urlDetails.location = location.href;
             setTimeout(function () {
                 markMobileTwitterPosts();
@@ -359,7 +395,7 @@ $(function () {
 
                 var winHeight = $(window).height();
                 if (winHeight < 1200) {
-                    $(container).find("#on-content").css("height", "40vh");
+                    $(container).find("#on-content").css("max-height", "40vh");
                 }
 
                 if (callback) callback();
@@ -497,6 +533,14 @@ $(function () {
                     } else if (data == "true" && !limitedAccess) {
                         // Show excluded view
                         $(container).find(".on-tab").removeClass("on-active");
+
+                        if (isIconClick && location.hostname == "www.facebook.com") {
+                            $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Facebook");
+                            $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
+                                "                            individual posts. These are added to posts that include links to news articles." + 
+                                "                            Click to open the Nutrition Label for that post.\n")
+                        }
+
                         showView(VIEW_LIST.EXCLUDED);
                         isIndexed = false;
                         isExcluded = true;
@@ -504,9 +548,23 @@ $(function () {
                         hideLoader();
 
                     } else {
-                        isExcluded = false;
-                        isLimitedAccess = false;
-                        getFullOnData();
+                        if (isIconClick && (location.hostname == "twitter.com" || location.hostname == "mobile.twitter.com")) {
+
+                            $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Twitter");
+                            $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
+                                "                            individual tweets. These are added to tweets that include links to news articles." + 
+                                "                            Click to open the Nutrition Label for that tweet.\n");
+
+                            showView(VIEW_LIST.EXCLUDED);
+                            isIndexed = false;
+                            isExcluded = true;
+                            isLimitedAccess = false;
+                            hideLoader();
+                        } else {
+                            isExcluded = false;
+                            isLimitedAccess = false;
+                            getFullOnData();
+                        }
                     }
                 });
             }
@@ -540,14 +598,18 @@ $(function () {
                     $(container).find("#on-qa").removeClass("on-hidden");
                     var currentResult = result.questions;
                     var previousResult = $(container).find("#on-qa").data("result");
+                    var previousURL = $(container).find("#on-qa").data("url");
 
                     var questionOnly = [];
                     $.each(result.questions, function (i, e) {
                         questionOnly.push(e.question);
                     });
 
-                    if (JSON.stringify(questionOnly) != JSON.stringify(previousResult)) {
+                    if (JSON.stringify(questionOnly) != JSON.stringify(previousResult) ||
+                        JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
                         $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
+                        $(container).find("#on-qa").data("url", JSON.parse(JSON.stringify(urlDetails.location)));
+                        $(container).find("#on-qa").find(".on-qa-thankyou").addClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         // Remove all questions
@@ -581,7 +643,7 @@ $(function () {
                             var answer = e.answers[0];
                             answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            if(answer.label) {
+                            if (answer.label) {
                                 qCard.find(".on-qa-result-summary").text(qsummary);
                             } else {
                                 qCard.find(".on-qa-result-summary").text("Needs more ratings.");
@@ -625,7 +687,9 @@ $(function () {
 
                 // Newstrition
                 $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
-                $(container).find(".on-newstrition-hide-off-na").addClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
+                $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
                 if (result.newstrition && result.newstrition.name) {
                     if (result.newstrition.name) {
@@ -634,7 +698,7 @@ $(function () {
                         $(container).find(".on-summary-newstrition-publisher").text("-");
                     }
                     if (result.newstrition.image) {
-                        $(container).find(".on-newstrition-publisher").removeClass("on-hidden");
+                        $(container).find(".on-newstrition-publisher").addClass("on-hidden");
                         $(container).find(".on-newstrition-logo").removeClass("on-hidden").attr("src", result.newstrition.image);
                         $(container).find(".on-newstrition-logo-link").attr("href", "//" + result.newstrition.url);
                     } else {
@@ -699,8 +763,22 @@ $(function () {
                 } else {
 
                     // no publisher data
+                    if (isIconClick && isSocial) {
+                        if (location.host == "twitter.com" || location.host == "mobile.twitter.com") {
+                            $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                            $(container).find(".on-newstrition-no-publisher-data-twitter").removeClass("on-hidden");
+                        } else if (location.host == "www.facebook.com") {
+                            $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
+                            $(container).find(".on-newstrition-no-publisher-data-facebook").removeClass("on-hidden");
+                        }
+                    } else {
+                        $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
+                        $(container).find(".on-newstrition-no-publisher-data-facebook").addClass("on-hidden");
+                        $(container).find(".on-newstrition-no-publisher-data-default").removeClass("on-hidden");
+                    }
+
                     $(container).find(".on-newstrition-hide-on-na").addClass("on-hidden");
-                    $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
+                    // $(container).find(".on-newstrition-hide-off-na").removeClass("on-hidden");
 
                     // Summary view
                     $(container).find(".on-summary-newstrition-publisher").text("-");
@@ -1107,7 +1185,7 @@ $(function () {
             $(document.body).delegate(".on-welcome.on-noauth-only", "click", function (e) {
                 authenticated(function () {
                     refreshPopup();
-                });
+                }, true);
             });
 
             $(document.body).delegate(".on-qa-skip", "click", function (e) {
@@ -1531,6 +1609,7 @@ $(function () {
                         $(ele.currentTarget).data("activated", "");
                         return;
                     }
+                    isIconClick = false;
                     showPopup(function () {
                         showView(VIEW_LIST.LOADING);
                         $(".on-one-click-btn").data("activated", "");
@@ -1589,6 +1668,7 @@ $(function () {
                     return;
                 }
 
+                isIconClick = false;
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
                     $(".on-one-click-btn").data("activated", "");
@@ -1674,6 +1754,7 @@ $(function () {
                     return;
                 }
 
+                isIconClick = false;
                 showPopup(function () {
                     showView(VIEW_LIST.LOADING);
                     $(".on-one-click-fb-btn").data("activated", "");

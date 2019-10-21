@@ -13,7 +13,8 @@
                     </div>
                     <div class="column has-text-centered">
                         <div class="on-welcome on-noauth-only on-hidden">
-                            Please <a style="color:#fff;text-decoration:underline!important;" href="https://our.news/wp-login.php">Login</a> or <a style="color:#fff;text-decoration:underline!important;" href="https://our.news/register/?CID=ON.Firefox">Register</a> to access all features.
+                            Please <a style="color:#fff;text-decoration:underline!important;">Login</a> or <a
+                                style="color:#fff;text-decoration:underline!important;">Register</a> to access all features.
                         </div>
                         <div class="on-welcome on-auth-only on-hidden" style="position:relative;">
                             Hi,
@@ -350,12 +351,38 @@
                 </div>
                 <div style="padding-top:15px;">
                     <div class="on-newstrition-desc on-newstrition-hide-on-na"></div>
-                    <h2 style="font-size:20px;" class="on-newstrition-hide-off-na on-hidden">
-                        Data on this publisher is not available.
-                    </h2>
-		<p class="on-newstrition-hide-off-na on-hidden">This usually means that either this publisher has
-                        not yet been indexed, or that our system thinks the site you're currently viewing is not
-                        actually a news or content publisher.<br><br>You can also try adding it by clicking <b>Add Article</b> above.</p>
+
+                    <!-- TEMPLATE VIEWS -->
+                    <div class="on-newstrition-no-publisher-data-default on-hidden">
+                        <h2 style="font-size:20px;">
+                            Data on this publisher is not available.
+                        </h2>
+                        <p>This usually means that either this publisher has not yet been indexed, or that our system
+                            thinks the site you're currently viewing is not actually a news or content
+                            publisher.<br><br>You can also try adding it by clicking <b>Add Article</b> above.</p>
+                    </div>
+                    <div class="on-newstrition-no-publisher-data-twitter on-hidden">
+                        <h2 style="font-size:20px;">
+                            How to use our extension on Twitter:
+                        </h2>
+                        <p>
+                            Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to
+                            individual tweets themselves-- usually these are only available for tweets that include
+                            links to news articles. Click to open the Nutrition Label for that particular tweet.
+                        </p>
+                    </div>
+                    <div class="on-newstrition-no-publisher-data-facebook on-hidden">
+                        <h2 style="font-size:20px;">
+                            How to use our extension on Facebook:
+                        </h2>
+                        <p>
+                            Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to
+                            individual facebook posts themselves-- usually these are only available for facebook posts
+                            that include
+                            links to news articles. Click to open the Nutrition Label for that particular facebook
+                            posts.
+                        </p>
+                    </div>
                 </div>
             </div>
             <div style="border:1px solid #111;border-left:none !important;border-right:none !important;
@@ -622,7 +649,7 @@
                 This article has not yet been indexed in our database. Would you like to add it?
             </div>
             <div>
-                <a href="#" id="btnOnAddURLPreview" class="button is-link">Add Article</a>
+                <a href="#" id="btnOnAddURLPreview" class="button is-link on-btn">Add Article</a>
             </div>
         </div>
 
