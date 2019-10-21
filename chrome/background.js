@@ -59,10 +59,10 @@ function getOnUrl(currentURL, socialURL) {
     var hostname = currentURL;
 
     if (socialURL) {
-        hostname = encodeURI(socialURL);
+        hostname = encodeURIComponent(socialURL);
     }
 
-    currentURL = encodeURI(currentURL);
+    currentURL = encodeURIComponent(currentURL);
 
     return {
         META: API_URL + "?meta=" + currentURL,
@@ -228,7 +228,7 @@ onRequestListener(function (request, sender, sendResponse) {
 
         var stripURL = request.urlDetails.location;
 
-        $.get(API_URL + "?linkfollower=" + encodeURI(stripURL)).always(function (response) {
+        $.get(API_URL + "?linkfollower=" + encodeURIComponent(stripURL)).always(function (response) {
 
             var result = JSON.parse(response);
             console.log(result);
