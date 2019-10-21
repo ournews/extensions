@@ -228,7 +228,7 @@ onRequestListener(function (request, sender, sendResponse) {
 
         var stripURL = request.urlDetails.location;
 
-        $.get(API_URL + "?linkfollower=" + stripURL).always(function (response) {
+        $.get(API_URL + "?linkfollower=" + encodeURI(stripURL)).always(function (response) {
 
             var result = JSON.parse(response);
             console.log(result);
