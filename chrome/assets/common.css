@@ -164,6 +164,7 @@
     background: #e4e4e4;
 }
 
+#on-container #btnOnAddURLIndexing,
 #on-container .button,
 #on-container .button.is-link {
     background-color: #4b0081 !important;
