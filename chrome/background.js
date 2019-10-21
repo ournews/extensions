@@ -59,8 +59,10 @@ function getOnUrl(currentURL, socialURL) {
     var hostname = currentURL;
 
     if (socialURL) {
-        hostname = socialURL;
+        hostname = encodeURI(socialURL);
     }
+
+    currentURL = encodeURI(currentURL);
 
     return {
         META: API_URL + "?meta=" + currentURL,
