@@ -17,6 +17,10 @@
     box-sizing: border-box !important;
 }
 
+#on-container * {
+    box-sizing: border-box !important;
+}
+
 #on-container #OurUnderLine a:hover,
 #on-container #OurUnderline span a:hover {
     text-decoration: underline !important;
@@ -68,17 +72,16 @@
 
 #on-container .on-welcome-notifs {
     display: inline-block;
-    padding: 3px !important;
     border: 1px solid black !important;
     background-color: red !important;
     font-size: 80% !important;
     margin-left: 3px !important;
     text-align: center !important;
     color: white !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 24px !important;
+    height: 24px !important;
     border-radius: 50% !important;
-    line-height: 18px !important;
+    line-height: 24px !important;
 }
 
 #on-container .on-welcome-notifs a {

@@ -17,6 +17,10 @@
     box-sizing: border-box !important;
 }
 
+#on-container * {
+    box-sizing: border-box !important;
+}
+
 #on-container #OurUnderLine a:hover,
 #on-container #OurUnderline span a:hover {
     text-decoration: underline !important;
