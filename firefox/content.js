@@ -613,6 +613,7 @@ $(function () {
                         JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
                         $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
                         $(container).find("#on-qa").data("url", JSON.parse(JSON.stringify(urlDetails.location)));
+                        $(container).find("#on-qa").find(".on-qa-thankyou").addClass("on-hidden");
 
                         var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
                         // Remove all questions
