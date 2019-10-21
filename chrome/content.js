@@ -539,12 +539,10 @@ $(function () {
                             $(container).find(".on-tab").removeClass("on-active");
 
                             if (isIconClick && location.hostname == "www.facebook.com") {
-                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Facebook:");
-                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to\n" +
-                                    "                            individual facebook posts themselves-- usually these are only available for facebook posts\n" +
-                                    "                            that include\n" +
-                                    "                            links to news articles. Click to open the Nutrition Label for that particular facebook\n" +
-                                    "                            posts.")
+                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Facebook");
+                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
+                                    "                            individual posts. These are added to posts that include links to news articles." +
+                                    "                            Click to open the Nutrition Label for that post.\n")
                             }
 
                             showView(VIEW_LIST.EXCLUDED);
@@ -556,12 +554,10 @@ $(function () {
                         } else {
                             if (isIconClick && (location.hostname == "twitter.com" || location.hostname == "mobile.twitter.com")) {
 
-                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Twitter:");
-                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our.News icon in the menu bar, look for the icon attached to\n" +
-                                    "                            individual tweets themselves-- usually these are only available for tweets\n" +
-                                    "                            that include\n" +
-                                    "                            links to news articles. Click to open the Nutrition Label for that particular tweet\n" +
-                                    "                            ");
+                                $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Twitter");
+                                $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
+                                    "                            individual tweets. These are added to tweets that include links to news articles." +
+                                    "                            Click to open the Nutrition Label for that particular tweet.\n");
 
                                 showView(VIEW_LIST.EXCLUDED);
                                 isIndexed = false;
