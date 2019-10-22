@@ -738,6 +738,13 @@ $(function () {
                             $(container).find(".on-summary-newstrition-verified").text("-");
                         }
 
+                        $(container).find(".on-newstrition-allsides-img-r").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-rr").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-c").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-l").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-ll").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-notrated").addClass("on-hidden");
+
                         if (result.newstrition.allsides == "Lean Right") {
                             $(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
                         } else if (result.newstrition.allsides == "Right") {
