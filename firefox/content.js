@@ -208,8 +208,8 @@ $(function () {
                     popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
                 }
                 popupHTML += "<div style='margin:25px 0;'>";
-                popupHTML += "<input type='button' class='button btnBeforeLoginPopupClose' value='Close'/>";
-                popupHTML += "<input style='margin-left: 15px;' type='button' class='button btnBeforeLoginPopup' value='Login/Register'/>";
+                popupHTML += "<input type='button' class='on-button btnBeforeLoginPopupClose' value='Close'/>";
+                popupHTML += "<input style='margin-left: 15px;' type='button' class='on-button btnBeforeLoginPopup' value='Login/Register'/>";
                 popupHTML += "</div>";
                 popupHTML += "</div>";
                 popupHTML += "</div>";

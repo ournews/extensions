@@ -165,9 +165,9 @@
 }
 
 #on-container #btnOnAddURLIndexing,
-#on-container #on-add-article .button.on-btn,
-#on-container .button,
-#on-container .button.is-link {
+#on-container #on-add-article .on-button.on-btn,
+#on-container .on-button,
+#on-container .on-button.is-link {
     background-color: #4b0081 !important;
     font-size: 15px !important;
     max-width: 125px !important;
@@ -175,8 +175,8 @@
     display: inline-block !important;
 }
 
-#on-container .button:hover,
-#on-container .button.is-link:hover {
+#on-container .on-button:hover,
+#on-container .on-button.is-link:hover {
     color: white !important;
 }
 
@@ -214,7 +214,7 @@
 }
 
 #on-container select,
-#on-container .button {
+#on-container .on-button {
     padding: 9px !important;
     height: auto !important;
 }
@@ -230,7 +230,7 @@
 
 #on-container input,
 #on-container button,
-#on-container .button,
+#on-container .on-button,
 #on-container select {
     font-size: 13px !important;
 }
