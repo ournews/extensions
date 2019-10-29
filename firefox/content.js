@@ -597,17 +597,9 @@ $(function () {
 
                     $(container).find("#on-qa").removeClass("on-hidden");
                     var currentResult = result.questions;
-                    var previousResult = $(container).find("#on-qa").data("result");
                     var previousURL = $(container).find("#on-qa").data("url");
 
-                    var questionOnly = [];
-                    $.each(result.questions, function (i, e) {
-                        questionOnly.push(e.question);
-                    });
-
-                    if (JSON.stringify(questionOnly) != JSON.stringify(previousResult) ||
-                        JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
-                        $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
+                    if (JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
                         $(container).find("#on-qa").data("url", JSON.parse(JSON.stringify(urlDetails.location)));
                         $(container).find("#on-qa").find(".on-qa-thankyou").addClass("on-hidden");
 
