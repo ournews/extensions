@@ -209,8 +209,8 @@ $(function () {
                     popupHTML += "<div style='margin-top: 20px;font-size: 125%;'>Welcome! Please login, or create a free account to take this action.</div>";
                 }
                 popupHTML += "<div style='margin:25px 0;'>";
-                popupHTML += "<input type='button' class='button btnBeforeLoginPopupClose' value='Close'/>";
-                popupHTML += "<input style='margin-left: 15px;' type='button' class='button btnBeforeLoginPopup' value='Login/Register'/>";
+                popupHTML += "<input type='button' class='on-button btnBeforeLoginPopupClose' value='Close'/>";
+                popupHTML += "<input style='margin-left: 15px;' type='button' class='on-button btnBeforeLoginPopup' value='Login/Register'/>";
                 popupHTML += "</div>";
                 popupHTML += "</div>";
                 popupHTML += "</div>";
@@ -601,17 +601,9 @@ $(function () {
 
                         $(container).find("#on-qa").removeClass("on-hidden");
                         var currentResult = result.questions;
-                        var previousResult = $(container).find("#on-qa").data("result");
                         var previousURL = $(container).find("#on-qa").data("url");
 
-                        var questionOnly = [];
-                        $.each(result.questions, function (i, e) {
-                            questionOnly.push(e.question);
-                        });
-
-                        if (JSON.stringify(questionOnly) != JSON.stringify(previousResult) ||
-                            JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
-                            $(container).find("#on-qa").data("result", JSON.parse(JSON.stringify(questionOnly)));
+                        if (JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
                             $(container).find("#on-qa").data("url", JSON.parse(JSON.stringify(urlDetails.location)));
                             $(container).find("#on-qa").find(".on-qa-thankyou").addClass("on-hidden");
 
@@ -737,6 +729,13 @@ $(function () {
                         } else {
                             $(container).find(".on-summary-newstrition-verified").text("-");
                         }
+
+                        $(container).find(".on-newstrition-allsides-img-r").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-rr").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-c").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-l").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-ll").addClass("on-hidden");
+                        $(container).find(".on-newstrition-allsides-img-notrated").addClass("on-hidden");
 
                         if (result.newstrition.allsides == "Lean Right") {
                             $(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");

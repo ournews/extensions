@@ -53,14 +53,14 @@
     border-radius: 3px !important;
 }
 
-#on-container .button {
+#on-container .on-button {
     border-radius: 4px !important;
     color: white !important;
     text-transform: none !important;
     border: none !important;
 }
 
-    #on-container .button:hover {
+    #on-container .on-button:hover {
         text-transform: none;
         color: white !important;
     }
