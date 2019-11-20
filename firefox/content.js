@@ -537,7 +537,7 @@ $(function () {
                         if (isIconClick && location.hostname == "www.facebook.com") {
                             $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Facebook");
                             $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
-                                "                            individual posts. These are added to posts that include links to news articles." + 
+                                "                            individual posts. These are added to posts that include links to news articles." +
                                 "                            Click to open the Nutrition Label for that post.\n")
                         }
 
@@ -552,7 +552,7 @@ $(function () {
 
                             $(container).find("#on-url-excluded #ourlink").text("How to use our extension on Twitter");
                             $(container).find("#on-url-excluded p").text("Instead of clicking the purple Our icon in the menu bar, look for the icon attached to\n" +
-                                "                            individual tweets. These are added to tweets that include links to news articles." + 
+                                "                            individual tweets. These are added to tweets that include links to news articles." +
                                 "                            Click to open the Nutrition Label for that tweet.\n");
 
                             showView(VIEW_LIST.EXCLUDED);
@@ -880,7 +880,7 @@ $(function () {
                 }
 
 
-                // Fact Check 
+                // Fact Check
                 if (result.meta) {
                     $(container).find(".onarm-date").text(result.meta.date);
                     $(container).find(".onarm-publisher").text(result.meta.publisher);
@@ -1040,13 +1040,23 @@ $(function () {
                         $.each(result.meta.indicators, function (x, y) {
 
                             var iitem = $(container).find(".on-top-indicators-item-template").clone().removeClass("on-hidden").removeClass("on-top-indicators-item-template").addClass("on-top-indicators-item");
-                            $(iitem).find(".on-top-indicators-name").text(y.name);
-                            $(iitem).find(".on-top-indicators-score").attr("href", y.url);
-                            $(iitem).find(".on-top-indicators-score span").text(y.value);
-                            if (y.confidence > 0) {
-                                var roundc = Math.round(y.confidence * 100);
-                                $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
+
+                            if (config.isUserLoggedIn) {
+                                $(iitem).find(".on-top-indicators-name").text(y.name);
+                                $(iitem).find(".on-top-indicators-score").attr("href", y.url);
+                                $(iitem).find(".on-top-indicators-score span").text(y.value);
+                                if (y.confidence > 0) {
+                                    var roundc = Math.round(y.confidence * 100);
+                                    $(iitem).find(".on-top-indicators-confidence").text("[" + roundc + "%]");
+                                }
+                            } else {
+                                $(iitem).find(".on-top-indicators-name").text(y.name);
+                                $(iitem).find(".on-top-indicators-score").attr("href", "");
+                                $(iitem).find(".on-top-indicators-score").addClass("on-login-link");
+                                $(iitem).find(".on-top-indicators-score span").text("Login");
+                                $(iitem).find(".on-top-indicators-confidence").text("");
                             }
+
                             $(container).find(".on-top-indicators-item-template").parent().append(iitem);
                             $(container).find("#on-top-indicators").append($(iitem).clone());
                         });
@@ -1085,9 +1095,21 @@ $(function () {
 
                 // Advanced Ratings
                 var summaryRatings = $(container).find(".on-summary-ac");
-                summaryRatings.find(".on-summary-spin").text("NA");
-                summaryRatings.find(".on-summary-trust").text("NA");
-                summaryRatings.find(".on-summary-accuracy").text("NA");
+                if (config.isUserLoggedIn) {
+                    summaryRatings.find(".on-summary-spin").text("NA");
+                    summaryRatings.find(".on-summary-trust").text("NA");
+                    summaryRatings.find(".on-summary-accuracy").text("NA");
+                } else {
+                    summaryRatings.find(".on-summary-spin").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                    summaryRatings.find(".on-summary-trust").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                    summaryRatings.find(".on-summary-accuracy").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                }
                 summaryRatings.find(".on-summary-relevance").text("NA");
 
                 if (result.ratings && result.ratings.ratings) {
@@ -1095,22 +1117,24 @@ $(function () {
                     $(".on-summary-total-ratings").text(result.ratings.ratings.total);
 
                     // TOTAL SETTINGS
-                    if (result.ratings.ratings.spinvalue == 0) {
-                        summaryRatings.find(".on-summary-spin").text("NA");
-                    } else {
-                        summaryRatings.find(".on-summary-spin").text(result.ratings.ratings.spin + " [" + Math.round(result.ratings.ratings.spinvalue) + "%]");
-                    }
+                    if (config.isUserLoggedIn) {
+                        if (result.ratings.ratings.spinvalue == 0) {
+                            summaryRatings.find(".on-summary-spin").text("NA");
+                        } else {
+                            summaryRatings.find(".on-summary-spin").text(result.ratings.ratings.spin + " [" + Math.round(result.ratings.ratings.spinvalue) + "%]");
+                        }
 
-                    if (result.ratings.ratings.trust == 0) {
-                        summaryRatings.find(".on-summary-trust").text("NA");
-                    } else {
-                        summaryRatings.find(".on-summary-trust").text(Math.round(result.ratings.ratings.trust) + "%");
-                    }
+                        if (result.ratings.ratings.trust == 0) {
+                            summaryRatings.find(".on-summary-trust").text("NA");
+                        } else {
+                            summaryRatings.find(".on-summary-trust").text(Math.round(result.ratings.ratings.trust) + "%");
+                        }
 
-                    if (result.ratings.ratings.accuracy == 0) {
-                        summaryRatings.find(".on-summary-accuracy").text("NA");
-                    } else {
-                        summaryRatings.find(".on-summary-accuracy").text(Math.round(result.ratings.ratings.accuracy) + "%");
+                        if (result.ratings.ratings.accuracy == 0) {
+                            summaryRatings.find(".on-summary-accuracy").text("NA");
+                        } else {
+                            summaryRatings.find(".on-summary-accuracy").text(Math.round(result.ratings.ratings.accuracy) + "%");
+                        }
                     }
                 }
 
@@ -1175,6 +1199,13 @@ $(function () {
             });
 
             $(document.body).delegate(".on-welcome.on-noauth-only", "click", function (e) {
+                authenticated(function () {
+                    refreshPopup();
+                }, true);
+            });
+
+            $(document.body).delegate(".on-login-link", "click", function (e) {
+                e.preventDefault();
                 authenticated(function () {
                     refreshPopup();
                 }, true);

@@ -293,7 +293,8 @@
 #on-container .on-top-indicators-item a:hover,
 #on-container .on-top-indicators-item span a:hover,
 #on-container #on-content #on-fact-check div strong a:hover span.onarm-publisher,
-#on-container #on-content #on-fact-check div strong a:hover span.onarm-author {
+#on-container #on-content #on-fact-check div strong a:hover span.onarm-author,
+#on-container .on-login-link:hover {
     text-decoration: underline !important;
     text-decoration-skip-ink: none !important;
 }
