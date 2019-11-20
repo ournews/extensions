@@ -1239,6 +1239,11 @@ $(function () {
                     }, true);
                 });
 
+                $(document.body).delegate(".on-welcome.on-noauth-only .on-register", "click", function (e) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                });
+
                 $(document.body).delegate(".on-login-link", "click", function (e) {
                     e.preventDefault();
                     authenticated(function () {
