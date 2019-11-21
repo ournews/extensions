@@ -166,7 +166,7 @@ $(function () {
         }
     }
 
-    function authenticated(callback, bypassPopup) {
+    function authenticated(callback, bypassPopup, isregister) {
 
         // Check if already authenticated
         if (config.isUserLoggedIn) {
@@ -176,7 +176,13 @@ $(function () {
                 $(container).addClass("onhasframe");
                 var popupHeight = $(container).height();
                 if (popupHeight <= 550) popupHeight = 550;
-                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+
+                if (isregister) {
+                    $(container).append("<iframe src='https://our.news/register/?extension=1&ffi=0' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                } else {
+                    $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                }
+
                 hideLoader();
                 isInLogin = true;
 
@@ -1242,6 +1248,9 @@ $(function () {
                 $(document.body).delegate(".on-welcome.on-noauth-only .on-register", "click", function (e) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
+                    authenticated(function () {
+                        refreshPopup();
+                    }, true, true);
                 });
 
                 $(document.body).delegate(".on-login-link", "click", function (e) {
