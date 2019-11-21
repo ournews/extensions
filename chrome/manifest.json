@@ -35,7 +35,6 @@
     "background",
     "storage",
     "activeTab",
-    "<all_urls>",
     "webRequest",
     "webRequestBlocking",
     "management"
