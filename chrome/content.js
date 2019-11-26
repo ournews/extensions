@@ -178,7 +178,7 @@ $(function () {
                 if (popupHeight <= 550) popupHeight = 550;
 
                 if (isregister) {
-                    $(container).append("<iframe src='https://our.news/register/?extension=1&ffi=0' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                    $(container).append("<iframe src='https://our.news/register/?extension=1&ffi=0&CID=ON.Chrome' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
                 } else {
                     $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
                 }
