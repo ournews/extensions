@@ -165,7 +165,7 @@ $(function () {
         }
     }
 
-    function authenticated(callback, bypassPopup) {
+    function authenticated(callback, bypassPopup, isregister) {
 
         // Check if already authenticated
         if (config.isUserLoggedIn) {
@@ -175,7 +175,12 @@ $(function () {
                 $(container).addClass("onhasframe");
                 var popupHeight = $(container).height();
                 if (popupHeight <= 550) popupHeight = 550;
-                $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                if (isregister) {
+                    $(container).append("<iframe src='https://our.news/register/?extension=1&ffi=0' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                } else {
+                    $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Firefox&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+                }
+
                 hideLoader();
                 isInLogin = true;
 
@@ -635,10 +640,17 @@ $(function () {
                             var answer = e.answers[0];
                             answer.total = parseInt(answer.total);
                             var qsummary = answer.label + " [" + answer.total + "%] " + answer.result + " [" + answer.count + " Ratings]";
-                            if (answer.label) {
-                                qCard.find(".on-qa-result-summary").text(qsummary);
+
+                            if (config.isUserLoggedIn) {
+                                if (answer.label) {
+                                    qCard.find(".on-qa-result-summary").text(qsummary);
+                                } else {
+                                    qCard.find(".on-qa-result-summary").text("Needs more ratings.");
+                                }
                             } else {
-                                qCard.find(".on-qa-result-summary").text("Needs more ratings.");
+                                qCard.find(".on-qa-result-summary").html('<a href="" class="on-login-link">\n' +
+                                    '                                <span>Login</span>\n' +
+                                    '                            </a>');
                             }
 
                             // Append this question
@@ -795,36 +807,51 @@ $(function () {
                 }
 
                 // Quick rate results
-                if (result.ratings && result.ratings.ratings) {
-                    var spinvalue = result.ratings.ratings.spinvalue;
-                    var spinlabel = result.ratings.ratings.spin;
-                    var trustvalue = result.ratings.ratings.trust;
-                    if (trustvalue) {
-                        trustvalue = parseInt(trustvalue)
-                    }
-                    var trustlabel = result.ratings.ratings.trustlabel;
-                    var accuracyvalue = result.ratings.ratings.accuracy;
-                    if (accuracyvalue) {
-                        accuracyvalue = parseInt(accuracyvalue)
-                    }
-                    var accuracylabel = result.ratings.ratings.accuracylabel;
-                    var relevancevalue = result.ratings.ratings.relevancevalue;
-                    if (relevancevalue) {
-                        relevancevalue = Math.round(parseFloat(relevancevalue));
-                    }
-                    var relevancelabel = result.ratings.ratings.relevancelabel;
-                    var relevancepre = result.ratings.ratings.relevance;
-                    var totalcount = result.ratings.ratings.total;
-
-                    $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancelabel + "]");
+                if (!config.isUserLoggedIn) {
+                    $(container).find("#on-quick-rate .on-qa-spin-result").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                    $(container).find("#on-quick-rate .on-qa-trust-result").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                    $(container).find("#on-quick-rate .on-qa-accuracy-result").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
+                    $(container).find("#on-quick-rate .on-qa-relevance-result").html('<a href="" class="on-login-link">\n' +
+                        '                                <span>Login</span>\n' +
+                        '                            </a>');
                 } else {
-                    $(container).find("#on-quick-rate .on-qa-spin-result").text("");
-                    $(container).find("#on-quick-rate .on-qa-trust-result").text("");
-                    $(container).find("#on-quick-rate .on-qa-accuracy-result").text("");
-                    $(container).find("#on-quick-rate .on-qa-relevance-result").text("");
+                    if (result.ratings && result.ratings.ratings) {
+                        var spinvalue = result.ratings.ratings.spinvalue;
+                        var spinlabel = result.ratings.ratings.spin;
+                        var trustvalue = result.ratings.ratings.trust;
+                        if (trustvalue) {
+                            trustvalue = parseInt(trustvalue)
+                        }
+                        var trustlabel = result.ratings.ratings.trustlabel;
+                        var accuracyvalue = result.ratings.ratings.accuracy;
+                        if (accuracyvalue) {
+                            accuracyvalue = parseInt(accuracyvalue)
+                        }
+                        var accuracylabel = result.ratings.ratings.accuracylabel;
+                        var relevancevalue = result.ratings.ratings.relevancevalue;
+                        if (relevancevalue) {
+                            relevancevalue = Math.round(parseFloat(relevancevalue));
+                        }
+                        var relevancelabel = result.ratings.ratings.relevancelabel;
+                        var relevancepre = result.ratings.ratings.relevance;
+                        var totalcount = result.ratings.ratings.total;
+
+                        $(container).find("#on-quick-rate .on-qa-spin-result").text(" [" + spinlabel + "]");
+                        $(container).find("#on-quick-rate .on-qa-trust-result").text("[" + trustvalue + "% - " + trustlabel + "]");
+                        $(container).find("#on-quick-rate .on-qa-accuracy-result").text("[" + accuracyvalue + "% - " + accuracylabel + "]");
+                        $(container).find("#on-quick-rate .on-qa-relevance-result").text("#" + relevancepre + " [" + relevancelabel + "]");
+                    } else {
+                        $(container).find("#on-quick-rate .on-qa-spin-result").text("");
+                        $(container).find("#on-quick-rate .on-qa-trust-result").text("");
+                        $(container).find("#on-quick-rate .on-qa-accuracy-result").text("");
+                        $(container).find("#on-quick-rate .on-qa-relevance-result").text("");
+                    }
                 }
 
                 // Raters
@@ -1207,6 +1234,9 @@ $(function () {
             $(document.body).delegate(".on-welcome.on-noauth-only .on-register", "click", function (e) {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
+                authenticated(function () {
+                    refreshPopup();
+                }, true, true);
             });
 
             $(document.body).delegate(".on-login-link", "click", function (e) {
