@@ -20,7 +20,7 @@
 
 // Record every URL
 chrome.tabs.onUpdated.addListener(function
-  (tabId, changeInfo, tab) {
+    (tabId, changeInfo, tab) {
 
     if (changeInfo.url && changeInfo.url != "chrome://newtab/") {
         addToHistoryList(changeInfo.url);
@@ -103,8 +103,7 @@ function addToHistoryList(url) {
         ]);
         localStorage.setItem(ONNEWSEXTENSION.browserHistoryKey, JSON.stringify(browserHistory));
         sendHistoryList();
-    }
-    else {
+    } else {
         var browserHistory = [[
             url,
             getFormattedDate()
@@ -117,13 +116,14 @@ function addToHistoryList(url) {
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function (tab) {
 
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { provider: "OurNewsExtension", showPopup: true });
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {provider: "OurNewsExtension", showPopup: true});
     });
 
 });
 
 var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
+
 function onRecordRequestListener(callback) {
     if (isChrome) {
         chrome.extension.onRequest.addListener(callback);
@@ -139,6 +139,9 @@ onRecordRequestListener(function (request, sender, sendResponse) {
         ONNEWSEXTENSION.sh = request.value.sh;
     }
 
+});
 
-
+chrome.runtime.onInstalled.addListener(function () {
+    var newURL = "https://our.news/register/?extension=2&ffi=0&CID=ON.Chrome";
+    chrome.tabs.create({url: newURL});
 });

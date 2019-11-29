@@ -25,3 +25,8 @@ browser.browserAction.onClicked.addListener(function (tab) {
     });
 
 });
+
+browser.runtime.onInstalled.addListener(function () {
+    var newURL = "https://our.news/register/?extension=2&ffi=0&CID=ON.Firefox";
+    browser.tabs.create({url: newURL});
+});
