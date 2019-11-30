@@ -608,9 +608,13 @@ $(function () {
                         $(container).find("#on-qa").removeClass("on-hidden");
                         var currentResult = result.questions;
                         var previousURL = $(container).find("#on-qa").data("url");
+                        var isPrevLoggedIn = $(container).find("#on-qa").data("isloggedin");
+                        var isLoggedIn = config.isUserLoggedIn ? "true" : "false";
 
-                        if (JSON.stringify(urlDetails.location) != JSON.stringify(previousURL)) {
+                        if (JSON.stringify(urlDetails.location) != JSON.stringify(previousURL) ||
+                            isPrevLoggedIn !== isLoggedIn) {
                             $(container).find("#on-qa").data("url", JSON.parse(JSON.stringify(urlDetails.location)));
+                            $(container).find("#on-qa").data("isloggedin", isLoggedIn);
                             $(container).find("#on-qa").find(".on-qa-thankyou").addClass("on-hidden");
 
                             var qCard = $(container).find("#on-qa .on-qa-card").eq(0).clone();
