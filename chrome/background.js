@@ -312,8 +312,7 @@ onRequestListener(function (request, sender, sendResponse) {
     } else if (request.action == "marker") {
 
         var value = request.value;
-        makeAjaxPost(value, function () {
-        });
+        makeAjaxPost(value, sendResponse);
 
     } else if (request.action == "excludedURL") {
 

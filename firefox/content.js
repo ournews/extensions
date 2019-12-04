@@ -624,6 +624,8 @@ $(function () {
 
                         $.each(result.questions, function (i, e) {
                             qCard.removeClass("on-active");
+                            qCard.data("nid", nid);
+                            qCard.data("slug", e.slug);
                             qCard.find(".on-qa-question").text(e.question);
                             var choice = qCard.find(".on-qa-option").eq(0).clone();
                             qCard.find(".on-qa-option").remove();
@@ -1220,7 +1222,32 @@ $(function () {
                     }, function () {
                         refreshPopup();
                     });
-                    $(that).closest(".on-qa-card").find(".on-qa-skip").click();
+                    var skipLink = $(that).closest(".on-qa-card").find(".on-qa-skip").get(0);
+                    var result = moveToNextQA(skipLink);
+                    var slug = $(that).closest(".on-qa-card").data("slug");
+
+                    if (result.currentIndex == 0) {
+                        sendRequest({
+                            action: "marker",
+                            value: {
+                                popups: slug,
+                                popupsval: choicetype,
+                                nid: nid
+                            }
+                        }, function () {
+                        });
+                    } else {
+                        sendRequest({
+                            action: "marker",
+                            value: {
+                                popups: slug,
+                                popupsval: choicetype,
+                                nid: nid,
+                                popid: parseInt(popid)
+                            }
+                        }, function () {
+                        });
+                    }
                 });
             });
 
@@ -1250,18 +1277,70 @@ $(function () {
                 }, true);
             });
 
-            $(document.body).delegate(".on-qa-skip", "click", function (e) {
-                e.preventDefault();
-                var qaCard = $(this).closest(".on-qa-card");
+            var popid = 0;
+
+            function moveToNextQA(element) {
+                var qaCard = $(element).closest(".on-qa-card");
+                var nid = qaCard.data("nid");
                 qaCard.removeClass("on-active");
                 var currentIndex = qaCard.index();
-                var totalCards = $(this).closest(".on-qa-card-container").find(".on-qa-card").length;
+                var totalCards = $(element).closest(".on-qa-card-container").find(".on-qa-card").length;
                 if (currentIndex == totalCards - 1) {
-                    $(this).closest("#on-qa").find(".on-qa-thankyou").removeClass("on-hidden");
+                    $(element).closest("#on-qa").find(".on-qa-thankyou").removeClass("on-hidden");
                 } else {
-                    $(this).closest(".on-qa-card-container").find(".on-qa-card").eq(currentIndex + 1).addClass("on-active");
+                    $(element).closest(".on-qa-card-container").find(".on-qa-card").eq(currentIndex + 1).addClass("on-active");
                 }
 
+                // Get the popid and store it
+                if (currentIndex != totalCards - 1) {
+                    var slug = $(container).find(".on-qa-card").eq(currentIndex + 1).data("slug");
+                    sendRequest({
+                        action: "marker",
+                        value: {
+                            popups: slug,
+                            popupsval: 0,
+                            nid: nid
+                        }
+                    }, function (result) {
+                        popid = JSON.parse(result.responseText).popid;
+                    });
+                }
+
+                return {
+                    currentIndex: currentIndex
+                }
+            }
+
+            $(document.body).delegate(".on-qa-skip", "click", function (e) {
+                e.preventDefault();
+                var result = moveToNextQA(this);
+                // Check if its first position then POST metrics
+                var qaCard = $(this).closest(".on-qa-card");
+                var nid = qaCard.data("nid");
+                var slug = qaCard.data("slug");
+                if (result.currentIndex == 0) {
+                    sendRequest({
+                        action: "marker",
+                        value: {
+                            popups: slug,
+                            popupsval: 2,
+                            nid: nid
+                        }
+                    }, function () {
+                    });
+
+                } else {
+                    sendRequest({
+                        action: "marker",
+                        value: {
+                            popups: slug,
+                            popupsval: 2,
+                            nid: nid,
+                            popid: parseInt(popid)
+                        }
+                    }, function () {
+                    });
+                }
             });
 
             $(document.body).delegate(".on-dropdown-facebook,.on-dropdown-twitter", "click", function (e) {
