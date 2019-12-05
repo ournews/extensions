@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "Nutrition Labels for News.",
+  "name": "Nutrition Labels for News",
   "description": "Nutrition Labels for News.",
-  "version": "2019.11.29.2",
+  "version": "2019.12.4.1",
 
 
   "browser_action": {
@@ -38,8 +38,7 @@
     "<all_urls>",
     "webRequest",
     "webRequestBlocking",
-    "management",
-    "<all_urls>"
+    "management"
   ],
 
   "web_accessible_resources": [
