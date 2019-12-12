@@ -1282,8 +1282,17 @@ $(function () {
 
             $(document.body).delegate(".on-show-result", "click", function (e) {
                 e.preventDefault();
+                var nid = $(this).closest(".on-qa-card").data("nid");
                 var resultTxt = $(this).data("result");
                 $(this).parent().text(resultTxt);
+                sendRequest({
+                    action: "marker",
+                    value: {
+                        viewresult: urlDetails.location,
+                        viewqid: nid
+                    }
+                }, function () {
+                });
             });
 
             var popid = 0;
