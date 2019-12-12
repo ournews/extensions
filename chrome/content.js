@@ -654,7 +654,7 @@ $(function () {
 
                                 if (config.isUserLoggedIn) {
                                     if (answer.label) {
-                                        qCard.find(".on-qa-result-summary").text(qsummary);
+                                        qCard.find(".on-qa-result-summary").html("<a data-result='" + qsummary + "' href='' class='on-show-result'>Click to view</a>");
                                     } else {
                                         qCard.find(".on-qa-result-summary").text("Needs more ratings.");
                                     }
@@ -1314,6 +1314,12 @@ $(function () {
                     authenticated(function () {
                         refreshPopup();
                     }, true);
+                });
+
+                $(document.body).delegate(".on-show-result", "click", function (e) {
+                    e.preventDefault();
+                    var resultTxt = $(this).data("result");
+                    $(this).parent().text(resultTxt);
                 });
 
                 var popid = 0;
