@@ -926,10 +926,13 @@ $(function () {
                         $(container).find(".on-summary-author-name").text(result.meta.authors[0].name);
                         $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
 
+                        var authorLink;
                         if (result.meta.author[0].verified) {
-                            $(container).find(".on-summary-author-verified").text("Verified");
+                            authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Verified</a>";
+                            $(container).find(".on-summary-author-verified").html(authorLink);
                         } else {
-                            $(container).find(".on-summary-author-verified").text("Unverified");
+                            authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Unverified</a>";
+                            $(container).find(".on-summary-author-verified").html(authorLink);
                         }
                     } else {
                         $(container).find(".on-summary-author-name").text("");
