@@ -649,7 +649,7 @@ $(function () {
 
                             if (config.isUserLoggedIn) {
                                 if (answer.label) {
-                                    qCard.find(".on-qa-result-summary").text(qsummary);
+                                    qCard.find(".on-qa-result-summary").html("<a data-result='" + qsummary + "' href='' class='on-show-result'>Click to view</a>");
                                 } else {
                                     qCard.find(".on-qa-result-summary").text("Needs more ratings.");
                                 }
@@ -926,10 +926,13 @@ $(function () {
                         $(container).find(".on-summary-author-name").text(result.meta.authors[0].name);
                         $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
 
+                        var authorLink;
                         if (result.meta.author[0].verified) {
-                            $(container).find(".on-summary-author-verified").text("Verified");
+                            authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Verified</a>";
+                            $(container).find(".on-summary-author-verified").html(authorLink);
                         } else {
-                            $(container).find(".on-summary-author-verified").text("Unverified");
+                            authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Unverified</a>";
+                            $(container).find(".on-summary-author-verified").html(authorLink);
                         }
                     } else {
                         $(container).find(".on-summary-author-name").text("");
@@ -1275,6 +1278,21 @@ $(function () {
                 authenticated(function () {
                     refreshPopup();
                 }, true);
+            });
+
+            $(document.body).delegate(".on-show-result", "click", function (e) {
+                e.preventDefault();
+                var slug = $(this).closest(".on-qa-card").data("slug");
+                var resultTxt = $(this).data("result");
+                $(this).parent().text(resultTxt);
+                sendRequest({
+                    action: "marker",
+                    value: {
+                        viewresult: urlDetails.location,
+                        viewqid: slug
+                    }
+                }, function () {
+                });
             });
 
             var popid = 0;
