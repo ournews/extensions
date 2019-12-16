@@ -1,5 +1,5 @@
-var API_URL = "https://our.news/api/";
-var EXTENSION_URL = "https://our.news/extension/";
+var API_URL = "https://data.our.news/api/";
+var EXTENSION_URL = "https://data.our.news/extension/";
 
 $.ajaxSetup({
     cache: false

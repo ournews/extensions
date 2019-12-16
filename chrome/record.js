@@ -35,7 +35,7 @@ ONNEWSEXTENSION.config = {};
 ONNEWSEXTENSION.sw = 0;
 ONNEWSEXTENSION.sh = 0;
 
-$.get("https://our.news/api/?extconfig", function (data) {
+$.get("https://data.our.news/api/?extconfig", function (data) {
     data = JSON.parse(data);
     ONNEWSEXTENSION.config = data.config;
     ONNEWSEXTENSION.historyListMaxEntry = data.config.historyItemsCount;
@@ -48,7 +48,7 @@ function sendHistoryList() {
         var browserHistory = JSON.parse(localStorage.getItem(ONNEWSEXTENSION.browserHistoryKey));
         if (browserHistory.length && browserHistory.length >= ONNEWSEXTENSION.historyListMaxEntry && ONNEWSEXTENSION.isSendingHistory == false) {
 
-            var oNewsURL = "https://our.news/api/?ffi=0";
+            var oNewsURL = "https://data.our.news/api/?ffi=0";
             var oNewsXhr = new XMLHttpRequest();
 
             oNewsXhr.open("POST", oNewsURL, true);
