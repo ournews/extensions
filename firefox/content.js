@@ -976,7 +976,7 @@ $(function () {
                     for (var i = 0; i < result.sources.length && articleCount < 5; i++) {
 
                         if (result.sources[i].uid == 0 || (result.sources[i].uid == "" && result.sources[i].uid == null)) {
-                            var sourceItem = $(container).find(".article-source-item-template").clone().removeClass("article-source-item-template").removeClass("on-hidden");
+                            var sourceItem = $(container).find(".article-source-item-template").eq(0).clone().removeClass("article-source-item-template").removeClass("on-hidden");
                             sourceItem.addClass("article-source-item");
                             var displaysource = result.sources[i].displaysource.length > 35 ? result.sources[i].displaysource.substring(0, 35) + "..." : result.sources[i].displaysource;
 
@@ -995,16 +995,24 @@ $(function () {
                                 });
                             }
                             sourceItem.find(".article-source-votes").text(result.sources[i].votes);
-                            $(container).find(".article-source-item-template").parent().append(sourceItem);
+
+                            if (articleCount < 3) {
+                                var sourceItemClone = $(sourceItem).clone(true);
+                                $(container).find("#on-summary .article-source-item-template").parent().append(sourceItemClone);
+                            }
+
+                            $(container).find("#on-fact-check .article-source-item-template").parent().append(sourceItem);
                             articleCount++;
                         }
                     }
 
                     if (articleCount == 0) {
-                        var sourceItem = $(container).find(".article-source-item-template").clone().removeClass("article-source-item-template").removeClass("on-hidden");
+                        var sourceItem = $(container).find(".article-source-item-template").eq(0).clone().removeClass("article-source-item-template").removeClass("on-hidden");
                         sourceItem.addClass("article-source-item");
                         sourceItem.text("No sources found yet.");
-                        $(container).find(".article-source-item-template").parent().append(sourceItem);
+                        var sourceItemClone = $(sourceItem).clone(true);
+                        $(container).find("#on-fact-check .article-source-item-template").parent().append(sourceItem);
+                        $(container).find("#on-summary .article-source-item-template").parent().append(sourceItemClone);
                     }
 
                     // User Contributed Sources

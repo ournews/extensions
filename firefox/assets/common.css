@@ -677,3 +677,7 @@
 #on-container .on-toggle-hidden {
     display: none !important;
 }
+
+#on-container .dropdown {
+    border: none !important;
+}
