@@ -1021,7 +1021,7 @@ $(function () {
                     for (var i = 0; i < result.sources.length && contributedCount < 5; i++) {
 
                         if (result.sources[i].uid != "" && result.sources[i].uid != null) {
-                            var sourceItem = $(container).find(".contributed-source-item-template").clone().removeClass("contributed-source-item-template").removeClass("on-hidden");
+                            var sourceItem = $(container).find(".contributed-source-item-template").eq(0).clone().removeClass("contributed-source-item-template").removeClass("on-hidden");
                             sourceItem.addClass("contributed-source-item");
                             var displaysource = result.sources[i].displaysource.length > 26 ? result.sources[i].displaysource.substring(0, 26) + "..." : result.sources[i].displaysource;
 
@@ -1057,16 +1057,25 @@ $(function () {
                                 }
                             }
 
-                            $(container).find(".contributed-source-item-template").parent().append(sourceItem);
+
+                            if (contributedCount < 3) {
+                                var sourceItemClone = $(sourceItem).clone(true);
+                                $(container).find("#on-summary .contributed-source-item-template").parent().append(sourceItemClone);
+                            }
+
+                            $(container).find("#on-fact-check .contributed-source-item-template").parent().append(sourceItem);
                             contributedCount++;
                         }
                     }
 
                     if (contributedCount == 0) {
-                        var sourceItem = $(container).find(".contributed-source-item-template").clone().removeClass("contributed-source-item-template").removeClass("on-hidden")
+                        var sourceItem = $(container).find(".contributed-source-item-template").eq(0).clone().removeClass("contributed-source-item-template").removeClass("on-hidden")
                         sourceItem.addClass("contributed-source-item");
                         sourceItem.text("No sources added yet.");
-                        $(container).find(".contributed-source-item-template").parent().append(sourceItem);
+
+                        var sourceItemClone = $(sourceItem).clone(true);
+                        $(container).find("#on-summary .contributed-source-item-template").parent().append(sourceItemClone);
+                        $(container).find("#on-fact-check .contributed-source-item-template").parent().append(sourceItem);
                     }
                 }
 
