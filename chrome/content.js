@@ -602,6 +602,20 @@ $(function () {
                         }
                     }
 
+                    chrome.storage.sync.get('qaToggle', function (data) {
+                        if (data.qaToggle) {
+                            if (data.qaToggle == "open") {
+                                $("#on-qa .on-qa-card-container").removeClass("on-toggle-hidden");
+                                $("#on-qa .on-toggle-qa-up").removeClass("on-toggle-hidden");
+                                $("#on-qa .on-toggle-qa-down").addClass("on-toggle-hidden");
+                            } else {
+                                $("#on-qa .on-qa-card-container").addClass("on-toggle-hidden");
+                                $("#on-qa .on-toggle-qa-up").addClass("on-toggle-hidden");
+                                $("#on-qa .on-toggle-qa-down").removeClass("on-toggle-hidden");
+                            }
+                        }
+                    });
+
                     // Summary page - Question & Answers
                     if (result.questions && result.questions.length) {
 
@@ -1307,6 +1321,26 @@ $(function () {
                     authenticated(function () {
                         refreshPopup();
                     }, true, true);
+                });
+
+                $(document.body).delegate(".on-toggle-qa-up", "click", function (e) {
+                    e.preventDefault();
+                    $("#on-qa .on-qa-card-container").addClass("on-toggle-hidden");
+                    $("#on-qa .on-toggle-qa-up").addClass("on-toggle-hidden");
+                    $("#on-qa .on-toggle-qa-down").removeClass("on-toggle-hidden");
+                    chrome.storage.sync.set({
+                        "qaToggle": "close"
+                    });
+                });
+
+                $(document.body).delegate(".on-toggle-qa-down", "click", function (e) {
+                    e.preventDefault();
+                    $("#on-qa .on-qa-card-container").removeClass("on-toggle-hidden");
+                    $("#on-qa .on-toggle-qa-up").removeClass("on-toggle-hidden");
+                    $("#on-qa .on-toggle-qa-down").addClass("on-toggle-hidden");
+                    chrome.storage.sync.set({
+                        "qaToggle": "open"
+                    });
                 });
 
                 $(document.body).delegate(".on-login-link", "click", function (e) {

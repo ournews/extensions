@@ -707,3 +707,14 @@
     background-color: white;
     border-radius: 4px;
 }
+
+#on-container .on-toggle-qa-up,
+#on-container .on-toggle-qa-down {
+    color: black;
+    padding: 0 5px;
+    display: inline-block;
+}
+
+#on-container .on-toggle-hidden {
+    display: none !important;
+}
