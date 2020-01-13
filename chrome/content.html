@@ -384,12 +384,7 @@
 
         <!-- Newstrition -->
         <div id="on-newstrition" class="on-target-container on-hidden" style="margin:-15px;margin-top:0;">
-            <div style="background-color:#213377;color:white !important;padding:10px 15px 8px 15px!important;">
-                <img style="width:125px" src="images/fflogo.png"/>
-                <div style="font-size:21px !important;vertical-align:top!important;float:right!important;font-weight:bold!important;display:inline-block!important;">
-                    Publisher Profile
-                </div>
-            </div>
+
             <div style="background-color:rgb(240, 255, 255);padding:10px 15px 10px 15px!important;">
                 <div class="columns is-marginless on-newstrition-hide-on-na">
                     <div class="column" style="padding:0;">
@@ -399,8 +394,6 @@
                         <h3 class="on-newstrition-publisher on-hidden"></h3>
                     </div>
                     <div class="column has-text-right" style="padding:0;">
-                        <div style="font-weight:bold" class="on-newstrition-est font-by-20">
-                        </div>
                         <div>
                             <span class="on-newstrition-verified font-by-20" style="text-decoration:underline;"></span>
                             <span style="position:relative;" class="on-tooltip">
@@ -411,16 +404,28 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="on-newstrition-social-icons" style="margin-top:5px;">
-                            <a href="" class="on-newstrition-social-icons-fb on-hidden" target="_blank">
-                                <img src="images/facebook.png"/>
-                            </a>
-                            <a href="" class="on-newstrition-social-icons-twitter on-hidden" target="_blank">
-                                <img src="images/twitter.png"/>
-                            </a>
-                            <a href="" class="on-newstrition-social-icons-wikipedia on-hidden" target="_blank">
-                                <img src="images/wiki.png"/>
-                            </a>
+                        <div class="columns">
+                            <div class="column">
+                                <div class="on-newstrition-claimedby-none on-hidden">
+                                    <div class="on-auth-only on-hidden" style="display:inline-block!important;">
+                                        <a class="on-auth-only on-hidden on-newstrition-claimlink" href=""
+                                           target="_blank">Claim Profile</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="on-newstrition-social-icons" style="margin-top:5px;">
+                                    <a href="" class="on-newstrition-social-icons-fb on-hidden" target="_blank">
+                                        <img src="images/facebook.png"/>
+                                    </a>
+                                    <a href="" class="on-newstrition-social-icons-twitter on-hidden" target="_blank">
+                                        <img src="images/twitter.png"/>
+                                    </a>
+                                    <a href="" class="on-newstrition-social-icons-wikipedia on-hidden" target="_blank">
+                                        <img src="images/wiki.png"/>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -458,17 +463,28 @@
                     </div>
                 </div>
             </div>
-            <div style="border:1px solid #111;border-left:none !important;border-right:none !important;
-                padding:10px 0;background-color:rgb(240, 255, 255);padding:15px;" class="on-newstrition-hide-on-na">
+            <div style="background-color:rgb(240, 255, 255);padding:15px;"
+                 class="on-newstrition-hide-on-na">
                 <div class="columns">
                     <div class="column on-newstrition-ownership" style="flex:none;width:75%;">
-                        <div>Owned By:</div>
                         <div class="on-newstrition-owned-by font-by-20"></div>
                         <div style="font-weight:bold;" class="on-newstrition-hqlocation font-by-20"></div>
-                        <div style="display:inline-block;!important"><br>AllSides Media Bias Rating:&nbsp;</div>
+                        <div style="font-weight:bold" class="on-newstrition-est font-by-20">
+                        </div>
+                    </div>
+                    <div class="column has-text-right">
+                        <small>
+                            <a target="_blank" class="on-newstrition-more" href="">more info →</a>
+                        </small>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column" style="flex: 3 1;">
+                        <span>AllSides Media Bias Rating:&nbsp;</span>
                         <a class="on-newstrition-allsides"></a>
-
-                        <div class="on-newstrition-allsides-img" style="margin-top:5px;">
+                    </div>
+                    <div class="column">
+                        <span class="on-newstrition-allsides-img">
                             <a href="" class="on-newstrition-allsides-img-ll on-hidden" target="_blank">
                                 <img style="width:100px" src="images/left.png"/>
                             </a>
@@ -488,24 +504,69 @@
                                class="on-newstrition-allsides-img-notrated on-hidden" target="_blank">
                                 <img style="width:100px" src="images/notrated.png"/>
                             </a>
-                        </div>
-                    </div>
-                    <div class="column has-text-right">
-                        <small>
-                            <a target="_blank" class="on-newstrition-more" href="">more info →</a>
-                        </small>
+                        </span>
                     </div>
                 </div>
-                <div class="on-newstrition-claimedby on-hidden"></div>
-                <div class="on-newstrition-claimedby-none on-hidden"><br>
-                    <div style="display:inline-block;!important">Profile Unclaimed.</div>
-                    <div class="on-noauth-only on-hidden" style="display:inline-block!important;">
-                        <a class="on-noauth-only on-hidden" href="https://our.news/login/" target="_blank">Login to
-                            Claim.</a>
+            </div>
+            <div class="on-newstrition-author"
+                 style="border-top:3px solid #ccc;border-bottom: 1px solid #222;padding: 10px 15px 10px 15px!important;
+                 background-color:rgb(240, 255, 255)">
+                <div class="columns">
+                    <div class="column" style="text-align: center;flex: 0 0 90px;">
+                        <img width="50px" src="" class="on-newstrition-author-img" style="padding:0 10px;"/>
                     </div>
-                    <div class="on-auth-only on-hidden" style="display:inline-block!important;">
-                        <a class="on-auth-only on-hidden on-newstrition-claimlink" href="" target="_blank">Claim
-                            Profile.</a>
+                    <div class="column font-by-20" style="align-self: start">
+                        <div class="on-newstrition-author-name"></div>
+                        <div class="on-newstrition-author-location"></div>
+                        <div class="on-newstrition-author-verification">
+                            <span class="on-newstrition-author-verified"></span>
+                            <span style="position:relative;" class="on-tooltip">
+                                <span class="on-newstrition-verified-help">?</span>
+                                <span class="on-newstrition-verified-help-text on-tooltiptext"
+                                      style="text-align:left !important;font-size: 80%;
+                                      top:-100px !important;left:-60px !important;">
+                                    <!-- placeholder -->
+                                </span>
+                            </span>
+                        </div>
+                        <div class="on-newstrition-author-claim"></div>
+                    </div>
+                    <div class="column" style="align-self: flex-end;text-align: right">
+                        <div class="on-newstrition-author-more-info-link">
+                            <small>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns" style="margin-top: 15px">
+                    <div class="column" style="flex: 3 1;">
+                        <div class="on-newstrition-author-bias-rating">
+                            <span>AllSides Media Bias Rating:&nbsp;</span>
+                            <a class="on-newstrition-author-allsides"></a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <span class="on-newstrition-author-allsides-img">
+                            <a href="" class="on-newstrition-author-allsides-img-ll on-hidden" target="_blank">
+                                <img style="width:100px" src="images/left.png"/>
+                            </a>
+                            <a href="" class="on-newstrition-author-allsides-img-l on-hidden" target="_blank">
+                                <img style="width:100px" src="images/leanleft.png"/>
+                            </a>
+                            <a href="" class="on-newstrition-author-allsides-img-c on-hidden" target="_blank">
+                                <img style="width:100px" src="images/center.png"/>
+                            </a>
+                            <a href="" class="on-newstrition-author-allsides-img-r on-hidden" target="_blank">
+                                <img style="width:100px" src="images/leanright.png"/>
+                            </a>
+                            <a href="" class="on-newstrition-author-allsides-img-rr on-hidden" target="_blank">
+                                <img style="width:100px" src="images/right.png"/>
+                            </a>
+                            <a href="https://www.allsides.com/media-bias/media-bias-ratings"
+                               class="on-newstrition-author-allsides-img-notrated on-hidden" target="_blank">
+                                <img style="width:100px" src="images/notrated.png"/>
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -829,8 +890,15 @@
 
     <!-- footer -->
     <div id="on-footer">
-        <!-- logo -->
-        <img style="width:45px;" src="images/unnamed.png"/>
+        <div class="columns">
+            <div class="column">
+                <img class="on-ffi-logo" style="width:60px;visibility: hidden;" src="images/fflogo.png"/>
+            </div>
+            <div class="column has-text-right">
+                <!-- logo -->
+                <img style="width:45px;" src="images/unnamed.png"/>
+            </div>
+        </div>
     </div>
 </div>
 

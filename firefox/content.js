@@ -130,6 +130,11 @@ $(function () {
             } else {
                 $(this).addClass("on-active");
                 $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
+                if (targetContainer === VIEW_LIST.NEWSTRITION) {
+                    $(container).find("#on-footer").addClass("newstrition-card");
+                } else {
+                    $(container).find("#on-footer").removeClass("newstrition-card");
+                }
                 $("#" + targetContainer).removeClass("on-hidden");
             }
 
@@ -598,10 +603,6 @@ $(function () {
                 }
 
                 browser.storage.local.get('qaToggle', function (data) {
-
-                    console.log("**********************************");
-                    console.log(data);
-                    console.log("**********************************");
                     if (data.qaToggle) {
                         if (data.qaToggle == "open") {
                             $("#on-qa .on-qa-card-container").removeClass("on-toggle-hidden");
@@ -752,20 +753,60 @@ $(function () {
                         $(container).find(".on-summary-newstrition-verified").text("-");
                     }
 
-                    // TODO
-                    $(container).find(".on-newstrition-verified").text(result.newstrition.verified);
-                    $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
-                    $(container).find(".on-newstrition-desc").text(result.newstrition.description);
+                    $(container).find(".on-newstrition-allsides-img-r").addClass("on-hidden");
+                    $(container).find(".on-newstrition-allsides-img-rr").addClass("on-hidden");
+                    $(container).find(".on-newstrition-allsides-img-c").addClass("on-hidden");
+                    $(container).find(".on-newstrition-allsides-img-l").addClass("on-hidden");
+                    $(container).find(".on-newstrition-allsides-img-ll").addClass("on-hidden");
+                    $(container).find(".on-newstrition-allsides-img-notrated").addClass("on-hidden");
+
+                    if (result.newstrition.allsides == "Lean Right") {
+                        $(container).find(".on-newstrition-allsides-img-r").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                    } else if (result.newstrition.allsides == "Right") {
+                        $(container).find(".on-newstrition-allsides-img-rr").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                    } else if (result.newstrition.allsides == "Center") {
+                        $(container).find(".on-newstrition-allsides-img-c").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                    } else if (result.newstrition.allsides == "Lean Left") {
+                        $(container).find(".on-newstrition-allsides-img-l").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                    } else if (result.newstrition.allsides == "Left") {
+                        $(container).find(".on-newstrition-allsides-img-ll").removeClass("on-hidden").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
+                    } else {
+                        $(container).find(".on-newstrition-allsides-img-notrated").removeClass("on-hidden");
+                    }
+
                     $(container).find(".on-newstrition-hqlocation").text(result.newstrition.hqlocation);
                     $(container).find(".on-summary-newstrition-hqlocation").text(result.newstrition.hqlocation);
                     $(container).find(".on-newstrition-allsides").text(result.newstrition.allsides);
-                    $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl);
+                    $(container).find(".on-newstrition-allsides").attr("href", result.newstrition.allsidesurl).attr("target", "_blank");
 
                     if (result.newstrition.ownedby) {
                         $(container).find(".on-newstrition-owned-by").text(result.newstrition.ownedby);
                         $(container).find(".on-newstrition-ownership").removeClass("on-hidden");
                     } else {
                         $(container).find(".on-newstrition-ownership").addClass("on-hidden");
+                    }
+
+                    // TODO
+                    $(container).find(".on-newstrition-verified").text(result.newstrition.verified);
+                    $(container).find(".on-newstrition-verified-help-text").text(result.newstrition.verifiedhelp);
+
+                    var wordCount = result.newstrition.description.split(" ").length;
+                    if (wordCount > 40) {
+                        var btnMoreDesc = "<a href='https://our.news/publisher/?pid=" + result.newstrition.pid + "'>more →</a>";
+                        var newstritionDesc = result.newstrition.description.split(" ").splice(0, 36).join(" ");
+                        newstritionDesc += " " + btnMoreDesc;
+                        $(container).find(".on-newstrition-desc").html(newstritionDesc);
+                    } else {
+                        $(container).find(".on-newstrition-desc").text(result.newstrition.description);
+                    }
+
+                    if (result.newstrition.claimedlink) {
+                        // $(container).find(".on-newstrition-claimedby").text("Profile Owner: " + result.newstrition.claimedby);
+                        // $(container).find(".on-newstrition-claimedby").removeClass("on-hidden");
+                        $(container).find(".on-newstrition-claimedby-none").addClass("on-hidden");
+                    } else {
+                        $(container).find(".on-newstrition-claimedby-none").removeClass("on-hidden");
+                        $(container).find(".on-newstrition-claimlink").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
                     }
 
                     $(container).find(".on-newstrition-more").attr("href", "https://our.news/publisher/?pid=" + result.newstrition.pid);
@@ -814,6 +855,7 @@ $(function () {
                     $(container).find(".on-summary-newstrition-verified").text("-");
                     $(container).find(".on-summary-newstrition-hqlocation").text("-");
                     $(container).find(".on-newstrition-allsides").text("").attr("href", "#");
+                    $(container).find(".on-newstrition-author-allsides").text("").attr("href", "#");
                 }
 
                 // Quick Rate
@@ -935,7 +977,7 @@ $(function () {
                 }
 
 
-                // Fact Check
+                // Fact Check & Newstrition Card Author Section
                 if (result.meta) {
                     $(container).find(".onarm-date").text(result.meta.date);
                     $(container).find(".onarm-publisher").text(result.meta.publisher);
@@ -948,18 +990,60 @@ $(function () {
                         $(container).find(".on-summary-author-name").text(result.meta.authors[0].name);
                         $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
 
-                        var authorLink;
+                        $(container).find(".on-newstrition-author").show();
+                        $(container).find(".on-newstrition-author-name").text(result.meta.authors[0].name);
+                        $(container).find(".on-newstrition-author-location").text(result.meta.authors[0].location);
+                        if (result.meta.authors[0].image) {
+                            $(container).find(".on-newstrition-author-img").attr("src", result.meta.authors[0].image);
+                        } else {
+                            $(container).find(".on-newstrition-author-img").attr("src", getImageURL("images/author-unnamed.png"));
+                        }
+
+                        var authorLink, moreLink;
                         if (result.meta.author[0].verified) {
                             authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Verified</a>";
                             $(container).find(".on-summary-author-verified").html(authorLink);
+                            $(container).find(".on-newstrition-author-verification .on-newstrition-author-verified").text("Verified");
+                            moreLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>more info →</a>";
+                            $(container).find(".on-newstrition-author-more-info-link small").html(moreLink);
                         } else {
                             authorLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>Unverified</a>";
                             $(container).find(".on-summary-author-verified").html(authorLink);
+                            $(container).find(".on-newstrition-author-verification .on-newstrition-author-verified").text("Unverified");
+                            moreLink = "<a href='https://our.news/a/?aid=" + result.meta.aid + "' target='_blank'>more info →</a>";
+                            $(container).find(".on-newstrition-author-more-info-link small").html(moreLink);
                         }
+
+                        // Allsides
+                        $(container).find(".on-newstrition-author-allsides").text(result.meta.authors[0].allsides);
+                        $(container).find(".on-newstrition-author-allsides").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+
+                        $(container).find(".on-newstrition-author-allsides-img-r").addClass("on-hidden");
+                        $(container).find(".on-newstrition-author-allsides-img-rr").addClass("on-hidden");
+                        $(container).find(".on-newstrition-author-allsides-img-c").addClass("on-hidden");
+                        $(container).find(".on-newstrition-author-allsides-img-l").addClass("on-hidden");
+                        $(container).find(".on-newstrition-author-allsides-img-ll").addClass("on-hidden");
+                        $(container).find(".on-newstrition-author-allsides-img-notrated").addClass("on-hidden");
+
+                        if (result.meta.authors[0].allsides == "Lean Right") {
+                            $(container).find(".on-newstrition-author-allsides-img-r").removeClass("on-hidden").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+                        } else if (result.meta.authors[0].allsides == "Right") {
+                            $(container).find(".on-newstrition-author-allsides-img-rr").removeClass("on-hidden").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+                        } else if (result.meta.authors[0].allsides == "Center") {
+                            $(container).find(".on-newstrition-author-allsides-img-c").removeClass("on-hidden").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+                        } else if (result.meta.authors[0].allsides == "Lean Left") {
+                            $(container).find(".on-newstrition-author-allsides-img-l").removeClass("on-hidden").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+                        } else if (result.meta.authors[0].allsides == "Left") {
+                            $(container).find(".on-newstrition-author-allsides-img-ll").removeClass("on-hidden").attr("href", result.meta.authors[0].allsidesurl).attr("target", "_blank");
+                        } else {
+                            $(container).find(".on-newstrition-author-allsides-img-notrated").removeClass("on-hidden");
+                        }
+
                     } else {
                         $(container).find(".on-summary-author-name").text("");
                         $(container).find(".on-summary-author-location").text("");
                         $(container).find(".on-summary-author-verified").text("");
+                        $(container).find(".on-newstrition-author").hide();
                     }
 
                     $(container).find(".onarm-editor-link").attr("href", "https://our.news/editor/?eid=" + result.meta.eid);

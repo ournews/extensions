@@ -263,8 +263,7 @@
     display: inline-block !important;
 }
 
-#on-footer {
-    text-align: right;
+#on-container #on-footer {
     padding: 5px;
     background-color: #4b0081 !important;
 }
@@ -722,3 +721,12 @@
 #on-container .dropdown {
     border: none !important;
 }
+
+#on-container #on-footer.newstrition-card {
+    background-color: #213377 !important;
+}
+
+#on-container #on-footer.newstrition-card .on-ffi-logo {
+    visibility: visible !important;
+}
+
