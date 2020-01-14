@@ -730,3 +730,6 @@
     visibility: visible !important;
 }
 
+#on-container img {
+    box-sizing: content-box !important;
+}
