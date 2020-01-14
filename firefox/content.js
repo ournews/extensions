@@ -1106,6 +1106,7 @@ $(function () {
                     // User Contributed Sources
                     $(container).find(".contributed-source-item").remove();
                     var contributedCount = 0;
+                    $(container).find("#on-summary-user-contributed").show();
                     for (var i = 0; i < result.sources.length && contributedCount < 5; i++) {
 
                         if (result.sources[i].uid != "" && result.sources[i].uid != null) {
@@ -1160,6 +1161,7 @@ $(function () {
                         var sourceItem = $(container).find(".contributed-source-item-template").eq(0).clone().removeClass("contributed-source-item-template").removeClass("on-hidden")
                         sourceItem.addClass("contributed-source-item");
                         sourceItem.text("No sources added yet.");
+                        $(container).find("#on-summary-user-contributed").hide();
 
                         var sourceItemClone = $(sourceItem).clone(true);
                         $(container).find("#on-summary .contributed-source-item-template").parent().append(sourceItemClone);
