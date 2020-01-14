@@ -614,10 +614,12 @@ $(function () {
                                 $("#on-qa .on-qa-card-container").removeClass("on-toggle-hidden");
                                 $("#on-qa .on-toggle-qa-up").removeClass("on-toggle-hidden");
                                 $("#on-qa .on-toggle-qa-down").addClass("on-toggle-hidden");
+                                $("#on-qa").removeClass("on-less-padding");
                             } else {
                                 $("#on-qa .on-qa-card-container").addClass("on-toggle-hidden");
                                 $("#on-qa .on-toggle-qa-up").addClass("on-toggle-hidden");
                                 $("#on-qa .on-toggle-qa-down").removeClass("on-toggle-hidden");
+                                $("#on-qa").addClass("on-less-padding");
                             }
                         }
                     });
@@ -1414,6 +1416,7 @@ $(function () {
                     $("#on-qa .on-qa-card-container").addClass("on-toggle-hidden");
                     $("#on-qa .on-toggle-qa-up").addClass("on-toggle-hidden");
                     $("#on-qa .on-toggle-qa-down").removeClass("on-toggle-hidden");
+                    $("#on-qa").addClass("on-less-padding");
                     chrome.storage.sync.set({
                         "qaToggle": "close"
                     });
@@ -1424,6 +1427,7 @@ $(function () {
                     $("#on-qa .on-qa-card-container").removeClass("on-toggle-hidden");
                     $("#on-qa .on-toggle-qa-up").removeClass("on-toggle-hidden");
                     $("#on-qa .on-toggle-qa-down").addClass("on-toggle-hidden");
+                    $("#on-qa").removeClass("on-less-padding");
                     chrome.storage.sync.set({
                         "qaToggle": "open"
                     });
