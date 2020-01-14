@@ -1,8 +1,7 @@
 ﻿#on-container {
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif !important;
     position: fixed;
     top: 0 !important;
-    right: 0 !important;
     z-index: 9147483647 !important;
     font-size: 13px !important;
     line-height: 1.3 !important;
@@ -15,6 +14,14 @@
     background-color: white !important;
     zoom: 0 !important;
     box-sizing: border-box !important;
+}
+
+#on-container div,
+#on-container span {
+    font-family: 'Roboto', Arial, sans-serif !important;
+    line-height: 1.5 !important;
+    font-size: 13px !important;
+    font-weight: normal !important;
 }
 
 #on-container * {
