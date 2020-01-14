@@ -952,7 +952,10 @@ $(function () {
 
                                 item.find(".on-top-raters-name").text(nicename);
                                 item.find(".on-top-raters-point").text(totalpoints);
-                                item.find(".on-top-raters-img").attr("src", profileimage);
+                                item.find(".on-top-raters-img").attr("src", profileimage).on("error", function () {
+                                    this.src = getImageURL("images/default-publisher.png");
+                                    return true;
+                                });
                                 item.data("url", userlink);
                                 $(container).find("#on-top-raters .on-top-raters-profile").append(item);
                                 item = $(container).find("#on-top-raters .on-top-raters-item").eq(0).clone();
