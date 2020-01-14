@@ -999,6 +999,12 @@ $(function () {
                         $(container).find(".on-newstrition-author-verified-help-text").text(result.meta.authors[0].verifiedhelp);
                         $(container).find(".on-newstrition-author-name").text(result.meta.authors[0].name);
                         $(container).find(".on-newstrition-author-location").text(result.meta.authors[0].location);
+
+                        $(container).find(".on-newstrition-author-img").off("error").on("error", function () {
+                            this.src = getImageURL("images/default-publisher.png");
+                            return true;
+                        });
+
                         if (result.meta.authors[0].image) {
                             $(container).find(".on-newstrition-author-img").attr("src", result.meta.authors[0].image);
                         } else {
