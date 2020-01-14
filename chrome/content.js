@@ -997,6 +997,7 @@ $(function () {
                             $(container).find(".on-summary-author-location").text(result.meta.authors[0].location);
 
                             $(container).find(".on-newstrition-author").show();
+                            $(container).find(".on-newstrition-author-verified-help-text").text(result.meta.authors[0].verifiedhelp);
                             $(container).find(".on-newstrition-author-name").text(result.meta.authors[0].name);
                             $(container).find(".on-newstrition-author-location").text(result.meta.authors[0].location);
                             if (result.meta.authors[0].image) {
@@ -1059,6 +1060,9 @@ $(function () {
                         $(container).find(".onarm-total-ratings").text(result.meta.totalratings);
 
                         $(container).find("#on-popup-share-link").text(result.meta.oururl);
+
+                    } else {
+                        $(container).find(".on-newstrition-author").hide();
                     }
 
 
