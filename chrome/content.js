@@ -946,7 +946,7 @@ $(function () {
 
                             $.each(raters, function (i, e) {
                                 var nicename = e.nicename;
-                                var profileimage = e.profileimage;
+                                var profileimage = e.profileimage || getImageURL("images/default-publisher.png");
                                 var totalpoints = e.totalpoints;
                                 var userlink = e.userlink;
 
