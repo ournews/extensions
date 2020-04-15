@@ -1273,8 +1273,13 @@ $(function () {
                     sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
                     $(container).find(".on-summary-ai-ratings-label").html(sortable[0][0] + "<br>" + sortable[1][0]);
 
-                    sortable[0][1] = "[" + (parseFloat(sortable[0][1]) * 100) + "%]";
-                    sortable[1][1] = "[" + (parseFloat(sortable[1][1]) * 100) + "%]";
+			var labelrounded1 = Math.round(parseFloat(sortable[0][1]) * 100);
+			var labelrounded2 = Math.round(parseFloat(sortable[1][1]) * 100);
+
+                    sortable[0][1] = "[" + labelrounded1 + "%]";
+                    sortable[1][1] = "[" + labelrounded2 + "%]";
+	
+		
                     $(container).find(".on-summary-ai-ratings-value").html(label1 + " " + sortable[0][1] + "<br>" + label2 + " " + sortable[1][1]);
 
                 } else {
