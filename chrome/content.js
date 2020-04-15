@@ -728,6 +728,20 @@ $(function () {
                     $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
+                    // Show warning when knowntype is greater than 3
+                    if (result.newstrition && result.newstrition.knowntype) {
+                        var knownType = parseInt(result.newstrition.knowntype);
+                        if (knownType > 3) {
+                            $(container).find(".on-summary-warning-container").removeClass("on-hidden");
+                            $(container).find(".on-summary-warning-text").text(result.newstrition.typedesc);
+                            $(container).find(".on-summary-warning-text").attr('href', result.newstrition.typehelp);
+                        } else {
+                            $(container).find(".on-summary-warning-container").addClass("on-hidden");
+                        }
+                    } else {
+                        $(container).find(".on-summary-warning-container").addClass("on-hidden");
+                    }
+
 
                     if (result.newstrition && result.newstrition.name) {
                         if (result.newstrition.name) {
