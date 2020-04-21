@@ -63,6 +63,12 @@ $(function () {
         $(container).find('[data-target-container="' + VIEW_TYPE + '"]').addClass("on-active");
         $(container).find(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
         $(container).find("#" + VIEW_TYPE).removeClass("on-hidden");
+
+        if (VIEW_TYPE == VIEW_LIST.NEWSTRITION) {
+            $(container).find("#on-footer").addClass("newstrition-card");
+        } else {
+            $(container).find("#on-footer").removeClass("newstrition-card");
+        }
     }
 
     function updateLocation() {
@@ -1278,8 +1284,8 @@ $(function () {
 
                     sortable[0][1] = "[" + labelrounded1 + "%]";
                     sortable[1][1] = "[" + labelrounded2 + "%]";
-	
-		
+
+
                     $(container).find(".on-summary-ai-ratings-value").html(label1 + " " + sortable[0][1] + "<br>" + label2 + " " + sortable[1][1]);
 
                 } else {
