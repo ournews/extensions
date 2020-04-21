@@ -105,6 +105,7 @@ function loadData(request, sendResponse) {
 
                 var result = {};
                 result.error = "";
+                result.errorMsg = "";
 
                 // Must load
                 result.me = JSON.parse(me[0]);
@@ -112,6 +113,10 @@ function loadData(request, sendResponse) {
 
                 if (JSON.parse(group[0]).error) {
                     result.error = "TRUE";
+                    result.errorMsg = JSON.parse(group[0]).error.details;
+                    if (result.errorMsg.toLowerCase().indexOf("link not eligible") != -1) {
+                        config.excludedUrlList.push(currentURL);
+                    }
                     result.newstrition = JSON.parse(newstrition[0]);
 
                 } else {
@@ -145,11 +150,16 @@ function loadData(request, sendResponse) {
 
                 var result = {};
                 result.error = "";
+                result.errorMsg = "";
 
                 result.config = config;
 
                 if (JSON.parse(group[0]).error) {
                     result.error = "TRUE";
+                    result.errorMsg = JSON.parse(group[0]).error.details;
+                    if (result.errorMsg.toLowerCase().indexOf("link not eligible") != -1) {
+                        config.excludedUrlList.push(currentURL);
+                    }
                     result.newstrition = JSON.parse(newstrition[0]);
 
                 } else {
