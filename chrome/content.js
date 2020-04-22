@@ -126,38 +126,53 @@ $(function () {
             $(container).find(".on-tab").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
 
-            if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE)) {
-                showView(VIEW_LIST.EXCLUDED);
-
-            } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
-                showView(VIEW_LIST.ADDDOMAIN);
-
-            } else {
-                $(this).addClass("on-active");
-                $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
+            if (isExcluded) {
+                if (targetContainer == VIEW_LIST.NEWSTRITION) {
+                    showView(VIEW_LIST.NEWSTRITION);
+                } else {
+                    showView(VIEW_LIST.EXCLUDED);
+                }
 
                 if (targetContainer === VIEW_LIST.NEWSTRITION) {
                     $(container).find("#on-footer").addClass("newstrition-card");
                 } else {
                     $(container).find("#on-footer").removeClass("newstrition-card");
                 }
-                $("#" + targetContainer).removeClass("on-hidden");
-            }
 
-            if (targetContainer == VIEW_LIST.FACTCHECK) {
-                sendRequest({
-                    action: "post",
-                    key: "FactcheckCard",
-                    value: {
-                        factcheckcard: urlDetails.location,
+            } else {
+                if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
+                    targetContainer == VIEW_LIST.QUICKRATE)) {
+                    showView(VIEW_LIST.EXCLUDED);
+
+                } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
+                    targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
+                    showView(VIEW_LIST.ADDDOMAIN);
+
+                } else {
+                    $(this).addClass("on-active");
+                    $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
+
+                    if (targetContainer === VIEW_LIST.NEWSTRITION) {
+                        $(container).find("#on-footer").addClass("newstrition-card");
+                    } else {
+                        $(container).find("#on-footer").removeClass("newstrition-card");
                     }
-                }, function () {
-                });
-            }
+                    $("#" + targetContainer).removeClass("on-hidden");
+                }
 
-            return false;
+                if (targetContainer == VIEW_LIST.FACTCHECK) {
+                    sendRequest({
+                        action: "post",
+                        key: "FactcheckCard",
+                        value: {
+                            factcheckcard: urlDetails.location,
+                        }
+                    }, function () {
+                    });
+                }
+
+                return false;
+            }
 
         });
     }
@@ -563,11 +578,12 @@ $(function () {
                                     "                            Click to open the Nutrition Label for that post.\n")
                             }
 
-                            showView(VIEW_LIST.EXCLUDED);
+                            showView(VIEW_LIST.NEWSTRITION);
                             isIndexed = false;
                             isExcluded = true;
                             isLimitedAccess = false;
                             hideLoader();
+                            getFullOnData();
 
                         } else {
                             if (isIconClick && (location.hostname == "twitter.com" || location.hostname == "mobile.twitter.com")) {
@@ -577,11 +593,12 @@ $(function () {
                                     "                            individual tweets. These are added to tweets that include links to news articles." +
                                     "                            Click to open the Nutrition Label for that particular tweet.\n");
 
-                                showView(VIEW_LIST.EXCLUDED);
+                                showView(VIEW_LIST.NEWSTRITION);
                                 isIndexed = false;
                                 isExcluded = true;
                                 isLimitedAccess = false;
                                 hideLoader();
+                                getFullOnData();
                             } else {
                                 isExcluded = false;
                                 isLimitedAccess = false;
