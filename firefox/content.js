@@ -63,6 +63,12 @@ $(function () {
         $(container).find('[data-target-container="' + VIEW_TYPE + '"]').addClass("on-active");
         $(container).find(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
         $(container).find("#" + VIEW_TYPE).removeClass("on-hidden");
+
+        if (VIEW_TYPE == VIEW_LIST.NEWSTRITION) {
+            $(container).find("#on-footer").addClass("newstrition-card");
+        } else {
+            $(container).find("#on-footer").removeClass("newstrition-card");
+        }
     }
 
     function updateLocation() {
@@ -119,37 +125,53 @@ $(function () {
             $(container).find(".on-tab").removeClass("on-active");
             var targetContainer = $(this).data("target-container");
 
-            if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE)) {
-                showView(VIEW_LIST.EXCLUDED);
+            if (isExcluded) {
+                if (targetContainer == VIEW_LIST.NEWSTRITION) {
+                    showView(VIEW_LIST.NEWSTRITION);
+                } else {
+                    showView(VIEW_LIST.EXCLUDED);
+                }
 
-            } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
-                targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
-                showView(VIEW_LIST.ADDDOMAIN);
-
-            } else {
-                $(this).addClass("on-active");
-                $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
                 if (targetContainer === VIEW_LIST.NEWSTRITION) {
                     $(container).find("#on-footer").addClass("newstrition-card");
                 } else {
                     $(container).find("#on-footer").removeClass("newstrition-card");
                 }
-                $("#" + targetContainer).removeClass("on-hidden");
-            }
 
-            if (targetContainer == VIEW_LIST.FACTCHECK) {
-                sendRequest({
-                    action: "post",
-                    key: "FactcheckCard",
-                    value: {
-                        factcheckcard: urlDetails.location,
+            } else {
+
+                if (isLimitedAccess && (targetContainer == VIEW_LIST.FACTCHECK ||
+                    targetContainer == VIEW_LIST.QUICKRATE)) {
+                    showView(VIEW_LIST.EXCLUDED);
+
+                } else if (!isIndexed && (targetContainer == VIEW_LIST.FACTCHECK ||
+                    targetContainer == VIEW_LIST.QUICKRATE || targetContainer == VIEW_LIST.SUMMARY)) {
+                    showView(VIEW_LIST.ADDDOMAIN);
+
+                } else {
+                    $(this).addClass("on-active");
+                    $(".on-target-container").removeClass("on-hidden").addClass("on-hidden");
+                    if (targetContainer === VIEW_LIST.NEWSTRITION) {
+                        $(container).find("#on-footer").addClass("newstrition-card");
+                    } else {
+                        $(container).find("#on-footer").removeClass("newstrition-card");
                     }
-                }, function () {
-                });
-            }
+                    $("#" + targetContainer).removeClass("on-hidden");
+                }
 
-            return false;
+                if (targetContainer == VIEW_LIST.FACTCHECK) {
+                    sendRequest({
+                        action: "post",
+                        key: "FactcheckCard",
+                        value: {
+                            factcheckcard: urlDetails.location,
+                        }
+                    }, function () {
+                    });
+                }
+
+                return false;
+            }
 
         });
     }
@@ -551,11 +573,12 @@ $(function () {
                                 "                            Click to open the Nutrition Label for that post.\n")
                         }
 
-                        showView(VIEW_LIST.EXCLUDED);
+                        showView(VIEW_LIST.NEWSTRITION);
                         isIndexed = false;
                         isExcluded = true;
                         isLimitedAccess = false;
                         hideLoader();
+                        getFullOnData();
 
                     } else {
                         if (isIconClick && (location.hostname == "twitter.com" || location.hostname == "mobile.twitter.com")) {
@@ -565,11 +588,12 @@ $(function () {
                                 "                            individual tweets. These are added to tweets that include links to news articles." +
                                 "                            Click to open the Nutrition Label for that tweet.\n");
 
-                            showView(VIEW_LIST.EXCLUDED);
+                            showView(VIEW_LIST.NEWSTRITION);
                             isIndexed = false;
                             isExcluded = true;
                             isLimitedAccess = false;
                             hideLoader();
+                            getFullOnData();
                         } else {
                             isExcluded = false;
                             isLimitedAccess = false;
@@ -1273,13 +1297,13 @@ $(function () {
                     sortable[1][0] = sortable[1][0].charAt(0).toUpperCase() + sortable[1][0].slice(1);
                     $(container).find(".on-summary-ai-ratings-label").html(sortable[0][0] + "<br>" + sortable[1][0]);
 
-			var labelrounded1 = Math.round(parseFloat(sortable[0][1]) * 100);
-			var labelrounded2 = Math.round(parseFloat(sortable[1][1]) * 100);
+                    var labelrounded1 = Math.round(parseFloat(sortable[0][1]) * 100);
+                    var labelrounded2 = Math.round(parseFloat(sortable[1][1]) * 100);
 
                     sortable[0][1] = "[" + labelrounded1 + "%]";
                     sortable[1][1] = "[" + labelrounded2 + "%]";
-	
-		
+
+
                     $(container).find(".on-summary-ai-ratings-value").html(label1 + " " + sortable[0][1] + "<br>" + label2 + " " + sortable[1][1]);
 
                 } else {
