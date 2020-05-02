@@ -1406,6 +1406,7 @@ $(function () {
                             value: {
                                 "choicetype": choicetype,
                                 "quicknid": nid,
+                                "datasource": 'extension_chrome'
                             }
                         }, function () {
                             refreshPopup();
@@ -1676,6 +1677,7 @@ $(function () {
                             value: {
                                 "quicktype": choicetype,
                                 "quicknid": nid,
+                                "datasource": 'extension_chrome'
                             }
                         }, function () {
                             refreshPopup();
