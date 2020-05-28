@@ -142,6 +142,6 @@ onRecordRequestListener(function (request, sender, sendResponse) {
 });
 
 chrome.runtime.onInstalled.addListener(function () {
-    var newURL = "https://our.news/register/?extension=2&ffi=0&CID=ON.Chrome";
+    var newURL = "https://our.news/join/?extension=2&ffi=0&CID=ON.Chrome";
     chrome.tabs.create({url: newURL});
 });
