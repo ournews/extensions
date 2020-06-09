@@ -671,6 +671,7 @@ $(function () {
                             qCard.removeClass("on-active");
                             qCard.data("nid", nid);
                             qCard.data("slug", e.slug);
+                            qCard.data("qid", e.qid);
                             qCard.find(".on-qa-question").text(e.question);
                             var choice = qCard.find(".on-qa-option").eq(0).clone();
                             qCard.find(".on-qa-option").remove();
@@ -1489,6 +1490,10 @@ $(function () {
             $(document.body).delegate(".on-show-result", "click", function (e) {
                 e.preventDefault();
                 var slug = $(this).closest(".on-qa-card").data("slug");
+                var qid = $(this).closest(".on-qa-card").data("qid");
+
+                window.open("https://our.news/analytics/?qid=" + qid);
+                /*
                 var resultTxt = $(this).data("result");
                 $(this).parent().text(resultTxt);
                 sendRequest({
@@ -1498,7 +1503,7 @@ $(function () {
                         viewqid: slug
                     }
                 }, function () {
-                });
+                });*/
             });
 
             var popid = 0;
