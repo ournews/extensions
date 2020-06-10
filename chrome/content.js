@@ -1494,18 +1494,20 @@ $(function () {
                     var slug = $(this).closest(".on-qa-card").data("slug");
                     var qid = $(this).closest(".on-qa-card").data("qid");
 
-                    window.open("https://our.news/analytics/?qid=" + qid);
-
-                    // var resultTxt = $(this).data("result");
-                    /*$(this).parent().text(resultTxt);
-                    sendRequest({
-                        action: "marker",
-                        value: {
-                            viewresult: urlDetails.location,
-                            viewqid: slug
-                        }
-                    }, function () {
-                    });*/
+                    if (qid && qid > 5) {
+                        window.open("https://our.news/analytics/?qid=" + qid);
+                    } else {
+                        var resultTxt = $(this).data("result");
+                        $(this).parent().text(resultTxt);
+                        sendRequest({
+                            action: "marker",
+                            value: {
+                                viewresult: urlDetails.location,
+                                viewqid: slug
+                            }
+                        }, function () {
+                        });
+                    }
                 });
 
                 var popid = 0;
