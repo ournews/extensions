@@ -777,7 +777,7 @@ $(function () {
                         $(container).find(".on-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
                     }
                     if (result.newstrition.launchdate) {
-                        $(container).find(".on-newstrition-est").removeClass(".on-hidden").text("Est." + result.newstrition.launchdate);
+                        $(container).find(".on-newstrition-est").removeClass(".on-hidden").text("Est. " + result.newstrition.launchdate);
                     } else {
                         $(container).find(".on-newstrition-est").addClass("on-hidden");
                     }
