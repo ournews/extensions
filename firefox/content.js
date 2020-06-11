@@ -700,9 +700,9 @@ $(function () {
                                     qCard.find(".on-qa-result-summary").text("Needs more ratings.");
                                 }
                             } else {
-                                qCard.find(".on-qa-result-summary").html('<a href="" class="on-login-link">\n' +
-                                    '                                <span>Login</span>\n' +
-                                    '                            </a>');
+                                var loginLink = '<a href="" class="on-login-link"><span>Login</span></a>';
+                                var registerLink = '<a target="_blank" href="https://our.news/join/?CID=ON.Firefox"><span>Join</span></a>';
+                                qCard.find(".on-qa-result-summary").html('<strong>' + loginLink + '</strong> or <strong>' + registerLink + '</strong> to see Results.');
                             }
 
                             // Append this question
