@@ -1963,6 +1963,10 @@ $(function () {
                 finalURL = firstExternalLink.eq(0).attr("href");
             }
 
+            if (finalURL && finalURL.indexOf("https://help.twitter.com") >= 0) {
+                $(e).find(".on-one-click-btn").remove();
+            }
+
             if (!finalURL) {
                 $(e).find(".on-one-click-btn").remove();
             }
