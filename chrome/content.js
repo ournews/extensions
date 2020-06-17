@@ -1422,6 +1422,7 @@ $(function () {
                                 value: {
                                     popups: slug,
                                     popupsval: choicetype,
+				    datasource: 'extension_chrome',
                                     nid: nid
                                 }
                             }, function () {
@@ -1433,6 +1434,7 @@ $(function () {
                                     popups: slug,
                                     popupsval: choicetype,
                                     nid: nid,
+				    datasource: 'extension_chrome',
                                     popid: parseInt(popid)
                                 }
                             }, function () {
@@ -1557,6 +1559,7 @@ $(function () {
                             value: {
                                 popups: slug,
                                 popupsval: 2,
+				datasource: 'extension_chrome',
                                 nid: nid
                             }
                         }, function () {
@@ -1569,6 +1572,7 @@ $(function () {
                                 popups: slug,
                                 popupsval: 2,
                                 nid: nid,
+				datasource: 'extension_chrome',
                                 popid: parseInt(popid)
                             }
                         }, function () {
