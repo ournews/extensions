@@ -1973,6 +1973,10 @@ $(function () {
                 finalURL = firstExternalLink.eq(0).attr("href");
             }
 
+            if (finalURL && finalURL.indexOf("https://help.twitter.com") >= 0 && location.href.indexOf("/status/") >= 0) {
+                finalURL = location.href;
+            }
+
             if (!finalURL) {
                 $(e).find(".on-one-click-btn").remove();
             }
