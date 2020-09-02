@@ -470,7 +470,10 @@
 
 .on-one-click-fb-btn {
     cursor: pointer;
-    padding-right: 10px;
+    position: absolute;
+    right: 75px;
+    top: 10px;
+    z-index: 999999;
 }
 
 .on-one-click-btn {
