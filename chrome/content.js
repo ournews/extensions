@@ -748,7 +748,6 @@ $(function () {
 
                     // Newstrition
                     $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
-                    $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
@@ -767,6 +766,7 @@ $(function () {
                     }
 
 
+                    debugger
                     if (result.newstrition && result.newstrition.name) {
                         if (result.newstrition.name) {
                             $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
@@ -2146,15 +2146,12 @@ $(function () {
                 var userContent = $(e).find(".userContent");
                 var finalURL = thumbUrl.attr("href");
 
-                var profileLink = $(e).find("a[href^='https://www.facebook.com']").eq(0).attr("href");
-                urlDetails.pubURL = profileLink.substring(0, profileLink.indexOf('?'));
-
                 if (finalURL.startsWith("https://l.facebook.com/l.php?u=")) {
                     finalURL = finalURL.replace("https://l.facebook.com/l.php?u=", "");
                     finalURL = decodeURIComponent(finalURL);
                 }
 
-                urlDetails.location = finalURL.replace("https://l.facebook.com/l.php?u=", "");
+                urlDetails.pubURL = urlDetails.location = finalURL.replace("https://l.facebook.com/l.php?u=", "");
 
                 authenticated(function () {
                     sendRequest({
