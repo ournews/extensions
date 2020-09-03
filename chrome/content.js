@@ -765,8 +765,6 @@ $(function () {
                         $(container).find(".on-summary-warning-container").addClass("on-hidden");
                     }
 
-
-                    debugger
                     if (result.newstrition && result.newstrition.name) {
                         if (result.newstrition.name) {
                             $(container).find(".on-summary-newstrition-publisher").removeClass("on-hidden").text(result.newstrition.name);
