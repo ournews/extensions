@@ -748,7 +748,6 @@ $(function () {
 
                     // Newstrition
                     $(container).find(".on-newstrition-hide-on-na").removeClass("on-hidden");
-                    $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
                     $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
@@ -765,7 +764,6 @@ $(function () {
                     } else {
                         $(container).find(".on-summary-warning-container").addClass("on-hidden");
                     }
-
 
                     if (result.newstrition && result.newstrition.name) {
                         if (result.newstrition.name) {
@@ -2110,35 +2108,24 @@ $(function () {
 
 
     function markFacebookPosts() {
-        $(".userContentWrapper").each(function (i, e) {
 
+        $('[data-testid="Keycommand_wrapper_feed_story"]').each(function (i, e) {
             if ($(e).hasClass("on-marked")) return;
-            $(e).find(".on-one-click-fb-btn").remove();
+            $(e).addClass("on-marked");
 
-            if ($(e).find(".userContentWrapper").length) return;
-            var datatooltip = $(e).find('[data-tooltip-content]').eq(0);
+            var thumb = $(this).find("img");
+            if (!thumb.length) return;
+            thumb = thumb.eq(0);
 
-            if ($(e).find(".fbStreamPrivacy").length == 0 || $(e).find(".fbStreamPrivacy").attr("data-tooltip-content") != "Public") {
-                return;
-            }
-
-            if ($(e).find("span:contains('Suggested Post')").length) return;
-            if ($(e).find("span:contains('Sponsored Posts')").length) return;
-
-            var hasParent = false;
-            if ($(e).closest(".userContentWrapper").length) {
-                hasParent = true;
-            }
-
-            if ($(e).find("div[id^=feed_subtitle]").eq(0).find("[data-tooltip-content^='Shared with']").length) return;
+            var thumbUrl = $(thumb).closest("a[target='_blank']");
+            if (!thumbUrl.length) return;
+            // var extHyperlink = $(e).find("a[target='_blank']");
+            // if (!extHyperlink.length) return;
+            // extHyperlink = extHyperlink.eq(0);
 
             var injectClick = $("<span>").addClass("on-one-click-fb-btn");
-            if (hasParent) {
-            }
-
             injectClick.html("<img width='24px' src='" + getImageURL("images/logo-64.png") + "' />");
-            //$(e).find('[rel="toggle"]').eq(0).css("display", "inline-block");
-            $(e).find('[rel="toggle"]').eq(0).parent().append(injectClick);
+            $(e).prepend(injectClick);
 
             $(injectClick).click(function (ele) {
 
@@ -2155,44 +2142,19 @@ $(function () {
                 });
 
                 var userContent = $(e).find(".userContent");
-                var finalURL = "";
-
-                // Find external link
-                var externalLink = userContent.find("a[target='_blank']");
-                if (externalLink.length) {
-                    // Pick the first one & get the final URL from backend
-                    finalURL = $(externalLink).attr("href");
-                } else {
-                    // Check if post has link (image)
-                    var fbStoryAttachmentImage = $(e).find(".userContent").next().find(".fbStoryAttachmentImage");
-                    if (fbStoryAttachmentImage.length) {
-                        finalURL = $(fbStoryAttachmentImage).closest("a").attr("href");
-                    } else {
-                        var anyLinkInside = $(e).find(".userContent").next().find("a[target='_blank']");
-                        if (anyLinkInside.length) {
-                            finalURL = anyLinkInside.eq(0).attr("href");
-                        }
-                    }
-                }
-
-                var profileLink = $(e).find("a[href^='https://www.facebook.com']").eq(0).attr("href");
-                urlDetails.pubURL = profileLink.substring(0, profileLink.indexOf('?'));
-                if (!finalURL) {
-                    finalURL = "https://www.facebook.com" + $(e).find(".timestampContent").closest("a").attr("href");
-                }
+                var finalURL = thumbUrl.attr("href");
 
                 if (finalURL.startsWith("https://l.facebook.com/l.php?u=")) {
                     finalURL = finalURL.replace("https://l.facebook.com/l.php?u=", "");
                     finalURL = decodeURIComponent(finalURL);
                 }
 
-                urlDetails.location = finalURL.replace("https://l.facebook.com/l.php?u=", "");
+                urlDetails.pubURL = urlDetails.location = finalURL.replace("https://l.facebook.com/l.php?u=", "");
 
                 authenticated(function () {
                     sendRequest({
                         "action": "finalURL",
                         "urlDetails": urlDetails
-
                     }, function (data) {
                         if (data.link) {
                             urlDetails.location = data.link;
@@ -2200,11 +2162,7 @@ $(function () {
                         refreshPopup();
                     });
                 });
-
             });
-
-            $(e).addClass("on-marked");
-
         });
 
         setTimeout(function () {
