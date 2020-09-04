@@ -747,10 +747,10 @@ $(function () {
                 $(container).find(".on-newstrition-no-publisher-data-twitter").addClass("on-hidden");
                 $(container).find(".on-newstrition-no-publisher-data-default").addClass("on-hidden");
 
-                // Show warning when knowntype is greater than 3
+                // Show warning when knowntype is problematic
                 if (result.newstrition && result.newstrition.knowntype) {
                     var knownType = parseInt(result.newstrition.knowntype);
-                    if (knownType > 3) {
+                    if ((knownType==3) || (knownType==4) || ((knownType>=22) && (knownType<111)) || (knownType==888) || (knownType==777) || (knownType==999)) {
                         $(container).find(".on-summary-warning-container").removeClass("on-hidden");
                         $(container).find(".on-summary-warning-text").text(result.newstrition.typedesc);
                         $(container).find(".on-summary-warning-text").attr('href', result.newstrition.typehelp);
