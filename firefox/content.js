@@ -1240,7 +1240,7 @@ $(function () {
                         $(container).find(".on-article-preview-add-article").addClass("on-hidden");
                         $(container).find(".on-article-preview").removeClass("on-hidden");
 
-                        $(container).find(".on-article-preview-thumb").attr("src", result.meta.thumb);
+                        $(container).find(".on-article-preview-thumb").css("background-image", "url('"+ result.meta.thumb+"')");
                         var previewTitle = result.meta.title.length > 75 ? result.meta.title.substring(0, 75) + "..." : result.meta.title;
                         $(container).find(".on-article-preview-heading").html(previewTitle);
                     } else {
