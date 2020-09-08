@@ -1483,9 +1483,11 @@ $(function () {
 
             $(document.body).delegate(".on-login-link", "click", function (e) {
                 e.preventDefault();
-                authenticated(function () {
-                    refreshPopup();
-                }, true);
+                // authenticated(function () {
+                //     refreshPopup();
+                // }, true);
+                window.open("https://our.news/login/", "_blank");
+                return;
             });
 
             $(document.body).delegate(".on-show-result", "click", function (e) {

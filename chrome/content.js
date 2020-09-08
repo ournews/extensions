@@ -754,7 +754,7 @@ $(function () {
                     // Show warning when knowntype is problematic
                     if (result.newstrition && result.newstrition.knowntype) {
                         var knownType = parseInt(result.newstrition.knowntype);
-                        if ((knownType==3) || (knownType==4) || ((knownType>=22) && (knownType<111)) || (knownType==888) || (knownType==777) || (knownType==999)) {
+                        if ((knownType == 3) || (knownType == 4) || ((knownType >= 22) && (knownType < 111)) || (knownType == 888) || (knownType == 777) || (knownType == 999)) {
                             $(container).find(".on-summary-warning-container").removeClass("on-hidden");
                             $(container).find(".on-summary-warning-text").text(result.newstrition.typedesc);
                             $(container).find(".on-summary-warning-text").attr('href', result.newstrition.typehelp);
@@ -1241,7 +1241,7 @@ $(function () {
                             $(container).find(".on-article-preview-add-article").addClass("on-hidden");
                             $(container).find(".on-article-preview").removeClass("on-hidden");
 
-                            $(container).find(".on-article-preview-thumb").css("background-image", "url('"+ result.meta.thumb+"')");
+                            $(container).find(".on-article-preview-thumb").css("background-image", "url('" + result.meta.thumb + "')");
                             var previewTitle = result.meta.title.length > 75 ? result.meta.title.substring(0, 75) + "..." : result.meta.title;
                             $(container).find(".on-article-preview-heading").html(previewTitle);
                         } else {
@@ -1420,7 +1420,7 @@ $(function () {
                                 value: {
                                     popups: slug,
                                     popupsval: choicetype,
-				    datasource: 'extension_chrome',
+                                    datasource: 'extension_chrome',
                                     nid: nid
                                 }
                             }, function () {
@@ -1432,7 +1432,7 @@ $(function () {
                                     popups: slug,
                                     popupsval: choicetype,
                                     nid: nid,
-				    datasource: 'extension_chrome',
+                                    datasource: 'extension_chrome',
                                     popid: parseInt(popid)
                                 }
                             }, function () {
@@ -1484,9 +1484,11 @@ $(function () {
 
                 $(document.body).delegate(".on-login-link", "click", function (e) {
                     e.preventDefault();
-                    authenticated(function () {
-                        refreshPopup();
-                    }, true);
+                    // authenticated(function () {
+                    //     refreshPopup();
+                    // }, true);
+                    window.open("https://our.news/login/", "_blank");
+                    return;
                 });
 
                 $(document.body).delegate(".on-show-result", "click", function (e) {
@@ -1557,7 +1559,7 @@ $(function () {
                             value: {
                                 popups: slug,
                                 popupsval: 2,
-				datasource: 'extension_chrome',
+                                datasource: 'extension_chrome',
                                 nid: nid
                             }
                         }, function () {
@@ -1570,7 +1572,7 @@ $(function () {
                                 popups: slug,
                                 popupsval: 2,
                                 nid: nid,
-				datasource: 'extension_chrome',
+                                datasource: 'extension_chrome',
                                 popid: parseInt(popid)
                             }
                         }, function () {
