@@ -73,7 +73,7 @@ function getOnUrl(currentURL, socialURL) {
         RATINGS: API_URL + "?ratings=" + currentURL,
         SOURCES: API_URL + "?sources=" + currentURL,
         TAGS: API_URL + "?tags",
-        NEWSTRITION_URL: API_URL + "?publink=" + hostname,
+        NEWSTRITION_URL: API_URL + "?publink=" + currentURL,
         PUBLIC: API_URL + "?exturlpublic=" + currentURL,
         PRIVATE: API_URL + "?exturlprivate=" + currentURL
         //LINK_FOLLOWER: API_URL + "?linkfollower=" + (linkFollower ? linkFollower : currentURL)
