@@ -23,6 +23,11 @@
 
   "content_scripts": [
     {
+      "run_at": "document_start",
+      "matches": [ "<all_urls>" ],
+      "js": [ "assets/jquery.js", "pagewarning.js"]
+    },
+    {
       "run_at": "document_end",
       "matches": [ "<all_urls>" ],
       "js": [ "assets/jquery.js", "content.js" ],

@@ -360,6 +360,11 @@ onRequestListener(function (request, sender, sendResponse) {
             sendResponse("false");
         }
 
+    } else if(request.action == "pagewarning") {
+        var cLocation= request.pageUrl;
+        $.get(API_URL + "?publink="+cLocation).always(function (response) {
+            sendResponse(response);
+        });
     }
 
     // Refresh UI
