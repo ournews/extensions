@@ -24,8 +24,8 @@ $(function () {
                 var warningbox = "<div id='on-top-warning' " +
                     "style='text-align: center;background-color: #ff9300;cursor:pointer;" +
                     "color: white;font-size: 22px;font-weight: bold;font-family: sans-serif;padding:10px 0;'>" +
-                    "<img width='28px' src='https://img.our.news/img/caution.png'/> " + helpTxt + " " +
-                    "<img width='28px' src='https://img.our.news/img/caution.png'/></div>";
+                    "<img width='28px' src='https://our.news/img/caution.png'/> " + helpTxt + " " +
+                    "<img width='28px' src='https://our.news/img/caution.png'/></div>";
                 $(document.body).prepend(warningbox);
 
                 $("#on-top-warning").on("click", function () {
