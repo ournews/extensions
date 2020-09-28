@@ -207,7 +207,7 @@ $(function () {
                 if (isregister) {
 
                 } else {
-                    $(container).append("<iframe src='https://our.news/wp-login.php?extension=1&CID=ON.Chrome&redirect_to=https://our.news/extension/view.php' width='390' height='" + popupHeight + "px' style='position:absolute;top:0;left:0;'></iframe>");
+			//window.open("https://our.news/wp-login.php?extension=1", "_blank");
                 }
 
                 hideLoader();
