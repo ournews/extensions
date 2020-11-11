@@ -362,7 +362,7 @@ onRequestListener(function (request, sender, sendResponse) {
 
     } else if(request.action == "pagewarning") {
         var cLocation= request.pageUrl;
-        $.get(API_URL + "?publink="+cLocation).always(function (response) {
+        $.get(API_URL + "?probcheck="+cLocation).always(function (response) {
             sendResponse(response);
         });
     }
