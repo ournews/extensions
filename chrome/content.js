@@ -207,7 +207,7 @@ $(function () {
                 if (isregister) {
 
                 } else {
-			//window.open("https://our.news/wp-login.php?extension=1", "_blank");
+                    //window.open("https://our.news/wp-login.php?extension=1", "_blank");
                 }
 
                 hideLoader();
@@ -282,7 +282,8 @@ $(function () {
             $(document.body).undelegate("#on-container .btnBeforeLoginPopup", "click");
             $(document.body).delegate("#on-container .btnBeforeLoginPopup", "click", function (e) {
                 $("#beforeLoginPopup").remove();
-                navigateToLogin();
+                // navigateToLogin();
+                window.open("https://our.news/wp-login.php?extension=1", "_blank");
             });
 
             if (config.isUserLoggedIn == false) {
