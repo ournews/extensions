@@ -26,7 +26,9 @@ browser.browserAction.onClicked.addListener(function (tab) {
 
 });
 
-browser.runtime.onInstalled.addListener(function () {
-    var newURL = "https://our.news/join/?extension=2&ffi=0&CID=ON.Firefox";
-    browser.tabs.create({url: newURL});
+browser.runtime.onInstalled.addListener(function (object) {
+    if (object.reason === "install") {
+        var newURL = "https://our.news/join/?extension=2&ffi=0&CID=ON.Firefox";
+        browser.tabs.create({url: newURL});
+    }
 });
