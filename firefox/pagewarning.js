@@ -16,16 +16,39 @@ $(function () {
     }, function (result) {
         if (result) {
             result = JSON.parse(result);
-            if (result.verified && result.verified == "Problematic") {
-                var helpTxt = result.verifiedhelp;
-                var pubLink = "https://our.news/publisher/?pid=" + result.pid;
+
+            const warningImgURL = `https://cdn.our.news/img/caution.png`;
+            const warningImg = `<img width='28px' src='${warningImgURL}'/>`;
+
+            if (result.indicators) {
+                const helpTxt = `This content has been fact checked. <span id="on-top-warning-link" style="cursor: pointer">Click to view.</span>`;
+                const warningURL = result.indicators.url;
 
                 // Prepend in body tag
-                var warningbox = "<div id='on-top-warning' " +
+                const warningbox = "<div id='on-top-warning' " +
+                    "style='text-align: center;background-color: #ff9300;cursor:default;" +
+                    "color: white;font-size: 22px;font-weight: bold;font-family: sans-serif;padding:10px 0;'>" +
+                    warningImg + " " + helpTxt + " " +
+                    warningImg + "</div>";
+                $(document.body).prepend(warningbox);
+
+                $("#on-top-warning-link").on("click", function () {
+                    // Send request to background.js to load popup
+                    sendRequest({action: 'warning_load_popup', pageUrl: document.location.href}, () => {
+                    });
+
+                });
+
+            } else if (result.verified && result.verified == "Problematic") {
+                const helpTxt = result.verifiedhelp;
+                const pubLink = "https://our.news/publisher/?pid=" + result.pid;
+
+                // Prepend in body tag
+                const warningbox = "<div id='on-top-warning' " +
                     "style='text-align: center;background-color: #ff9300;cursor:pointer;" +
                     "color: white;font-size: 22px;font-weight: bold;font-family: sans-serif;padding:10px 0;'>" +
-                    "<img width='28px' src='https://cdn.our.news/img/caution.png'/> " + helpTxt + " " +
-                    "<img width='28px' src='https://cdn.our.news/img/caution.png'/></div>";
+                    warningImg + " " + helpTxt + " " +
+                    warningImg + "</div>";
                 $(document.body).prepend(warningbox);
 
                 $("#on-top-warning").on("click", function () {

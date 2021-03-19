@@ -13,6 +13,7 @@ config.tags = [];
 var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
 
 $.get(API_URL + "?extconfig", function (data) {
+    browserAction
 
     if (data) {
 
@@ -360,10 +361,14 @@ onRequestListener(function (request, sender, sendResponse) {
             sendResponse("false");
         }
 
-    } else if(request.action == "pagewarning") {
-        var cLocation= request.pageUrl;
-        $.get(API_URL + "?probcheck="+cLocation).always(function (response) {
+    } else if (request.action == "pagewarning") {
+        var cLocation = request.pageUrl;
+        $.get(API_URL + "?probcheck=" + cLocation).always(function (response) {
             sendResponse(response);
+        });
+    } else if (request.action === "warning_load_popup") {
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {provider: "OurNewsExtension", showPopup: true});
         });
     }
 

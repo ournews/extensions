@@ -360,10 +360,14 @@ onRequestListener(function (request, sender, sendResponse) {
             sendResponse("false");
         }
 
-    } else if(request.action == "pagewarning") {
-        var cLocation= request.pageUrl;
-        $.get(API_URL + "?probcheck="+cLocation).always(function (response) {
+    } else if (request.action == "pagewarning") {
+        var cLocation = request.pageUrl;
+        $.get(API_URL + "?probcheck=" + cLocation).always(function (response) {
             sendResponse(response);
+        });
+    } else if (request.action === "warning_load_popup") {
+        browser.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            browser.tabs.sendMessage(tabs[0].id, {provider: "OurNewsExtension", showPopup: true});
         });
     }
 
