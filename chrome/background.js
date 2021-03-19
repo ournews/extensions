@@ -2,7 +2,10 @@ var API_URL = "https://data.our.news/api/";
 var EXTENSION_URL = "https://data.our.news/extension/";
 
 $.ajaxSetup({
-    cache: false
+    cache: false,
+    beforeSend: (jqXHR, settings) => {
+        settings.url = settings.url + '&lang=en';
+    }
 });
 
 var config = {};
