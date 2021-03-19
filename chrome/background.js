@@ -13,7 +13,6 @@ config.tags = [];
 var isChrome = (navigator.userAgent.indexOf("Chrome") != -1);
 
 $.get(API_URL + "?extconfig", function (data) {
-    browserAction
 
     if (data) {
 
