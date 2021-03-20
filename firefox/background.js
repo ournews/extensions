@@ -4,7 +4,9 @@ var EXTENSION_URL = "https://data.our.news/extension/";
 $.ajaxSetup({
     cache: false,
     beforeSend: (jqXHR, settings) => {
-        settings.url = settings.url + '&lang=en';
+        if (settings.type && settings.type.toUpperCase() == "GET") {
+            settings.url = settings.url + '&lang=en';
+        }
     }
 });
 
