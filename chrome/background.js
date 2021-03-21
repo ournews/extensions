@@ -2,7 +2,12 @@ var API_URL = "https://data.our.news/api/";
 var EXTENSION_URL = "https://data.our.news/extension/";
 
 $.ajaxSetup({
-    cache: false
+    cache: false,
+    beforeSend: (jqXHR, settings) => {
+        if (settings.type && settings.type.toUpperCase() == "GET") {
+            settings.url = settings.url + '&lang=en';
+        }
+    }
 });
 
 var config = {};
@@ -360,10 +365,14 @@ onRequestListener(function (request, sender, sendResponse) {
             sendResponse("false");
         }
 
-    } else if(request.action == "pagewarning") {
-        var cLocation= request.pageUrl;
-        $.get(API_URL + "?probcheck="+cLocation).always(function (response) {
+    } else if (request.action == "pagewarning") {
+        var cLocation = request.pageUrl;
+        $.get(API_URL + "?probcheck=" + cLocation).always(function (response) {
             sendResponse(response);
+        });
+    } else if (request.action === "warning_load_popup") {
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {provider: "OurNewsExtension", showPopup: true});
         });
     }
 

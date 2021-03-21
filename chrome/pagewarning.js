@@ -33,7 +33,15 @@ $(function () {
                 $(document.body).prepend(warningbox);
 
                 $("#on-top-warning-link").on("click", function () {
-                    document.location.href = warningURL;
+                    // document.location.href = warningURL;
+                    // chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    //     chrome.tabs.sendMessage(tabs[0].id, {provider: "OurNewsExtension", showPopup: true});
+                    // });
+
+                    // Send request to background.js to load popup
+                    sendRequest({action: 'warning_load_popup', pageUrl: document.location.href}, () => {
+                    });
+
                 });
 
             } else if (result.verified && result.verified == "Problematic") {
