@@ -2112,7 +2112,7 @@ $(function () {
 
     function markFacebookPosts() {
 
-        $('[data-testid="Keycommand_wrapper_feed_story"]').each(function (i, e) {
+        $('[role="feed"] > .k4urcfbm').each(function (i, e) {
             if ($(e).hasClass("on-marked")) return;
             $(e).addClass("on-marked");
 
