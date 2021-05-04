@@ -2112,7 +2112,7 @@ $(function () {
 
     function markFacebookPosts() {
 
-        $('[role="feed"] > .k4urcfbm').each(function (i, e) {
+        $('[role="feed"] > .k4urcfbm, [role="main"] .k4urcfbm.du4w35lb').each(function (i, e) {
             if ($(e).hasClass("on-marked")) return;
             $(e).addClass("on-marked");
 
