@@ -1,0 +1,28 @@
+#on-launcher {
+    position: fixed;
+    top: 40%;
+    right: 0;
+    z-index: 9999999999;
+}
+
+#on-launcher {
+    display: flex;
+}
+
+#on-launcher .logo {
+    cursor: pointer;
+}
+
+#on-launcher img {
+    height: 40px;
+}
+
+#on-launcher .drag {
+}
+
+#on-launcher .drag img {
+    position: relative;
+    height: 28px;
+    right: 2px;
+}
+
